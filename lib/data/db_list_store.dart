@@ -27,19 +27,14 @@ class DbListStore {
         order: DateTime.now().millisecondsSinceEpoch,
         members: [userId]);
 
-    final docRef = _store.document("$_lists/$key");
-    await Firestore.instance.runTransaction((Transaction tx) async {
-      await tx.set(docRef, newUserList.toMap());
-    });
-
+    _store.document("$_lists/$key").setData(newUserList.toMap());
     return newUserList;
   }
 
   Future renameList(String listId, String name) async {
-    final docRef = _store.document("$_lists/$listId");
-    return Firestore.instance.runTransaction((Transaction tx) async {
-      tx.update(docRef, <String, dynamic>{"name": name});
-    });
+    _store
+        .document("$_lists/$listId")
+        .updateData(<String, dynamic>{"name": name});
   }
 
   Future addListMember(String listId, String userId) async {
