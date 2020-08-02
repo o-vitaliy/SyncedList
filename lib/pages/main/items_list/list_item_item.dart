@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:shared_shopping_list/localizations.dart';
 import 'package:shared_shopping_list/models/shopping_item.dart';
 import 'package:shared_shopping_list/pages/main/user_list/user_lists_view.dart';
@@ -11,8 +12,13 @@ class ListItemItem extends StatelessWidget {
   final ItemAction<ShoppingItem> rename;
   final Function(ShoppingItem, bool) onItemChanged;
 
-  const ListItemItem(this.item,  this.delete, this.rename, this.onItemChanged, {Key key,})
-      : super(key: key);
+  const ListItemItem(
+    this.item,
+    this.delete,
+    this.rename,
+    this.onItemChanged, {
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,19 +47,18 @@ class ListItemItem extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Icon(
-              Icons.drag_handle,
-              color: Colors.black12,
-            ),
+          ReorderableListener(
+            child: Container(
+                alignment: Alignment.centerLeft,
+                child: Icon(
+                  Icons.drag_handle,
+                  color: Colors.black12,
+                )),
           ),
           PopupMenuButton<Choice>(
             onSelected: (v) => v.action(),
             itemBuilder: (BuildContext context) {
-              return getChoices(context, item)
-                  .map(buildMoreMenuItem)
-                  .toList();
+              return getChoices(context, item).map(buildMoreMenuItem).toList();
             },
           )
         ],

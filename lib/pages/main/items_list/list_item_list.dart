@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_shopping_list/models/shopping_item.dart';
 import 'package:shared_shopping_list/pages/main/user_list/user_lists_view.dart';
+import 'package:shared_shopping_list/widgets/reorderable_list_simple.dart';
 
 import 'list_item_item.dart';
 
@@ -22,7 +23,7 @@ class ListItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableListView(
+    return ReorderableListSimple(
       children: items
           .map((e) => ListItemItem(
                 e,
