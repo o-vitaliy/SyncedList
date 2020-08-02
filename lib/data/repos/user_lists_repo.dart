@@ -15,6 +15,13 @@ class ItemsListRepo {
     return _store.addItem(listId, item);
   }
 
+  Future renameItem(String listId, String id, String name) async {
+    return _store.renameItem(listId, id, name);
+  }
+  Future deleteItem(String listId, String id) async {
+    return _store.deleteItem(listId, id);
+  }
+
   void subscribeItems(String id, Function(List<ShoppingItem>) callback) {
     unsubscribeItems();
     _subscription = _store.getItems(id).listen((event) => callback(event));
@@ -25,12 +32,11 @@ class ItemsListRepo {
     _subscription = null;
   }
 
-  Future changeItemDone(String listId, ShoppingItem item, bool done) async {
-    item = item.copyWith(done: done);
-    return _store.doneItem(listId, item.id, done);
+  Future changeItemDone(String listId, String id, bool done) async {
+    return _store.doneItem(listId, id, done);
   }
 
   Future orderItem(String listId, Map<String, int> reorders) async {
-    return await _store.orderItem(listId, reorders);
+    return _store.orderItem(listId, reorders);
   }
 }

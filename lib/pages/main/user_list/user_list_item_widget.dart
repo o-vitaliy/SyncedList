@@ -8,9 +8,9 @@ import '../choice.dart';
 class UserListItemWidget extends StatelessWidget {
   final UserList item;
 
-  final ItemAction share;
-  final ItemAction delete;
-  final ItemAction rename;
+  final ItemAction<UserList> share;
+  final ItemAction<UserList> delete;
+  final ItemAction<UserList> rename;
 
   const UserListItemWidget({
     @required Key key,

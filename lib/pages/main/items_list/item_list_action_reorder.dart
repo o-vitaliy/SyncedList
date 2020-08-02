@@ -17,15 +17,13 @@ class ItemListActionReorder extends ReduxAction<ItemListState> {
   ItemListState reduce() {
     final repo = GetIt.I.get<ItemsListRepo>();
 
-    final newP = oldPos < newPos ? newPos - 1 : newPos;
-
     final items = state.items.toList();
 
     final item = items.removeAt(oldPos);
-    items.insert(newP, item);
+    items.insert(newPos, item);
 
-    final start = min(oldPos, newP);
-    final end = max(oldPos, newP) + 1;
+    final start = min(oldPos, newPos);
+    final end = max(oldPos, newPos) + 1;
 
     final listId = state.list.id;
     final changes = Map<String, int>();

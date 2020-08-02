@@ -20,7 +20,7 @@ class ItemListActionDone extends ReduxAction<ItemListState> {
         return e;
     });
     final repo = GetIt.I.get<ItemsListRepo>();
-    repo.changeItemDone(state.list.id, item, done);
+    repo.changeItemDone(state.list.id, item.id, done);
     return state.copyWith(items: items.toList(growable: false));
   }
 }

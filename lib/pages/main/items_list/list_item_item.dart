@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
+import 'package:shared_shopping_list/localizations.dart';
 import 'package:shared_shopping_list/models/shopping_item.dart';
+import 'package:shared_shopping_list/pages/main/user_list/user_lists_view.dart';
+
+import '../choice.dart';
 
 class ListItemItem extends StatelessWidget {
   final ShoppingItem item;
+  final ItemAction<ShoppingItem> delete;
+  final ItemAction<ShoppingItem> rename;
   final Function(ShoppingItem, bool) onItemChanged;
 
-  const ListItemItem(this.item, this.onItemChanged, {Key key})
-      : super(key: key);
+  const ListItemItem(
+    this.item,
+    this.delete,
+    this.rename,
+    this.onItemChanged, {
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +47,50 @@ class ListItemItem extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Icon(Icons.reorder),
+          ReorderableListener(
+            child: Container(
+                alignment: Alignment.centerLeft,
+                child: Icon(
+                  Icons.drag_handle,
+                  color: Colors.black12,
+                )),
+          ),
+          PopupMenuButton<Choice>(
+            onSelected: (v) => v.action(),
+            itemBuilder: (BuildContext context) {
+              return getChoices(context, item).map(buildMoreMenuItem).toList();
+            },
           )
         ],
       ),
     );
+  }
+
+  PopupMenuItem<Choice> buildMoreMenuItem(Choice choice) {
+    return PopupMenuItem<Choice>(
+      value: choice,
+      child: Row(
+        children: [
+          Icon(choice.icon),
+          Text(choice.title),
+        ],
+      ),
+    );
+  }
+
+  List<Choice> getChoices(BuildContext context, ShoppingItem item) {
+    final l = L.of(context);
+    return [
+      Choice(
+        title: l.delete,
+        icon: Icons.delete,
+        action: () => delete(context, item),
+      ),
+      Choice(
+        title: l.rename,
+        icon: Icons.edit,
+        action: () => rename(context, item),
+      ),
+    ];
   }
 }

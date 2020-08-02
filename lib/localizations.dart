@@ -120,6 +120,10 @@ class L {
     return Intl.message('Are sure you want to delete this list?',
         name: 'deleteListConfirm', locale: ln);
   }
+  String get deleteItemConfirm {
+    return Intl.message('Are sure you want to delete this item?',
+        name: 'deleteItemConfirm', locale: ln);
+  }
 
   String get rename {
     return Intl.message('Rename', name: 'rename', locale: ln);

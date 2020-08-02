@@ -1,6 +1,6 @@
 name: shared_shopping_list
 description: A new Flutter application.
-version: 0.0.0+1
+version: 0.0.3+3
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -25,6 +25,7 @@ dependencies:
   firebase_dynamic_links: ^0.5.3
   share: ^0.6.4+3
   fluttertoast: ^7.0.1
+  flutter_reorderable_list: ^0.1.4
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
