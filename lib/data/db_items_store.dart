@@ -66,7 +66,6 @@ class DbItemsStore {
         return List<ShoppingItem>();
       }
     } catch (e) {
-      print(e);
       return List<ShoppingItem>();
     }
   }

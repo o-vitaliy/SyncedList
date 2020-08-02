@@ -117,3 +117,33 @@ class LoginGoogleAction extends Action {
     return state.copyWith(loginState: null);
   }
 }
+
+class LoginFacebookAction extends Action {
+  LoginFacebookAction({completer}) : super(completer, "LoginGoogleAction");
+
+  @override
+  void before() {
+    store.dispatch(LoginLoadingAction(loading: true));
+  }
+
+  @override
+  void after() {
+    store.dispatch(LoginLoadingAction(loading: false));
+  }
+
+  @override
+  FutureOr<AppState> reduce() async {
+    try {
+      final user = await GetIt.I.get<AuthRepo>().loginWithFacebook();
+      print("signed in " + user.toString());
+      doOnLoggedIn(store);
+      completed(this);
+    } catch (e) {
+      print(e);
+      catchException(this, e);
+    } finally {
+      store.dispatch(LoginLoadingAction(loading: false));
+    }
+    return state.copyWith(loginState: null);
+  }
+}

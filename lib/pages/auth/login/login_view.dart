@@ -7,6 +7,7 @@ import 'package:shared_shopping_list/app/app_state.dart';
 import 'package:shared_shopping_list/data/validators/email_validator.dart';
 import 'package:shared_shopping_list/data/validators/empty_validator.dart';
 import 'package:shared_shopping_list/localizations.dart';
+import 'package:shared_shopping_list/widgets/scroll_column_expandable.dart';
 import 'package:shared_shopping_list/widgets/widgets.dart';
 
 import 'login_action.dart';
@@ -23,57 +24,61 @@ class LoginView extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: SingleChildScrollView(
-          child: StoreConnector<AppState, _ViewModel>(
-              converter: _ViewModel.fromStore,
-              onDidChange: (vm) => modelChanged(context, vm),
-              onInit: (store) => store.dispatch(LoginInitAction()),
-              builder: _content)),
+      body: StoreConnector<AppState, _ViewModel>(
+          converter: _ViewModel.fromStore,
+          onDidChange: (vm) => modelChanged(context, vm),
+          onInit: (store) => store.dispatch(LoginInitAction()),
+          builder: _content),
     );
   }
 
   Widget _content(final BuildContext context, _ViewModel vm) {
     return Stack(children: [
-      Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextFormField(
-                validator: (value) => _emailValidation(context, value),
-                onChanged: vm.emailChange,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(hintText: L.of(context).emailHint),
-              ),
-              defaultSpacer(),
-              TextFormField(
-                obscureText: true,
-                keyboardType: TextInputType.visiblePassword,
-                onChanged: vm.passwordChange,
-                validator: (value) => _passwordValidation(context, value),
-                decoration:
-                    InputDecoration(hintText: L.of(context).passwordHint),
-              ),
-              defaultSpacer(),
-              RaisedButton(
-                onPressed: () => doLogin(context, vm),
-                child: Text(L.of(context).doLogin),
-              ),
-              RaisedButton(
-                onPressed: () => doLoginWithGoogle(context, vm),
-                child: Text(L.of(context).doLoginWithGoogle),
-              ),
-              FlatButton(
-                onPressed: () => openSingUp(context),
-                child: Text(L.of(context).toRegistration),
-              ),
-            ],
-          ),
+      Form(
+        key: _formKey,
+        child: ScrollColumnExpandable(
+          padding: EdgeInsets.all(8),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            TextFormField(
+              validator: (value) => _emailValidation(context, value),
+              onChanged: vm.emailChange,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(hintText: L.of(context).emailHint),
+            ),
+            defaultSpacer(),
+            TextFormField(
+              obscureText: true,
+              keyboardType: TextInputType.visiblePassword,
+              onChanged: vm.passwordChange,
+              validator: (value) => _passwordValidation(context, value),
+              decoration: InputDecoration(hintText: L.of(context).passwordHint),
+            ),
+            defaultSpacer(),
+            RaisedButton(
+              onPressed: () => doLogin(context, vm),
+              child: Text(L.of(context).doLogin),
+            ),
+            defaultSpacer(),
+            defaultSpacer(),
+            RaisedButton(
+              onPressed: () => doLoginWithGoogle(context, vm),
+              child: Text(L.of(context).doLoginWithGoogle),
+            ),
+            defaultSpacer(),
+            RaisedButton(
+              onPressed: () => doLoginWithFacebook(context, vm),
+              child: Text(L.of(context).doLoginWithFacebook),
+            ),
+            Spacer(),
+            FlatButton(
+              onPressed: () => openSingUp(context),
+              child: Text(L.of(context).toRegistration),
+            ),
+          ],
         ),
       ),
-      if (vm.loading) Container(child: LoadingIndicator())
+      if (vm.loading) LoadingIndicator()
     ]);
   }
 
@@ -115,6 +120,16 @@ class LoginView extends StatelessWidget {
     vm.loginGoogle(completer);
   }
 
+  void doLoginWithFacebook(BuildContext context, _ViewModel vm) {
+    var completer = Completer<ActionReport>();
+    completer.future.then((value) {
+      if (value.status == RequestStatus.error) {
+        showSnack(context, value.msg);
+      }
+    });
+    vm.loginFacebook(completer);
+  }
+
   void openSingUp(BuildContext context) {
     Navigator.of(context).pushNamed("/registration");
   }
@@ -133,6 +148,7 @@ class _ViewModel {
   final Function(String) passwordChange;
   final Function(Completer) loginCredentials;
   final Function(Completer) loginGoogle;
+  final Function(Completer) loginFacebook;
   final Event<String> inviteEvent;
 
   _ViewModel({
@@ -141,6 +157,7 @@ class _ViewModel {
     @required this.passwordChange,
     @required this.loginCredentials,
     @required this.loginGoogle,
+    @required this.loginFacebook,
     @required this.inviteEvent,
   });
 
@@ -152,12 +169,15 @@ class _ViewModel {
     final loginCredentials =
         (c) => store.dispatch(LoginWithCredentialsAction(completer: c));
     final loginGoogle = (c) => store.dispatch(LoginGoogleAction(completer: c));
+    final loginFacebook =
+        (c) => store.dispatch(LoginFacebookAction(completer: c));
     return _ViewModel(
       loading: store.state.loginState.isLoading,
       emailChange: usernameChange,
       passwordChange: passwordChange,
       loginCredentials: loginCredentials,
       loginGoogle: loginGoogle,
+      loginFacebook: loginFacebook,
       inviteEvent: store.state.loginToViewList,
     );
   }

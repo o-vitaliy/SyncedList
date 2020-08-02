@@ -49,6 +49,9 @@ class _MyAppState extends State<MyApp> {
           routes: _routes(),
           theme: ThemeData.light().copyWith(
               primaryColor: Color(0xFFDC5607),
+              primaryColorDark: Color(0xFFA32400),
+              primaryColorLight: Color(0xFFFF873D),
+              accentColor: Color(0xFFFFE74C),
               floatingActionButtonTheme: FloatingActionButtonThemeData(
                   backgroundColor: Color(0xFFDC5607))),
           initialRoute: "/",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_shopping_list/localizations.dart';
 import 'package:shared_shopping_list/models/user_list.dart';
+import 'package:shared_shopping_list/pages/main/items_list/list_item_item.dart';
 import 'package:shared_shopping_list/pages/main/user_list/user_lists_view.dart';
 
 import '../choice.dart';
@@ -30,6 +31,7 @@ class UserListItemWidget extends StatelessWidget {
           children: [
             Expanded(child: Text(item.name)),
             if (item.shared) shareIcon(),
+            dragIcon,
             PopupMenuButton<Choice>(
               onSelected: (v) => v.action(),
               itemBuilder: (BuildContext context) {
@@ -81,9 +83,9 @@ class UserListItemWidget extends StatelessWidget {
   }
 
   Widget shareIcon() {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Icon(Icons.group, size: 18),
+    return const Padding(
+      padding: const EdgeInsets.only(right: 8.0),
+      child: const Icon(Icons.group, size: 24, color: Colors.black26),
     );
   }
 }
