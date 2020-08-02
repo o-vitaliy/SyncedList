@@ -23,60 +23,62 @@ class RegisterView extends StatelessWidget {
       appBar: AppBar(
         title: Text(L.of(context).registerTitle),
       ),
-      body: SingleChildScrollView(
-          child: StoreConnector<AppState, _ViewModel>(
-              model: _ViewModel(),
-              onInit: (store) => store.dispatch(RegisterInitAction()),
-              builder: _content)),
+      body: StoreConnector<AppState, _ViewModel>(
+          model: _ViewModel(),
+          onInit: (store) => store.dispatch(RegisterInitAction()),
+          builder: _content),
     );
   }
 
   Widget _content(final BuildContext context, _ViewModel vm) {
     return Stack(children: [
-      Form(
-        key: _form,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextFormField(
-                validator: (value) => _emailValidation(context, value),
-                onChanged: vm.emailChange,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(hintText: L.of(context).emailHint),
-              ),
-              defaultSpacer(),
-              TextFormField(
-                obscureText: true,
-                controller: _pass,
-                keyboardType: TextInputType.visiblePassword,
-                onChanged: vm.passwordChange,
-                validator: (value) => _passwordValidation(context, value),
-                decoration:
-                    InputDecoration(hintText: L.of(context).passwordHint),
-              ),
-              defaultSpacer(),
-              TextFormField(
-                obscureText: true,
-                keyboardType: TextInputType.visiblePassword,
-                onChanged: vm.passwordConfirmChange,
-                validator: (value) =>
-                    _passwordConfirmValidation(context, value, _pass.text),
-                decoration: InputDecoration(
-                    hintText: L.of(context).passwordConfirmHint),
-              ),
-              defaultSpacer(),
-              defaultSpacer(),
-              RaisedButton(
-                onPressed: () => doRegister(context, vm),
-                child: Text(L.of(context).doRegister),
-              ),
-            ],
+      SingleChildScrollView(
+        child: Form(
+          key: _form,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                TextFormField(
+                  validator: (value) => _emailValidation(context, value),
+                  onChanged: vm.emailChange,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration:
+                      InputDecoration(hintText: L.of(context).emailHint),
+                ),
+                defaultSpacer(),
+                TextFormField(
+                  obscureText: true,
+                  controller: _pass,
+                  keyboardType: TextInputType.visiblePassword,
+                  onChanged: vm.passwordChange,
+                  validator: (value) => _passwordValidation(context, value),
+                  decoration:
+                      InputDecoration(hintText: L.of(context).passwordHint),
+                ),
+                defaultSpacer(),
+                TextFormField(
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  onChanged: vm.passwordConfirmChange,
+                  validator: (value) =>
+                      _passwordConfirmValidation(context, value, _pass.text),
+                  decoration: InputDecoration(
+                      hintText: L.of(context).passwordConfirmHint),
+                ),
+                defaultSpacer(),
+                defaultSpacer(),
+                RaisedButton(
+                  onPressed: () => doRegister(context, vm),
+                  child: Text(L.of(context).doRegister),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-      vm.loading ? LoadingIndicator() : SizedBox.shrink()
+      if (vm.loading) LoadingIndicator()
     ]);
   }
 

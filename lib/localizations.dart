@@ -45,7 +45,10 @@ class L {
   }
 
   String get doLoginWithGoogle {
-    return Intl.message('Google Login', name: 'doLoginWithGoogle', locale: ln);
+    return Intl.message('Login with Google', name: 'doLoginWithGoogle', locale: ln);
+  }
+  String get doLoginWithFacebook {
+    return Intl.message('Login with Facebook', name: 'doLoginWithGoogle', locale: ln);
   }
 
   String get toRegistration {

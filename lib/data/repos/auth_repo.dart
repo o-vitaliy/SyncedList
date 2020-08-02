@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRepo {
@@ -9,16 +10,21 @@ class AuthRepo {
       email: email,
       password: password,
     );
-    final FirebaseUser user = result.user;
+    final FirebaseUser user = result.user
+      ..linkWithCredential(EmailAuthProvider.getCredential(
+        email: email,
+        password: password,
+      ));
     return user;
   }
 
   Future<FirebaseUser> login(String email, String password) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
-    final result = await _auth.signInWithEmailAndPassword(
+    final AuthCredential credential = EmailAuthProvider.getCredential(
       email: email,
       password: password,
     );
+    final result = await _auth.signInWithCredential(credential);
     final FirebaseUser user = result.user;
     return user;
   }
@@ -26,7 +32,6 @@ class AuthRepo {
   Future<FirebaseUser> loginWithGoogle() async {
     final GoogleSignIn _googleSignIn = GoogleSignIn();
     final FirebaseAuth _auth = FirebaseAuth.instance;
-
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
@@ -37,6 +42,21 @@ class AuthRepo {
     );
     final result = await _auth.signInWithCredential(credential);
     final FirebaseUser user = result.user;
+    return user;
+  }
+
+  Future<FirebaseUser> loginWithFacebook() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final facebookLogin = FacebookLogin();
+    final fbLogin = await facebookLogin.logIn(['email']);
+
+    final AuthCredential credential = FacebookAuthProvider.getCredential(
+      accessToken: fbLogin.accessToken.token,
+    );
+
+    final result = await _auth.signInWithCredential(credential);
+    final FirebaseUser user = result.user;
+
     return user;
   }
 
