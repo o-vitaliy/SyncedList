@@ -29,10 +29,7 @@ class ListItemsView extends StatelessWidget {
           actions: [_share(args)],
         ),
         floatingActionButton: _createListButton(context, args.id),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: _ListItemsContentView(args),
-        ));
+        body: _ListItemsContentView(args));
   }
 
   Widget _createListButton(BuildContext context, String listId) {
@@ -88,14 +85,30 @@ class _ListItemsConnector extends StatelessWidget {
     } else if (vm.items.isEmpty) {
       return const ListItemEmpty();
     } else {
-      return ListItemList(
-        items: vm.items,
-        delete: (c, i) => delete(c, i, vm),
-        rename: (c, i) => rename(c, vm.listId, i),
-        onItemChanged: vm.done,
-        reorder: vm.reorder,
+      return Column(
+        children: [
+          if (vm.items.length>1) progress(vm.doneCount, vm.items.length),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListItemList(
+                items: vm.items,
+                delete: (c, i) => delete(c, i, vm),
+                rename: (c, i) => rename(c, vm.listId, i),
+                onItemChanged: vm.done,
+                reorder: vm.reorder,
+              ),
+            ),
+          ),
+        ],
       );
     }
+  }
+
+  Widget progress(int done, int total) {
+    return LinearProgressIndicator(
+      value: done.toDouble() / total.toDouble(),
+    );
   }
 
   void delete(BuildContext context, ShoppingItem item, _ViewModel vm) {
@@ -125,6 +138,7 @@ class _ViewModel {
   final bool loading;
   final String listId;
   final List<ShoppingItem> items;
+  final int doneCount;
   final Function(ShoppingItem) delete;
   final ReorderAction reorder;
   final Function(ShoppingItem item, bool done) done;
@@ -133,6 +147,7 @@ class _ViewModel {
     @required this.loading,
     @required this.listId,
     @required this.items,
+    @required this.doneCount,
     @required this.done,
     @required this.delete,
     @required this.reorder,
@@ -142,6 +157,7 @@ class _ViewModel {
     final loading = store.state.loading;
     final listId = store.state.list.id;
     final items = store.state.items;
+    final doneCount = items.where((e) => e.done).length;
     final done = (ShoppingItem item, bool done) =>
         store.dispatch(ItemListActionDone(item, done));
     final ReorderAction reorder =
@@ -152,6 +168,7 @@ class _ViewModel {
       loading: loading,
       listId: listId,
       items: items,
+      doneCount: doneCount,
       done: done,
       delete: delete,
       reorder: reorder,
