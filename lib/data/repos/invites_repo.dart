@@ -31,7 +31,7 @@ class InviteRepos {
 
   Future<void> saveInvite(String listId, String listName) async {
     final items = (await _getList())
-      ..add(UserList(id: listId, name: listName, members: []));
+      ..add(UserList(id: listId, name: listName, order: 0, members: []));
     _saveList(items);
   }
 

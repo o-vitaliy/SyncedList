@@ -30,7 +30,7 @@ class ItemsListRepo {
     return _store.doneItem(listId, item.id, done);
   }
 
-  Future orderItem(String listId, String itemId, int order) async {
-    return await _store.orderItem(listId,itemId, order);
+  Future orderItem(String listId, Map<String, int> reorders) async {
+    return await _store.orderItem(listId, reorders);
   }
 }

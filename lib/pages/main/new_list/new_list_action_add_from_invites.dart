@@ -4,7 +4,6 @@ import 'package:shared_shopping_list/app/app_state.dart';
 import 'package:shared_shopping_list/data/repos/invites_repo.dart';
 import 'package:shared_shopping_list/data/repos/lists_repo.dart';
 import 'package:shared_shopping_list/models/user_list.dart';
-import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_update_list.dart';
 
 class NewListActionAddFromInvite extends ReduxAction<AppState> {
   @override
@@ -31,10 +30,5 @@ class NewListActionAddFromInvite extends ReduxAction<AppState> {
       return appState.copyWith(joinedToList: Event(names));
     }
     return null;
-  }
-
-  @override
-  void after() {
-    dispatch(UserListActionUpdateList());
   }
 }

@@ -27,9 +27,14 @@ class DbItemsStore {
     await doc.updateData(<String, dynamic>{"done": done});
   }
 
-  Future orderItem(String listId, String itemId, int order) async {
-    final doc = _store.document("$_items/$listId/$_products/$itemId");
-    await doc.updateData(<String, dynamic>{"order": order});
+  Future orderItem(String listId, Map<String, int> reorders) async {
+    final batch = _store.batch();
+
+    reorders.forEach((key, value) {
+      final docRef = _store.document("$_items/$listId/$_products/$key");
+      batch.updateData(docRef, <String, dynamic>{"order": value});
+    });
+    batch.commit();
   }
 
   static List<ShoppingItem> fromQuerySnapshot(QuerySnapshot snapshot) {

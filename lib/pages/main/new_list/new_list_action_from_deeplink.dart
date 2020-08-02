@@ -4,7 +4,6 @@ import 'package:shared_shopping_list/app/app_state.dart';
 import 'package:shared_shopping_list/data/deeplinks/deeplink.dart';
 import 'package:shared_shopping_list/data/repos/auth_repo.dart';
 import 'package:shared_shopping_list/data/repos/invites_repo.dart';
-import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_update_list.dart';
 
 import 'new_list_action_add_from_invites.dart';
 
@@ -29,10 +28,5 @@ class NewListActionFromDeepLink extends ReduxAction<AppState> {
     } else {
       return state.copyWith(loginToViewList: Event(name));
     }
-  }
-
-  @override
-  void after() {
-    dispatch(UserListActionUpdateList());
   }
 }

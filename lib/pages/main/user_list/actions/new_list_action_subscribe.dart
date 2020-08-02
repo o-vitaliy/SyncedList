@@ -1,18 +1,17 @@
+import 'dart:async';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_shopping_list/app/app_state.dart';
 import 'package:shared_shopping_list/data/repos/lists_repo.dart';
-import 'package:shared_shopping_list/models/user_list.dart';
 
-class UserListActionDelete extends ReduxAction<AppState> {
-  final UserList item;
+import 'new_list_action_update_list.dart';
 
-  UserListActionDelete(this.item);
-
+class UserListActionSubscribe extends ReduxAction<AppState> {
   @override
-  Future<AppState> reduce() async {
+  FutureOr<AppState> reduce() async {
     final repo = GetIt.I.get<ListsRepo>();
-    await repo.deleteUserList(item);
+    repo.subscribeLists((items) => dispatch(UserListActionUpdateList(items)));
     return null;
   }
 }
