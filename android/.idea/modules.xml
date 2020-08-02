@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.iml" filepath="$PROJECT_DIR$/.idea/modules/android.iml" group="android" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="android/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1849680704/cloud_firestore.iml" filepath="$PROJECT_DIR$/.idea/modules/1849680704/cloud_firestore.iml" group="android/cloud_firestore" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1281662149/cloud_firestore_web.iml" filepath="$PROJECT_DIR$/.idea/modules/-1281662149/cloud_firestore_web.iml" group="android/cloud_firestore_web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1285310558/firebase_auth.iml" filepath="$PROJECT_DIR$/.idea/modules/1285310558/firebase_auth.iml" group="android/firebase_auth" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/929666939/firebase_auth_web.iml" filepath="$PROJECT_DIR$/.idea/modules/929666939/firebase_auth_web.iml" group="android/firebase_auth_web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/816815612/firebase_core.iml" filepath="$PROJECT_DIR$/.idea/modules/816815612/firebase_core.iml" group="android/firebase_core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1444425359/firebase_core_web.iml" filepath="$PROJECT_DIR$/.idea/modules/-1444425359/firebase_core_web.iml" group="android/firebase_core_web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-943761957/firebase_dynamic_links.iml" filepath="$PROJECT_DIR$/.idea/modules/-943761957/firebase_dynamic_links.iml" group="android/firebase_dynamic_links" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2012058101/fluttertoast.iml" filepath="$PROJECT_DIR$/.idea/modules/-2012058101/fluttertoast.iml" group="android/fluttertoast" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1626051523/google_sign_in.iml" filepath="$PROJECT_DIR$/.idea/modules/-1626051523/google_sign_in.iml" group="android/google_sign_in" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/794637304/google_sign_in_web.iml" filepath="$PROJECT_DIR$/.idea/modules/794637304/google_sign_in_web.iml" group="android/google_sign_in_web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1506900706/path_provider.iml" filepath="$PROJECT_DIR$/.idea/modules/1506900706/path_provider.iml" group="android/path_provider" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-844041148/path_provider_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/-844041148/path_provider_linux.iml" group="android/path_provider_linux" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-350296057/path_provider_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/-350296057/path_provider_macos.iml" group="android/path_provider_macos" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1819861165/share.iml" filepath="$PROJECT_DIR$/.idea/modules/1819861165/share.iml" group="android/share" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1289055805/shared_preferences.iml" filepath="$PROJECT_DIR$/.idea/modules/1289055805/shared_preferences.iml" group="android/shared_preferences" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1068097677/shared_preferences_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/1068097677/shared_preferences_linux.iml" group="android/shared_preferences_linux" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-575145467/shared_preferences_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/-575145467/shared_preferences_macos.iml" group="android/shared_preferences_macos" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-253399564/shared_preferences_web.iml" filepath="$PROJECT_DIR$/.idea/modules/-253399564/shared_preferences_web.iml" group="android/shared_preferences_web" />
+    </modules>
+  </component>
+</project>

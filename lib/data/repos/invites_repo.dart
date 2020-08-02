@@ -1,0 +1,49 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:get_it/get_it.dart';
+import 'package:shared_shopping_list/data/data_source/prefs_data_source.dart';
+import 'package:shared_shopping_list/models/user_list.dart';
+
+const parts = "=";
+const itemsJoint = "&";
+const paramsJoint = "?";
+
+const _key = "invites2";
+
+class InviteRepos {
+  PrefsDataSource get _prefs => GetIt.I.get<PrefsDataSource>();
+
+  Future<Set<UserList>> _getList() async {
+    final json = (await _prefs.getString(_key, def: "[]"));
+
+    final decoder = JsonDecoder();
+    final items = decoder.convert(json);
+
+    return UserList.from(items).toSet();
+  }
+
+  void _saveList(Iterable<UserList> items) {
+    final v = items.map((e) => e.toMap()).toList(growable: false);
+    final encoder = JsonEncoder();
+    _prefs.setString(_key, encoder.convert(v));
+  }
+
+  Future<void> saveInvite(String listId, String listName) async {
+    final items = (await _getList())
+      ..add(UserList(id: listId, name: listName, members: []));
+    _saveList(items);
+  }
+
+  FutureOr<UserList> first() async {
+    final items = await _getList();
+    if (items.isNotEmpty) return items.first;
+    return null;
+  }
+
+  Future remove(String listId) async {
+    final items = await _getList();
+    items.removeWhere((e) => e.id == listId);
+    _saveList(items);
+  }
+}
