@@ -16,9 +16,11 @@ class UserListActionReorder extends ReduxAction<AppState> {
   Future<AppState> reduce() async {
     final repo = GetIt.I.get<ListsRepo>();
 
-    final newP = oldPos < newPos ? newPos - 1 : newPos;
+    print("$oldPos $newPos");
 
     final items = state.userListState.list.toList();
+
+    final newP = min(newPos, items.length - 1);
 
     final item = items.removeAt(oldPos);
     items.insert(newP, item);
@@ -26,11 +28,12 @@ class UserListActionReorder extends ReduxAction<AppState> {
     final start = min(oldPos, newP);
     final end = max(oldPos, newP) + 1;
 
-    final reorderTasks = items
-        .sublist(start, end)
-        .mapIndex((e, i) => repo.orderList(e.id, start + i));
+    final changes = Map<String, int>();
 
-    Future.wait(reorderTasks);
+    items.sublist(start, end)
+        .forEachIndex((e, i) => changes[e.id] = start + i);
+
+    repo.orderList(changes);
 
     return state.copyWith(
       userListState: state.userListState.copyWith(list: items),

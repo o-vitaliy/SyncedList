@@ -28,11 +28,12 @@ class ItemListActionReorder extends ReduxAction<ItemListState> {
     final end = max(oldPos, newP) + 1;
 
     final listId = state.list.id;
-    final reorderTasks = items
-        .sublist(start, end)
-        .mapIndex((e, i) => repo.orderItem(listId, e.id, start + i));
+    final changes = Map<String, int>();
 
-    Future.wait(reorderTasks);
+    items.sublist(start, end)
+        .forEachIndex((e, i) => changes[e.id] = start + i);
+
+    repo.orderItem(listId, changes);
 
     return state.copyWith(
       items: items,

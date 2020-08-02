@@ -11,9 +11,17 @@ class ListsRepo {
 
   AuthRepo get _auth => GetIt.I.get<AuthRepo>();
 
-  Future<List<UserList>> getUserLists() async {
-    final userId = await _auth.userId();
-    return _store.getUserLists(userId);
+  StreamSubscription _subscription;
+
+  void subscribeLists(Function(List<UserList>) callback) async {
+    unsubscribeItems();
+    final uid = await _auth.userId();
+    _subscription = _store.getUserLists(uid).listen((event) => callback(event));
+  }
+
+  void unsubscribeItems() {
+    _subscription?.cancel();
+    _subscription = null;
   }
 
   Future<UserList> createUserList(String listName) async {
@@ -27,8 +35,6 @@ class ListsRepo {
 
   Future addUserList(String listId) async {
     final userId = await _auth.userId();
-    _store.addList(userId, listId);
-
     return _store.addListMember(listId, userId);
   }
 
@@ -37,7 +43,7 @@ class ListsRepo {
     await _store.deleteList(userId, userList.id);
   }
 
-  Future orderList(String listId, int order) async {
-    return await _store.orderList(listId, order);
+  Future orderList(Map<String, int> reorders) async {
+    return await _store.orderList(reorders);
   }
 }

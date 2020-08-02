@@ -5,7 +5,8 @@ import 'package:shared_shopping_list/localizations.dart';
 import 'package:shared_shopping_list/models/user_list.dart';
 import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_init.dart';
 import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_share.dart';
-import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_update_list.dart';
+import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_subscribe.dart';
+import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_unsubscribe.dart';
 import 'package:shared_shopping_list/pages/main/user_list/user_list_widget.dart';
 import 'package:shared_shopping_list/widgets/dialogs.dart';
 import 'package:shared_shopping_list/widgets/widgets.dart';
@@ -31,7 +32,10 @@ class UserListsView extends StatelessWidget {
           onDidChange: (vm) => modelChanged(context, vm),
           onInit: (store) {
             store.dispatch(UserListActionInit());
-            store.dispatch(UserListActionUpdateList());
+            store.dispatch(UserListActionSubscribe());
+          },
+          onDispose: (store) {
+            store.dispatch(UserListActionUnsubscribe());
           },
           builder: (BuildContext c, _ViewModel vm) => _content(c, vm)),
     );
