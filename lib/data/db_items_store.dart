@@ -22,6 +22,16 @@ class DbItemsStore {
     return item;
   }
 
+  Future renameItem(String listId, String itemId, String itemName) async {
+    final doc = _store.document("$_items/$listId/$_products/$itemId");
+    await doc.updateData(<String, dynamic>{"value": itemName});
+  }
+
+  Future deleteItem(String listId, String itemId) async {
+    final doc = _store.document("$_items/$listId/$_products/$itemId");
+    await doc.delete();
+  }
+
   Future doneItem(String listId, String itemId, bool done) async {
     final doc = _store.document("$_items/$listId/$_products/$itemId");
     await doc.updateData(<String, dynamic>{"done": done});

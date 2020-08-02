@@ -1,13 +1,16 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_shopping_list/localizations.dart';
 import 'package:shared_shopping_list/main.dart';
 import 'package:shared_shopping_list/models/shopping_item.dart';
 import 'package:shared_shopping_list/models/user_list.dart';
+import 'package:shared_shopping_list/pages/main/items_list/item_list_action_delete.dart';
 import 'package:shared_shopping_list/pages/main/items_list/item_list_action_subscribe.dart';
 import 'package:shared_shopping_list/pages/main/items_list/item_list_action_unsubscribe.dart';
 import 'package:shared_shopping_list/pages/main/items_list/list_item_list.dart';
 import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_share.dart';
 import 'package:shared_shopping_list/pages/main/user_list/user_lists_view.dart';
+import 'package:shared_shopping_list/widgets/dialogs.dart';
 import 'package:shared_shopping_list/widgets/widgets.dart';
 
 import 'item_list_action_done.dart';
@@ -35,14 +38,12 @@ class ListItemsView extends StatelessWidget {
   Widget _createListButton(BuildContext context, String listId) {
     return FloatingActionButton(
       child: Icon(Icons.add),
-      onPressed: () => _createListDialog(context, listId),
+      onPressed: () => _createItemDialog(context, listId),
     );
   }
 
-  void _createListDialog(BuildContext context, String listId) {
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(content: NewItemForm(listId)));
+  void _createItemDialog(BuildContext context, String listId) {
+    rename(context, listId, null);
   }
 
   Widget _share(UserList list) {
@@ -87,36 +88,72 @@ class _ListItemsConnector extends StatelessWidget {
     } else if (vm.items.isEmpty) {
       return const ListItemEmpty();
     } else {
-      return ListItemList(vm.items, vm.done, vm.reorder);
+      return ListItemList(
+        items: vm.items,
+        delete: (c, i) => delete(c, i, vm),
+        rename: (c, i) => rename(c, vm.listId, i),
+        onItemChanged: vm.done,
+        reorder: vm.reorder,
+      );
     }
   }
+
+  void delete(BuildContext context, ShoppingItem item, _ViewModel vm) {
+    final l = L.of(context);
+    confirmDialog(context, l.deleteItemConfirm, () {
+      vm.delete(item);
+    });
+  }
+}
+
+void rename(BuildContext context, String listId, ShoppingItem item) {
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      content: NewItemForm(
+        listId: listId,
+        name: item?.value,
+        id: item?.id,
+        order: item?.order,
+      ),
+    ),
+  );
 }
 
 @immutable
 class _ViewModel {
   final bool loading;
+  final String listId;
   final List<ShoppingItem> items;
+  final Function(ShoppingItem) delete;
   final ReorderAction reorder;
   final Function(ShoppingItem item, bool done) done;
 
   _ViewModel({
     @required this.loading,
+    @required this.listId,
     @required this.items,
     @required this.done,
+    @required this.delete,
     @required this.reorder,
   });
 
   static _ViewModel fromStore(Store<ItemListState> store) {
     final loading = store.state.loading;
+    final listId = store.state.list.id;
     final items = store.state.items;
     final done = (ShoppingItem item, bool done) =>
         store.dispatch(ItemListActionDone(item, done));
     final ReorderAction reorder =
         (item, o, n) => store.dispatch(ItemListActionReorder(o, n));
+    final Function delete =
+        (ShoppingItem item) => store.dispatch(ItemListActionDelete(item));
     return _ViewModel(
       loading: loading,
+      listId: listId,
       items: items,
       done: done,
+      delete: delete,
       reorder: reorder,
     );
   }

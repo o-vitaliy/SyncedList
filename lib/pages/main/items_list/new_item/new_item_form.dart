@@ -2,7 +2,6 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_shopping_list/data/validators/validator.dart';
 import 'package:shared_shopping_list/localizations.dart';
-import 'package:shared_shopping_list/models/shopping_item.dart';
 import 'package:shared_shopping_list/pages/main/items_list/new_item/new_item_action_add.dart';
 import 'package:shared_shopping_list/pages/main/items_list/new_item/new_item_action_change_name.dart';
 import 'package:shared_shopping_list/widgets/dialogs.dart';
@@ -10,42 +9,58 @@ import 'package:shared_shopping_list/widgets/widgets.dart';
 
 import 'new_item_state.dart';
 
-class NewItemForm extends StatefulWidget {
+class NewItemForm extends StatelessWidget {
   final Store store;
+  final String initialName;
 
-  factory NewItemForm(String listId) => NewItemForm._(
-      store: Store<NewItemState>(initialState: NewItemState.initial(listId)));
+  factory NewItemForm({
+    String listId,
+    String name,
+    String id,
+    int order,
+  }) =>
+      NewItemForm._(
+          store: Store<NewItemState>(
+            initialState: NewItemState.initial(
+              listId,
+              name,
+              id,
+              order,
+            ),
+          ),
+          initialName: name);
 
-  NewItemForm._({Key key, this.store}) : super(key: key);
+  const NewItemForm._({Key key, this.store, this.initialName})
+      : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => _NewItemFormState();
-}
-
-class _NewItemFormState extends State<NewItemForm> {
   @override
   Widget build(BuildContext context) {
     return StoreProvider<NewItemState>(
-      store: widget.store,
-      child: _FormConnector(),
+      store: store,
+      child: _FormConnector(initialName),
     );
   }
 }
 
 class _FormConnector extends StatelessWidget {
+  final String initialName;
+
+  const _FormConnector(this.initialName);
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<NewItemState, _ViewModel>(
       converter: _ViewModel.fromStore,
-      builder: (c, vm) => _FormContainer(vm),
+      builder: (c, vm) => _FormContainer(vm, initialName),
     );
   }
 }
 
 class _FormContainer extends StatefulWidget {
   final _ViewModel vm;
+  final String initialName;
 
-  const _FormContainer(this.vm, {Key key}) : super(key: key);
+  const _FormContainer(this.vm, this.initialName, {Key key}) : super(key: key);
 
   @override
   State createState() => _FormContainerState();
@@ -65,6 +80,7 @@ class _FormContainerState extends State<_FormContainer> {
           TextFormField(
             decoration: InputDecoration(hintText: l.newItemName),
             onChanged: vm.nameChanged,
+            initialValue: widget.initialName,
             validator: (v) => requiredValidation(context, v),
           ),
           defaultSpacer(),
@@ -117,7 +133,7 @@ class _ViewModel {
   final Function(String) nameChanged;
   final Function save;
   final Event<UserException> error;
-  final Event<ShoppingItem> savedEvent;
+  final Event<String> savedEvent;
 
   _ViewModel({
     @required this.loading,

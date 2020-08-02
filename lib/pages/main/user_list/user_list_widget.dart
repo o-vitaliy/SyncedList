@@ -7,9 +7,9 @@ import 'user_lists_view.dart';
 class UserListsWidget extends StatelessWidget {
   final List<UserList> items;
 
-  final ItemAction share;
-  final ItemAction delete;
-  final ItemAction rename;
+  final ItemAction<UserList> share;
+  final ItemAction<UserList> delete;
+  final ItemAction<UserList> rename;
   final ReorderAction reorder;
 
   const UserListsWidget(

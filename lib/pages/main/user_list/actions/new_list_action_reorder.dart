@@ -16,8 +16,6 @@ class UserListActionReorder extends ReduxAction<AppState> {
   Future<AppState> reduce() async {
     final repo = GetIt.I.get<ListsRepo>();
 
-    print("$oldPos $newPos");
-
     final items = state.userListState.list.toList();
 
     final newP = min(newPos, items.length - 1);

@@ -15,8 +15,14 @@ class NewItemActionAddList extends ReduxAction<NewItemState> {
   @override
   Future<NewItemState> reduce() async {
     final repo = GetIt.I.get<ItemsListRepo>();
-    final result = await repo.addItem(state.listId, state.name);
-    print("result $result");
-    return state.copyWith(savedEvent: Event(result));
+    final itemId = state.itemId;
+    final itemName = state.name;
+    if (itemId == null) {
+      repo.addItem(state.listId, itemName);
+    } else {
+      repo.renameItem(state.listId, itemId, itemName);
+    }
+
+    return state.copyWith(savedEvent: Event(itemName));
   }
 }

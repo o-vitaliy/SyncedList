@@ -1,40 +1,63 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_shopping_list/models/shopping_item.dart';
 
 @immutable
 class NewItemState {
   final String listId;
   final String name;
+  final String itemId;
+  final int order;
   final bool loading;
-  final Event<ShoppingItem> savedEvent;
+  final Event<String> savedEvent;
 
   NewItemState({
     @required this.listId,
     @required this.name,
+    @required this.itemId,
+    @required this.order,
     @required this.loading,
     @required this.savedEvent,
   });
 
-  factory NewItemState.initial(String listId) {
+  factory NewItemState.initial(
+    String listId,
+    String name,
+    String itemId,
+    int order,
+  ) {
     return NewItemState(
       listId: listId,
-      name: null,
+      name: name,
+      itemId: itemId,
+      order: order ?? DateTime.now().millisecondsSinceEpoch,
       loading: false,
-      savedEvent: Event<ShoppingItem>.spent(),
+      savedEvent: Event<String>.spent(),
     );
   }
 
   NewItemState copyWith({
     String listId,
     String name,
+    String itemId,
+    int order,
     bool loading,
-    Event<ShoppingItem> savedEvent,
+    Event<String> savedEvent,
   }) {
+    if ((listId == null || identical(listId, this.listId)) &&
+        (name == null || identical(name, this.name)) &&
+        (itemId == null || identical(itemId, this.itemId)) &&
+        (order == null || identical(order, this.order)) &&
+        (loading == null || identical(loading, this.loading)) &&
+        (savedEvent == null || identical(savedEvent, this.savedEvent))) {
+      return this;
+    }
+
     return new NewItemState(
       listId: listId ?? this.listId,
       name: name ?? this.name,
-      loading: loading != null ? loading : this.loading,
+      itemId: itemId ?? this.itemId,
+      order: order ?? this.order,
+      loading: loading ?? this.loading,
       savedEvent: savedEvent ?? this.savedEvent,
     );
   }
@@ -46,10 +69,17 @@ class NewItemState {
           runtimeType == other.runtimeType &&
           listId == other.listId &&
           name == other.name &&
+          itemId == other.itemId &&
+          order == other.order &&
           loading == other.loading &&
           savedEvent == other.savedEvent;
 
   @override
   int get hashCode =>
-      listId.hashCode ^ name.hashCode ^ loading.hashCode ^ savedEvent.hashCode;
+      listId.hashCode ^
+      name.hashCode ^
+      itemId.hashCode ^
+      order.hashCode ^
+      loading.hashCode ^
+      savedEvent.hashCode;
 }

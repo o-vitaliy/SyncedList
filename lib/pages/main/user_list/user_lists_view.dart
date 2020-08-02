@@ -16,7 +16,7 @@ import 'actions/new_list_action_delete.dart';
 import 'actions/new_list_action_reorder.dart';
 import 'user_list_empty_widget.dart';
 
-typedef ItemAction = Function(BuildContext context, UserList item);
+typedef ItemAction<T> = Function(BuildContext context, T item);
 typedef ReorderAction<T> = Function(T item, int oldPos, int newPos);
 
 class UserListsView extends StatelessWidget {
