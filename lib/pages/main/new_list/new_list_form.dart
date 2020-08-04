@@ -7,7 +7,7 @@ import 'package:shared_shopping_list/pages/main/new_list/new_list_action_save_li
 import 'package:shared_shopping_list/widgets/dialogs.dart';
 import 'package:shared_shopping_list/widgets/widgets.dart';
 
-import '../../../localizations.dart';
+import '../../../l.dart';
 import 'new_list_state.dart';
 
 final _formKey = GlobalKey<FormState>();

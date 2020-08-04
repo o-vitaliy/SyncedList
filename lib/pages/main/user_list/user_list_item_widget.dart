@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_shopping_list/localizations.dart';
+import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/models/user_list.dart';
 import 'package:shared_shopping_list/pages/main/items_list/list_item_item.dart';
 import 'package:shared_shopping_list/pages/main/user_list/user_lists_view.dart';

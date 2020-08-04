@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../localizations.dart';
+import 'package:shared_shopping_list/l.dart';
 
 class ListItemEmpty extends StatelessWidget {
   const ListItemEmpty();

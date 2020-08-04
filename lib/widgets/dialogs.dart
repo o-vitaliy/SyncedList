@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../localizations.dart';
+import '../l.dart';
 
 void defaultUserExceptionDialog(
   BuildContext context,
@@ -19,7 +19,7 @@ void defaultUserExceptionDialog(
         content: Text(userException.dialogContent()),
         actions: [
           CupertinoDialogAction(
-            child: const Text("OK"),
+            child: Text(L.of(context).ok),
             onPressed: () => Navigator.of(context).pop(),
           )
         ],
@@ -33,7 +33,7 @@ void defaultUserExceptionDialog(
         content: Text(userException.dialogContent()),
         actions: [
           FlatButton(
-            child: const Text("OK"),
+            child: Text(L.of(context).ok),
             onPressed: () => Navigator.of(context).pop(),
           )
         ],

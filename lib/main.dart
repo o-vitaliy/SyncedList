@@ -8,7 +8,7 @@ import 'package:shared_shopping_list/pages/main/user_list/user_lists_view.dart';
 
 import 'app/app_state.dart';
 import 'dependencies.dart';
-import 'localizations.dart';
+import 'l.dart';
 import 'pages/auth/login/login_view.dart';
 import 'pages/main/items_list/item_list_view.dart';
 import 'pages/splash/splash_view.dart';
@@ -57,9 +57,8 @@ class _MyAppState extends State<MyApp> {
           initialRoute: "/",
           navigatorKey: navigatorKey,
           localizationsDelegates: _localizationsDelegates(),
-          supportedLocales: [
-            const Locale('en', 'US'),
-          ],
+         // locale: L.languages.keys.first,
+          supportedLocales: L.languages.keys.toList(),
         ));
   }
 
@@ -75,7 +74,7 @@ class _MyAppState extends State<MyApp> {
 
   Iterable<LocalizationsDelegate<dynamic>> _localizationsDelegates() {
     return [
-      const AppLocalizationsDelegate(),
+      const LDelegate(),
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
     ];

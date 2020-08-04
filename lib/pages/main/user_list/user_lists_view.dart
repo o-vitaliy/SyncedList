@@ -1,7 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_shopping_list/app/app_state.dart';
-import 'package:shared_shopping_list/localizations.dart';
+import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/models/user_list.dart';
 import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_init.dart';
 import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_share.dart';
@@ -86,7 +86,7 @@ class UserListsView extends StatelessWidget {
     final invite = vm.inviteEvent.consume();
     if (invite != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final msg = L.of(context).invitedInToLists(invite.join(", "));
+        final msg = L.of(context).invitedInToLists(name: invite.join(", "));
         defaultToast(msg);
       });
     }

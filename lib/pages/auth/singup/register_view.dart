@@ -6,7 +6,7 @@ import 'package:shared_shopping_list/app/action_report.dart';
 import 'package:shared_shopping_list/app/app_state.dart';
 import 'package:shared_shopping_list/data/validators/email_validator.dart';
 import 'package:shared_shopping_list/data/validators/empty_validator.dart';
-import 'package:shared_shopping_list/localizations.dart';
+import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/widgets/widgets.dart';
 
 import 'register_action.dart';
@@ -21,7 +21,7 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(L.of(context).registerTitle),
+        title: Text(L.of(context).register.title),
       ),
       body: StoreConnector<AppState, _ViewModel>(
           model: _ViewModel(),
@@ -45,7 +45,7 @@ class RegisterView extends StatelessWidget {
                   onChanged: vm.emailChange,
                   keyboardType: TextInputType.emailAddress,
                   decoration:
-                      InputDecoration(hintText: L.of(context).emailHint),
+                      InputDecoration(hintText: L.of(context).hint.email),
                 ),
                 defaultSpacer(),
                 TextFormField(
@@ -55,7 +55,7 @@ class RegisterView extends StatelessWidget {
                   onChanged: vm.passwordChange,
                   validator: (value) => _passwordValidation(context, value),
                   decoration:
-                      InputDecoration(hintText: L.of(context).passwordHint),
+                      InputDecoration(hintText: L.of(context).hint.password),
                 ),
                 defaultSpacer(),
                 TextFormField(
@@ -65,13 +65,13 @@ class RegisterView extends StatelessWidget {
                   validator: (value) =>
                       _passwordConfirmValidation(context, value, _pass.text),
                   decoration: InputDecoration(
-                      hintText: L.of(context).passwordConfirmHint),
+                      hintText: L.of(context).hint.passwordConfirm),
                 ),
                 defaultSpacer(),
                 defaultSpacer(),
                 RaisedButton(
                   onPressed: () => doRegister(context, vm),
-                  child: Text(L.of(context).doRegister),
+                  child: Text(L.of(context).register.execute),
                 ),
               ],
             ),
@@ -108,7 +108,7 @@ class RegisterView extends StatelessWidget {
     final error = EmptyValidator().valid(value, "requiredField") ??
         EmailValidator().valid(value, "invalidEmailFormat");
     if (error != null) {
-      return L.of(context).get(error);
+      return LDelegate.get(context, error);
     }
     return null;
   }
@@ -116,7 +116,7 @@ class RegisterView extends StatelessWidget {
   String _passwordValidation(BuildContext context, String value) {
     final error = EmptyValidator().valid(value, "requiredField");
     if (error != null) {
-      return L.of(context).get(error);
+      return LDelegate.get(context, error);
     }
     return null;
   }
@@ -128,7 +128,7 @@ class RegisterView extends StatelessWidget {
   ) {
     final error = value != originalPassword ? "passwordMatch" : null;
     if (error != null) {
-      return L.of(context).get(error);
+      return LDelegate.get(context, error);
     }
     return null;
   }

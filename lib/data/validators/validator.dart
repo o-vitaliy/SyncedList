@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:shared_shopping_list/l.dart';
 
-import '../../localizations.dart';
 import 'empty_validator.dart';
 
 abstract class Validator {
@@ -10,7 +10,7 @@ abstract class Validator {
 String requiredValidation(BuildContext context, String value) {
   final error = EmptyValidator().valid(value, "requiredField");
   if (error != null) {
-    return L.of(context).get(error);
+    return LDelegate.get(context, error);
   }
   return null;
 }

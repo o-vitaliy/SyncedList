@@ -1,7 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_shopping_list/data/validators/validator.dart';
-import 'package:shared_shopping_list/localizations.dart';
+import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/pages/main/items_list/new_item/new_item_action_add.dart';
 import 'package:shared_shopping_list/pages/main/items_list/new_item/new_item_action_change_name.dart';
 import 'package:shared_shopping_list/widgets/dialogs.dart';

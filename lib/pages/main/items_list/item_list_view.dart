@@ -1,6 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_shopping_list/localizations.dart';
+import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/main.dart';
 import 'package:shared_shopping_list/models/shopping_item.dart';
 import 'package:shared_shopping_list/models/user_list.dart';

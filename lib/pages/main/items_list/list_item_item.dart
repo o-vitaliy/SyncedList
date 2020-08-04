@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
-import 'package:shared_shopping_list/localizations.dart';
+import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/models/shopping_item.dart';
 import 'package:shared_shopping_list/pages/main/user_list/user_lists_view.dart';
 
@@ -14,12 +14,13 @@ class ListItemItem extends StatelessWidget {
   final ItemAction<ShoppingItem> rename;
   final Function(ShoppingItem, bool) onItemChanged;
 
-  const ListItemItem(this.item,
-      this.delete,
-      this.rename,
-      this.onItemChanged, {
-        Key key,
-      }) : super(key: key);
+  const ListItemItem(
+    this.item,
+    this.delete,
+    this.rename,
+    this.onItemChanged, {
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class ListItemItem extends StatelessWidget {
 
     final color = item.done ? Colors.black45 : defaultTextStyle.color;
     final decoration =
-    item.done ? TextDecoration.lineThrough : TextDecoration.none;
+        item.done ? TextDecoration.lineThrough : TextDecoration.none;
 
     return ReorderableListener(
       child: Card(

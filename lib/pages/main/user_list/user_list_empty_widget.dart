@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_shopping_list/localizations.dart';
+import 'package:shared_shopping_list/l.dart';
 
 class UserListEmptyWidget extends StatelessWidget {
   const UserListEmptyWidget({Key key}) : super(key: key);

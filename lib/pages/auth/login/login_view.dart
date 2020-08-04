@@ -6,7 +6,7 @@ import 'package:shared_shopping_list/app/action_report.dart';
 import 'package:shared_shopping_list/app/app_state.dart';
 import 'package:shared_shopping_list/data/validators/email_validator.dart';
 import 'package:shared_shopping_list/data/validators/empty_validator.dart';
-import 'package:shared_shopping_list/localizations.dart';
+import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/widgets/scroll_column_expandable.dart';
 import 'package:shared_shopping_list/widgets/widgets.dart';
 
@@ -19,7 +19,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = L.of(context).loginTitle;
+    final title = L.of(context).login.title;
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -44,7 +44,7 @@ class LoginView extends StatelessWidget {
               validator: (value) => _emailValidation(context, value),
               onChanged: vm.emailChange,
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(hintText: L.of(context).emailHint),
+              decoration: InputDecoration(hintText: L.of(context).hint.email),
             ),
             defaultSpacer(),
             TextFormField(
@@ -52,28 +52,29 @@ class LoginView extends StatelessWidget {
               keyboardType: TextInputType.visiblePassword,
               onChanged: vm.passwordChange,
               validator: (value) => _passwordValidation(context, value),
-              decoration: InputDecoration(hintText: L.of(context).passwordHint),
+              decoration:
+                  InputDecoration(hintText: L.of(context).hint.password),
             ),
             defaultSpacer(),
             RaisedButton(
               onPressed: () => doLogin(context, vm),
-              child: Text(L.of(context).doLogin),
+              child: Text(L.of(context).login.execute),
             ),
             defaultSpacer(),
             defaultSpacer(),
             RaisedButton(
               onPressed: () => doLoginWithGoogle(context, vm),
-              child: Text(L.of(context).doLoginWithGoogle),
+              child: Text(L.of(context).login.executeGoogle),
             ),
             defaultSpacer(),
             RaisedButton(
               onPressed: () => doLoginWithFacebook(context, vm),
-              child: Text(L.of(context).doLoginWithFacebook),
+              child: Text(L.of(context).login.executeFacebook),
             ),
             Spacer(),
             FlatButton(
               onPressed: () => openSingUp(context),
-              child: Text(L.of(context).toRegistration),
+              child: Text(L.of(context).register.to),
             ),
           ],
         ),
@@ -86,7 +87,7 @@ class LoginView extends StatelessWidget {
     final error = EmptyValidator().valid(value, "requiredField") ??
         EmailValidator().valid(value, "invalidEmailFormat");
     if (error != null) {
-      return L.of(context).get(error);
+      return LDelegate.get(context, error);
     }
     return null;
   }
@@ -94,7 +95,7 @@ class LoginView extends StatelessWidget {
   String _passwordValidation(BuildContext context, String value) {
     final error = EmptyValidator().valid(value, "requiredField");
     if (error != null) {
-      return L.of(context).get(error);
+      return LDelegate.get(context, error);
     }
     return null;
   }
@@ -137,7 +138,7 @@ class LoginView extends StatelessWidget {
   void modelChanged(BuildContext context, _ViewModel vm) {
     final invite = vm.inviteEvent.consume();
     if (invite != null) {
-      defaultToast(L.of(context).loginToAddList(invite));
+      defaultToast(L.of(context).loginToAddList(name: invite));
     }
   }
 }
