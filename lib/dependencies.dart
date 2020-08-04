@@ -8,6 +8,7 @@ import 'data/db_list_store.dart';
 import 'data/repos/auth_repo.dart';
 import 'data/repos/invites_repo.dart';
 import 'data/repos/lists_repo.dart';
+import 'data/repos/sort_repo.dart';
 
 Future setUpDependencies() async {
   final getIt = GetIt.I;
@@ -23,4 +24,5 @@ Future setUpDependencies() async {
   getIt.registerSingleton<ListsRepo>(ListsRepo());
   getIt.registerSingleton<ItemsListRepo>(ItemsListRepo());
   getIt.registerSingleton<InviteRepos>(InviteRepos());
+  getIt.registerSingleton<SortRepo>(SortRepo());
 }
