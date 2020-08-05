@@ -1,18 +1,21 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_shopping_list/app/app_state.dart';
+import 'package:shared_shopping_list/data/repos/sort_repo.dart';
 import 'package:shared_shopping_list/data/repos/user_lists_repo.dart';
 import 'package:shared_shopping_list/pages/main/items_list/sort/item_sort.dart';
 import 'package:shared_shopping_list/utils/expandable_list.dart';
 
-class SortActionChange extends ReduxAction<AppState> {
+class SortActionOneTime extends ReduxAction<AppState> {
   final ItemSort sort;
 
-  SortActionChange(this.sort);
+  SortActionOneTime(this.sort);
 
   @override
   Future<AppState> reduce() async {
     final repo = GetIt.I.get<ItemsListRepo>();
+
+    await GetIt.I.get<SortRepo>().clear();
 
     final items = ItemSortHelper.sort(sort, state.itemListState.items);
     final changes = Map<String, int>();
@@ -23,6 +26,6 @@ class SortActionChange extends ReduxAction<AppState> {
     final s = state.itemListState.copyWith(
       items: items,
     );
-    return state.copyWith(itemListState: s);
+    return state.copyWith(itemListState: s, sorts: []);
   }
 }

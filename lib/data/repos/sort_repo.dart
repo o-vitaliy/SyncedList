@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'package:get_it/get_it.dart';
 import 'package:shared_shopping_list/data/data_source/prefs_data_source.dart';
 import 'package:shared_shopping_list/pages/main/items_list/sort/item_sort.dart';
-
-const parts = "=";
-const itemsJoint = "&";
-const paramsJoint = "?";
+import 'package:shared_shopping_list/utils/expandable_list.dart';
 
 const _key = "sorts";
 
@@ -14,12 +11,17 @@ class SortRepo {
   PrefsDataSource get _prefs => GetIt.I.get<PrefsDataSource>();
 
   Future<Set<ItemSort>> getList() async {
-    final json = (await _prefs.getString(_key, def: "[]"));
+    final json = (await _prefs.getString(_key, def: "[\"done\"]"));
 
     final decoder = JsonDecoder();
     final items = decoder.convert(json);
 
-    return items.map((e) => ItemSortHelper.fromString(e));
+    return Set<ItemSort>.from(items.map((e) => ItemSortHelper.fromString(e)));
+  }
+
+  Future<ItemSort> getSort() async {
+    final items = await getList();
+    return items.length == 2 ? ItemSort.name_done : items.firstOrNull();
   }
 
   Future _saveList(Iterable<ItemSort> items) {
@@ -36,5 +38,9 @@ class SortRepo {
   Future removeSort(ItemSort sort) async {
     final items = (await getList())..remove(sort);
     return _saveList(items);
+  }
+
+  Future clear() async {
+    return _saveList([]);
   }
 }

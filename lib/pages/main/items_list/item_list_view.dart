@@ -90,6 +90,7 @@ class _ListItemsConnector extends StatelessWidget {
                 rename: (c, i) => rename(c, vm.listId, i),
                 onItemChanged: vm.done,
                 reorder: vm.reorder,
+                reorderEnabled: vm.reorderEnabled,
               ),
             ),
           ),
@@ -134,6 +135,7 @@ class _ViewModel {
   final int doneCount;
   final Function(ShoppingItem) delete;
   final ReorderAction reorder;
+  final bool reorderEnabled;
   final Function(ShoppingItem item, bool done) done;
 
   _ViewModel({
@@ -144,6 +146,7 @@ class _ViewModel {
     @required this.done,
     @required this.delete,
     @required this.reorder,
+    @required this.reorderEnabled,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -158,14 +161,16 @@ class _ViewModel {
         (item, o, n) => store.dispatch(ItemListActionReorder(o, n));
     final Function delete =
         (ShoppingItem item) => store.dispatch(ItemListActionDelete(item));
+
+    final reorderEnabled = store.state.sorts.isEmpty;
     return _ViewModel(
-      loading: loading,
-      listId: listId,
-      items: items,
-      doneCount: doneCount,
-      done: done,
-      delete: delete,
-      reorder: reorder,
-    );
+        loading: loading,
+        listId: listId,
+        items: items,
+        doneCount: doneCount,
+        done: done,
+        delete: delete,
+        reorder: reorder,
+        reorderEnabled: reorderEnabled);
   }
 }

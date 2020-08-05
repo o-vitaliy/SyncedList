@@ -18,6 +18,8 @@ class AppState {
   final Event<String> loginToViewList;
   final Event<List<String>> joinedToList;
 
+  final List<ItemSort> sorts;
+
   AppState({
     @required this.loginState,
     @required this.registerState,
@@ -25,6 +27,7 @@ class AppState {
     @required this.joinedToList,
     @required this.userListState,
     @required this.itemListState,
+    @required this.sorts,
   });
 
   factory AppState.initial() {
@@ -35,6 +38,7 @@ class AppState {
       itemListState: null,
       loginToViewList: Event<String>.spent(),
       joinedToList: Event<List<String>>.spent(),
+      sorts: null,
     );
   }
 
@@ -54,6 +58,7 @@ class AppState {
       joinedToList: joinedToList ?? this.joinedToList,
       userListState: userListState ?? this.userListState,
       itemListState: itemListState ?? this.itemListState,
+      sorts: sorts ?? this.sorts,
     );
   }
 }

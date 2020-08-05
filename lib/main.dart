@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'SharedShoppingList',
+          title: 'SyncedList',
           routes: _routes(),
           theme: ThemeData.light().copyWith(
               primaryColor: Color(0xFFDC5607),
@@ -59,7 +59,6 @@ class _MyAppState extends State<MyApp> {
           initialRoute: "/",
           navigatorKey: navigatorKey,
           localizationsDelegates: _localizationsDelegates(),
-         // locale: L.languages.keys.first,
           supportedLocales: L.languages.keys.toList(),
         ));
   }

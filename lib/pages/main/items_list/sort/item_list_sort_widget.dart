@@ -1,7 +1,9 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_shopping_list/app/app_state.dart';
-import 'package:shared_shopping_list/pages/main/items_list/sort/sort_action_change.dart';
+import 'package:shared_shopping_list/pages/main/items_list/sort/sort_action_one_time.dart';
+import 'package:shared_shopping_list/pages/main/items_list/sort/sort_action_auto.dart';
+import 'package:shared_shopping_list/widgets/tiles.dart';
 import 'package:shared_shopping_list/widgets/widgets.dart';
 
 import 'item_sort.dart';
@@ -22,12 +24,18 @@ class ItemListSortWidget extends StatelessWidget {
       onSelected: (v) => vm.sortChanged(v),
       icon: Icon(Icons.sort),
       itemBuilder: (BuildContext context) {
-        return ItemSort.values.map((e) => _sortCheckbox(context, e)).toList();
+        return []
+          ..add(_title(context, "Auto sort:"))
+          ..addAll(ItemSortHelper.autoSorts()
+              .map((e) => _sortCheckboxes(context, e, vm)))
+          ..add(PopupMenuDivider())
+          ..add(_title(context, "One time sort:"))
+          ..addAll(ItemSortHelper.manualSorts().map((e) => _sorts(context, e)));
       },
     );
   }
 
-  PopupMenuItem<ItemSort> _sortCheckbox(BuildContext context, ItemSort sort) {
+  PopupMenuItem<ItemSort> _sorts(BuildContext context, ItemSort sort) {
     return PopupMenuItem<ItemSort>(
       value: sort,
       child: Row(
@@ -42,16 +50,48 @@ class ItemListSortWidget extends StatelessWidget {
       ),
     );
   }
+
+  PopupMenuItem<ItemSort> _title(BuildContext context, String title) {
+    return PopupMenuItem<ItemSort>(
+      child: Text(title),
+    );
+  }
+
+  PopupMenuItem<ItemSort> _sortCheckboxes(
+      BuildContext context, ItemSort sort, _ViewModel vm) {
+    return PopupMenuItem<ItemSort>(
+      child: LabeledCheckbox(
+        value: vm.selectedSorts.contains(sort),
+        onChanged: (v) {
+          vm.autoSortChanged(sort, v);
+          Navigator.of(context).pop();
+        },
+        label: ItemSortHelper.getTitle(context, sort),
+      ),
+    );
+  }
 }
 
 class _ViewModel extends BaseModel<AppState> {
   _ViewModel();
 
+  List<ItemSort> selectedSorts;
   Function(ItemSort) sortChanged;
+  Function(ItemSort, bool) autoSortChanged;
 
-  _ViewModel.build({this.sortChanged}) : super(equals: []);
+  _ViewModel.build({
+    @required this.selectedSorts,
+    @required this.sortChanged,
+    @required this.autoSortChanged,
+  }) : super(equals: [selectedSorts]);
 
   @override
-  BaseModel fromStore() =>
-      _ViewModel.build(sortChanged: (sort) => dispatch(SortActionChange(sort)));
+  BaseModel fromStore() {
+    return _ViewModel.build(
+      selectedSorts: state.sorts,
+      sortChanged: (sort) => dispatch(SortActionOneTime(sort)),
+      autoSortChanged: (sort, enabled) =>
+          dispatch(SortActionAuto(sort, enabled)),
+    );
+  }
 }

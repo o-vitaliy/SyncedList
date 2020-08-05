@@ -15,6 +15,10 @@ final Comparator _doneComparator = (ShoppingItem a, ShoppingItem b) {
 };
 
 class ItemSortHelper {
+  static List<ItemSort> manualSorts() => ItemSort.values;
+
+  static List<ItemSort> autoSorts() => [ItemSort.name, ItemSort.done];
+
   static ItemSort fromString(String sort) {
     switch (sort) {
       case "name":
