@@ -6,9 +6,9 @@ const nameKey = "name";
 class Deeplink {
   static Future<Uri> createLink(String id, String name) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://whattobuye3713.page.link',
+      uriPrefix: 'https://syncedlist.page.link',
       link: Uri.parse(
-          'https://whattobuye3713.page.link/link?$idKey=$id&$nameKey=$name'),
+          'https://syncedlist.page.link/link?$idKey=$id&$nameKey=$name'),
       androidParameters: AndroidParameters(
         packageName: 'ua.ovi.shared_shopping_list',
         minimumVersion: 0,
