@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -21,6 +22,7 @@ Future<Null> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await setUpDependencies();
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
   runApp(MyApp(mainStore));
 }
 
@@ -45,7 +47,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'SharedShoppingList',
+          title: 'SyncedList',
           routes: _routes(),
           theme: ThemeData.light().copyWith(
               primaryColor: Color(0xFFDC5607),
@@ -57,7 +59,6 @@ class _MyAppState extends State<MyApp> {
           initialRoute: "/",
           navigatorKey: navigatorKey,
           localizationsDelegates: _localizationsDelegates(),
-         // locale: L.languages.keys.first,
           supportedLocales: L.languages.keys.toList(),
         ));
   }

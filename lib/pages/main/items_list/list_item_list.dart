@@ -11,6 +11,7 @@ class ListItemList extends StatelessWidget {
   final ItemAction<ShoppingItem> delete;
   final ItemAction<ShoppingItem> rename;
   final ReorderAction reorder;
+  final bool reorderEnabled;
 
   const ListItemList({
     Key key,
@@ -19,6 +20,7 @@ class ListItemList extends StatelessWidget {
     @required this.rename,
     @required this.onItemChanged,
     @required this.reorder,
+    @required this.reorderEnabled,
   }) : super(key: key);
 
   @override
@@ -30,6 +32,7 @@ class ListItemList extends StatelessWidget {
                 delete,
                 rename,
                 onItemChanged,
+                reorderEnabled,
                 key: ValueKey(e),
               ))
           .toList(),

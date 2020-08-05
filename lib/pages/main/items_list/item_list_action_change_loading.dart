@@ -1,14 +1,18 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:shared_shopping_list/app/app_state.dart';
 
-import 'item_list_state.dart';
-
-class ItemListActionChangeLoading extends ReduxAction<ItemListState> {
+class ItemListActionChangeLoading extends ReduxAction<AppState> {
   final bool value;
 
   ItemListActionChangeLoading(this.value);
 
   @override
-  ItemListState reduce() {
-    return state.copyWith(loading: value);
+  AppState reduce() {
+    final itemsState = state.itemListState;
+    return state.copyWith(
+      itemListState: itemsState.copyWith(
+        loading: value,
+      ),
+    );
   }
 }

@@ -1,17 +1,25 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_shopping_list/app/app_state.dart';
 import 'package:shared_shopping_list/data/repos/user_lists_repo.dart';
+import 'package:shared_shopping_list/models/user_list.dart';
 
 import 'item_list_action_change_list.dart';
 import 'item_list_state.dart';
 
-class ItemListActionSubscribe extends ReduxAction<ItemListState> {
+class ItemListActionSubscribe extends ReduxAction<AppState> {
+  final UserList args;
+
+  ItemListActionSubscribe(this.args);
+
   @override
-  ItemListState reduce() {
+  AppState reduce() {
     final repo = GetIt.I.get<ItemsListRepo>();
     repo.subscribeItems(
-        state.list.id, (items) => dispatch(ItemListActionChangeList(items)));
+      args.id,
+      (items) => dispatch(ItemListActionChangeList(items)),
+    );
 
-    return null;
+    return state.copyWith(itemListState: ItemListState.initial(args));
   }
 }

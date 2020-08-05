@@ -5,7 +5,7 @@ import 'package:flutter_sheet_localization/flutter_sheet_localization.dart';
 part 'l.g.dart';
 
 //https://docs.google.com/spreadsheets/d/1hK03GX7x26qnFuMyKga8Bd_yVhByGk9Bl1VXrD7Kdxo/edit?usp=sharing
-@SheetLocalization("1hK03GX7x26qnFuMyKga8Bd_yVhByGk9Bl1VXrD7Kdxo", "0", 9)
+@SheetLocalization("1hK03GX7x26qnFuMyKga8Bd_yVhByGk9Bl1VXrD7Kdxo", "0", 11)
 class LDelegate extends LocalizationsDelegate<L> {
   const LDelegate();
 

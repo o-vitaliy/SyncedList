@@ -13,12 +13,14 @@ class ListItemItem extends StatelessWidget {
   final ItemAction<ShoppingItem> delete;
   final ItemAction<ShoppingItem> rename;
   final Function(ShoppingItem, bool) onItemChanged;
+  final bool reorderEnabled;
 
   const ListItemItem(
     this.item,
     this.delete,
     this.rename,
-    this.onItemChanged, {
+    this.onItemChanged,
+    this.reorderEnabled, {
     Key key,
   }) : super(key: key);
 
@@ -32,6 +34,7 @@ class ListItemItem extends StatelessWidget {
         item.done ? TextDecoration.lineThrough : TextDecoration.none;
 
     return ReorderableListener(
+      canStart: () => reorderEnabled,
       child: Card(
         child: Row(
           children: [
@@ -50,7 +53,7 @@ class ListItemItem extends StatelessWidget {
                 ),
               ),
             ),
-            dragIcon,
+            if (reorderEnabled) dragIcon,
             PopupMenuButton<Choice>(
               onSelected: (v) => v.action(),
               itemBuilder: (BuildContext context) {

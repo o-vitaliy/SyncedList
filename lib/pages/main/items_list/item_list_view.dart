@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_shopping_list/app/app_state.dart';
 import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/main.dart';
 import 'package:shared_shopping_list/models/shopping_item.dart';
@@ -8,6 +9,7 @@ import 'package:shared_shopping_list/pages/main/items_list/item_list_action_dele
 import 'package:shared_shopping_list/pages/main/items_list/item_list_action_subscribe.dart';
 import 'package:shared_shopping_list/pages/main/items_list/item_list_action_unsubscribe.dart';
 import 'package:shared_shopping_list/pages/main/items_list/list_item_list.dart';
+import 'package:shared_shopping_list/pages/main/items_list/sort/item_list_sort_widget.dart';
 import 'package:shared_shopping_list/pages/main/user_list/actions/new_list_action_share.dart';
 import 'package:shared_shopping_list/pages/main/user_list/user_lists_view.dart';
 import 'package:shared_shopping_list/widgets/dialogs.dart';
@@ -15,21 +17,22 @@ import 'package:shared_shopping_list/widgets/widgets.dart';
 
 import 'item_list_action_done.dart';
 import 'item_list_action_reorder.dart';
-import 'item_list_state.dart';
 import 'list_item_empty.dart';
 import 'new_item/new_item_form.dart';
 
 class ListItemsView extends StatelessWidget {
+  const ListItemsView();
+
   @override
   Widget build(BuildContext context) {
     final UserList args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         appBar: AppBar(
           title: Text(args.name),
-          actions: [_share(args)],
+          actions: [ItemListSortWidget(), _share(args)],
         ),
         floatingActionButton: _createListButton(context, args.id),
-        body: _ListItemsContentView(args));
+        body: _ListItemsConnector(args: args));
   }
 
   Widget _createListButton(BuildContext context, String listId) {
@@ -46,35 +49,25 @@ class ListItemsView extends StatelessWidget {
   Widget _share(UserList list) {
     return IconButton(
       icon: Icon(Icons.share),
+      tooltip: "Share",
       onPressed: () => mainStore.dispatch(UserListActionShare(list)),
     );
   }
 }
 
-class _ListItemsContentView extends StatelessWidget {
-  final Store store;
-
-  factory _ListItemsContentView(UserList list) => _ListItemsContentView._(
-      store: Store<ItemListState>(initialState: ItemListState.initial(list)));
-
-  _ListItemsContentView._({Key key, this.store}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StoreProvider<ItemListState>(
-      store: store,
-      child: _ListItemsConnector(),
-    );
-  }
-}
-
 class _ListItemsConnector extends StatelessWidget {
+  final UserList args;
+
+  const _ListItemsConnector({Key key, this.args}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<ItemListState, _ViewModel>(
+    return StoreConnector<AppState, _ViewModel>(
       converter: _ViewModel.fromStore,
-      onInit: (s) => s.dispatch(ItemListActionSubscribe()),
-      onDispose: (s) => s.dispatch(ItemListActionUnsubscribe()),
+      onInit: (s) => s.dispatch(ItemListActionSubscribe(args)),
+      onDispose: (s) {
+        s.dispatch(ItemListActionUnsubscribe());
+      },
       builder: _content,
     );
   }
@@ -87,7 +80,7 @@ class _ListItemsConnector extends StatelessWidget {
     } else {
       return Column(
         children: [
-          if (vm.items.length>1) progress(vm.doneCount, vm.items.length),
+          if (vm.items.length > 1) progress(vm.doneCount, vm.items.length),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -97,6 +90,7 @@ class _ListItemsConnector extends StatelessWidget {
                 rename: (c, i) => rename(c, vm.listId, i),
                 onItemChanged: vm.done,
                 reorder: vm.reorder,
+                reorderEnabled: vm.reorderEnabled,
               ),
             ),
           ),
@@ -141,6 +135,7 @@ class _ViewModel {
   final int doneCount;
   final Function(ShoppingItem) delete;
   final ReorderAction reorder;
+  final bool reorderEnabled;
   final Function(ShoppingItem item, bool done) done;
 
   _ViewModel({
@@ -151,12 +146,14 @@ class _ViewModel {
     @required this.done,
     @required this.delete,
     @required this.reorder,
+    @required this.reorderEnabled,
   });
 
-  static _ViewModel fromStore(Store<ItemListState> store) {
-    final loading = store.state.loading;
-    final listId = store.state.list.id;
-    final items = store.state.items;
+  static _ViewModel fromStore(Store<AppState> store) {
+    final state = store.state.itemListState;
+    final loading = state.loading;
+    final listId = state.list.id;
+    final items = state.items;
     final doneCount = items.where((e) => e.done).length;
     final done = (ShoppingItem item, bool done) =>
         store.dispatch(ItemListActionDone(item, done));
@@ -164,14 +161,16 @@ class _ViewModel {
         (item, o, n) => store.dispatch(ItemListActionReorder(o, n));
     final Function delete =
         (ShoppingItem item) => store.dispatch(ItemListActionDelete(item));
+
+    final reorderEnabled = store.state.sorts.isEmpty;
     return _ViewModel(
-      loading: loading,
-      listId: listId,
-      items: items,
-      doneCount: doneCount,
-      done: done,
-      delete: delete,
-      reorder: reorder,
-    );
+        loading: loading,
+        listId: listId,
+        items: items,
+        doneCount: doneCount,
+        done: done,
+        delete: delete,
+        reorder: reorder,
+        reorderEnabled: reorderEnabled);
   }
 }

@@ -52,9 +52,14 @@ class L {
         passwordConfirm: "Repeat password",
       ),
       register: AppLocalizations_Labels_Register(
-        to: "Registration",
+        to: "Sign Up",
         title: "Sign Up",
         execute: "Sign Up",
+      ),
+      sort: AppLocalizations_Labels_Sort(
+        name: "By name",
+        done: "By done",
+        nameDone: "By name & done",
       ),
     ),
     Locale.fromSubtags(languageCode: "ru"): L_Labels(
@@ -97,9 +102,14 @@ class L {
         passwordConfirm: "Повторите пароль",
       ),
       register: AppLocalizations_Labels_Register(
-        to: "Постановка на учет",
+        to: "Зарегистрироваться",
         title: "Зарегистрироваться",
         execute: "Зарегистрироваться",
+      ),
+      sort: AppLocalizations_Labels_Sort(
+        name: "По имени",
+        done: "По отмеченным ",
+        nameDone: "По имени отмеченные",
       ),
     ),
   };
@@ -188,6 +198,29 @@ class AppLocalizations_Labels_Register {
   }
 }
 
+class AppLocalizations_Labels_Sort {
+  const AppLocalizations_Labels_Sort({this.name, this.done, this.nameDone});
+
+  final String name;
+
+  final String done;
+
+  final String nameDone;
+
+  String getByKey(String key) {
+    switch (key) {
+      case 'name':
+        return name;
+      case 'done':
+        return done;
+      case 'nameDone':
+        return nameDone;
+      default:
+        return '';
+    }
+  }
+}
+
 class L_Labels {
   const L_Labels(
       {this.requiredField,
@@ -218,7 +251,8 @@ class L_Labels {
       this.emptyItemsListInfoClickToShare,
       this.login,
       this.hint,
-      this.register})
+      this.register,
+      this.sort})
       : this._loginToAddList = loginToAddList,
         this._invitedInToLists = invitedInToLists;
 
@@ -279,6 +313,8 @@ class L_Labels {
   final AppLocalizations_Labels_Hint hint;
 
   final AppLocalizations_Labels_Register register;
+
+  final AppLocalizations_Labels_Sort sort;
 
   String getByKey(String key) {
     switch (key) {
