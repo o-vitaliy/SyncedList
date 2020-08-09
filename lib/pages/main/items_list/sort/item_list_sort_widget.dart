@@ -1,8 +1,9 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_shopping_list/app/app_state.dart';
-import 'package:shared_shopping_list/pages/main/items_list/sort/sort_action_one_time.dart';
+import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/pages/main/items_list/sort/sort_action_auto.dart';
+import 'package:shared_shopping_list/pages/main/items_list/sort/sort_action_one_time.dart';
 import 'package:shared_shopping_list/widgets/tiles.dart';
 import 'package:shared_shopping_list/widgets/widgets.dart';
 
@@ -20,16 +21,17 @@ class ItemListSortWidget extends StatelessWidget {
   }
 
   Widget _content(BuildContext context, _ViewModel vm) {
+    final l = L.of(context);
     return PopupMenuButton<ItemSort>(
       onSelected: (v) => vm.sortChanged(v),
       icon: Icon(Icons.sort),
       itemBuilder: (BuildContext context) {
         return []
-          ..add(_title(context, "Auto sort:"))
+          ..add(_title(context, l.sort.auto + ":"))
           ..addAll(ItemSortHelper.autoSorts()
               .map((e) => _sortCheckboxes(context, e, vm)))
           ..add(PopupMenuDivider())
-          ..add(_title(context, "One time sort:"))
+          ..add(_title(context, l.sort.oneTime + ":"))
           ..addAll(ItemSortHelper.manualSorts().map((e) => _sorts(context, e)));
       },
     );

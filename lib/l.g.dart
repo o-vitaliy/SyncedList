@@ -60,41 +60,43 @@ class L {
         name: "By name",
         done: "By done",
         nameDone: "By name & done",
+        auto: "Auto sort",
+        oneTime: "One time sort",
       ),
     ),
     Locale.fromSubtags(languageCode: "ru"): L_Labels(
       requiredField: "Это поле обязательно к заполнению",
       invalidEmailFormat: "Неверный адрес электронной почты",
       passwordMatch: "Пароли не совпадают",
-      unexpectedError: "Мы сожалеем. Неожиданная ошибка произошло: ((",
+      unexpectedError: "Мы сожалеем. Произошла неожиданная ошибка :((",
       view: "Посмотреть",
       save: "Сохранить",
       cancel: "Отмена",
-      ok: "Хорошо",
-      newListName: "Новое название списка",
+      ok: "ОК",
+      newListName: "Название нового списка",
       newItemName: "Новый пункт",
       yourLists: "Ваши списки",
-      share: "Делиться",
+      share: "Поделиться",
       delete: "Удалить",
-      deleteListConfirm: "Уверены, что хотите удалить этот список?",
-      deleteItemConfirm: "Уверены, что хотите удалить этот пункт?",
-      rename: "Rename",
-      emptyListInfo1: "У вас нет какой-либо список покупок еще.",
-      emptyListInfoClick: "щелчок",
-      emptyListInfoClickToCreate: "чтобы создать новый.",
-      emptyListInfoClickToShare: "делить содержимое списка покупок.",
-      emptyListEnjoySharing: "Наслаждайтесь проверки списка тусовке",
+      deleteListConfirm: "Вы уверены, что хотите удалить этот список?",
+      deleteItemConfirm: "Вы уверены, что хотите удалить этот товар?",
+      rename: "Переименовать",
+      emptyListInfo1: "У вас еще нет списков покупок",
+      emptyListInfoClick: "Нажмите",
+      emptyListInfoClickToCreate: "чтобы создать новый",
+      emptyListInfoClickToShare: "чтобы поделиться списком",
+      emptyListEnjoySharing: "Наслаждайся совместным использованием списка",
       loginToAddList: ({name}) =>
-          "Сваи разделили список ${name}. Войдите, чтобы его просмотреть",
+          "С вами доделились списком ${name}. Войдите, чтобы его просмотреть",
       invitedInToLists: ({name}) => "Список ${name} был добавлен",
       emptyItemsListInfo1: "Ваш список покупок пуст.",
-      emptyItemsListInfoClickToCreate: " добавлять новые элементы.",
-      emptyItemsListInfoClickToShare: " разделить список покупок.",
+      emptyItemsListInfoClickToCreate: "чтобы добавить новый товар",
+      emptyItemsListInfoClickToShare: "чтобы поделиться списком",
       login: AppLocalizations_Labels_Login(
         title: "Авторизоваться",
         execute: "Авторизоваться",
-        executeGoogle: "Вход с Google",
-        executeFacebook: "Войти с Facebook",
+        executeGoogle: "Вход через Google",
+        executeFacebook: "Войти через Facebook",
       ),
       hint: AppLocalizations_Labels_Hint(
         email: "Эл. адрес",
@@ -109,7 +111,9 @@ class L {
       sort: AppLocalizations_Labels_Sort(
         name: "По имени",
         done: "По отмеченным ",
-        nameDone: "По имени отмеченные",
+        nameDone: "По имени и отмеченным",
+        auto: "Автоматически",
+        oneTime: "Разовая сортировка",
       ),
     ),
   };
@@ -199,13 +203,18 @@ class AppLocalizations_Labels_Register {
 }
 
 class AppLocalizations_Labels_Sort {
-  const AppLocalizations_Labels_Sort({this.name, this.done, this.nameDone});
+  const AppLocalizations_Labels_Sort(
+      {this.name, this.done, this.nameDone, this.auto, this.oneTime});
 
   final String name;
 
   final String done;
 
   final String nameDone;
+
+  final String auto;
+
+  final String oneTime;
 
   String getByKey(String key) {
     switch (key) {
@@ -215,6 +224,10 @@ class AppLocalizations_Labels_Sort {
         return done;
       case 'nameDone':
         return nameDone;
+      case 'auto':
+        return auto;
+      case 'oneTime':
+        return oneTime;
       default:
         return '';
     }
