@@ -61,4 +61,27 @@ class AppState {
       sorts: sorts ?? this.sorts,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AppState &&
+          runtimeType == other.runtimeType &&
+          loginState == other.loginState &&
+          registerState == other.registerState &&
+          userListState == other.userListState &&
+          itemListState == other.itemListState &&
+          loginToViewList == other.loginToViewList &&
+          joinedToList == other.joinedToList &&
+          sorts == other.sorts;
+
+  @override
+  int get hashCode =>
+      loginState.hashCode ^
+      registerState.hashCode ^
+      userListState.hashCode ^
+      itemListState.hashCode ^
+      loginToViewList.hashCode ^
+      joinedToList.hashCode ^
+      sorts.hashCode;
 }

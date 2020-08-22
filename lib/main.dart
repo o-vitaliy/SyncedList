@@ -11,11 +11,16 @@ import 'app/app_state.dart';
 import 'dependencies.dart';
 import 'l.dart';
 import 'pages/auth/login/login_view.dart';
+import 'pages/main/inviting/inviting_view.dart';
 import 'pages/main/items_list/item_list_view.dart';
 import 'pages/splash/splash_view.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
-final mainStore = Store(initialState: AppState.initial());
+final mainStore = Store(
+  initialState: AppState.initial(),
+  actionObservers: [Log<AppState>.printer()],
+  modelObserver: DefaultModelObserver(),
+);
 
 Future<Null> main() async {
   NavigateAction.setNavigatorKey(navigatorKey);
@@ -68,8 +73,9 @@ class _MyAppState extends State<MyApp> {
       "/": (_) => const SplashView(),
       "/login": (_) => LoginView(),
       "/registration": (_) => RegisterView(),
-      "/main": (_) => UserListsView(),
-      "/items": (_) => ListItemsView()
+      "/main": (_) => const UserListsView(),
+      "/items": (_) => const ListItemsView(),
+      "/invite" : (_) => const InvitingView(),
     };
   }
 

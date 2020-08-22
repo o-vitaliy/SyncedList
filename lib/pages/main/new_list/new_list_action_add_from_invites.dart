@@ -16,15 +16,10 @@ class NewListActionAddFromInvite extends ReduxAction<AppState> {
     final names = List<String>();
     UserList item = await invitesRepos.first();
     while (item != null) {
-      try {
-        await userList.addUserList(item.id);
-        await invitesRepos.remove(item.id);
-        names.add(item.name);
-        item = await invitesRepos.first();
-      } catch (e) {
-        print(e);
-        break;
-      }
+      await userList.addUserList(item.id);
+      await invitesRepos.remove(item.id);
+      names.add(item.name);
+      item = await invitesRepos.first();
     }
     if (names.isNotEmpty) {
       return appState.copyWith(joinedToList: Event(names));
