@@ -4,8 +4,7 @@ import 'package:shared_shopping_list/app/app_state.dart';
 import 'package:shared_shopping_list/data/deeplinks/deeplink.dart';
 import 'package:shared_shopping_list/data/repos/auth_repo.dart';
 import 'package:shared_shopping_list/data/repos/invites_repo.dart';
-
-import 'new_list_action_add_from_invites.dart';
+import 'package:shared_shopping_list/pages/main/inviting/invite_args.dart';
 
 class NewListActionFromDeepLink extends ReduxAction<AppState> {
   final Map<String, String> params;
@@ -23,7 +22,7 @@ class NewListActionFromDeepLink extends ReduxAction<AppState> {
     await invitesRepos.saveInvite(id, name);
     final loggedIn = await authRepo.loggedIn();
     if (loggedIn) {
-      dispatch(NewListActionAddFromInvite());
+      dispatch(NavigateAction.pushReplacementNamed("/invite", arguments: InviteArgs(id, name)));
       return null;
     } else {
       return state.copyWith(loginToViewList: Event(name));

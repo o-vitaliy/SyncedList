@@ -33,4 +33,16 @@ class LoginState {
       password: null,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LoginState &&
+          runtimeType == other.runtimeType &&
+          email == other.email &&
+          password == other.password &&
+          isLoading == other.isLoading;
+
+  @override
+  int get hashCode => email.hashCode ^ password.hashCode ^ isLoading.hashCode;
 }

@@ -37,4 +37,21 @@ class RegisterState {
       passwordConfirm: null,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RegisterState &&
+          runtimeType == other.runtimeType &&
+          email == other.email &&
+          password == other.password &&
+          passwordConfirm == other.passwordConfirm &&
+          isLoading == other.isLoading;
+
+  @override
+  int get hashCode =>
+      email.hashCode ^
+      password.hashCode ^
+      passwordConfirm.hashCode ^
+      isLoading.hashCode;
 }

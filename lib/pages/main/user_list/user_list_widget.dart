@@ -32,13 +32,12 @@ class UserListsWidget extends StatelessWidget {
     if (item == null) {
       return SizedBox.shrink();
     }
-    return ReorderableListener(
-        child: UserListItemWidget(
+    return UserListItemWidget(
       key: ValueKey(item),
       item: item,
       share: share,
       delete: delete,
       rename: rename,
-    ));
+    );
   }
 }

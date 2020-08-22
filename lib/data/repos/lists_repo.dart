@@ -12,16 +12,34 @@ class ListsRepo {
   AuthRepo get _auth => GetIt.I.get<AuthRepo>();
 
   StreamSubscription _subscription;
+  final callbacks = Map<Object, Function(List<UserList>)>();
+  final observers = Map<Object, int>();
 
-  void subscribeLists(Function(List<UserList>) callback) async {
-    unsubscribeItems();
-    final uid = await _auth.userId();
-    _subscription = _store.getUserLists(uid).listen((event) => callback(event));
+  void subscribeLists(
+    Object observer,
+    Function(List<UserList>) callback,
+  ) async {
+    if (callbacks.isEmpty) {
+      final uid = await _auth.userId();
+      _subscription = _store.getUserLists(uid).listen((event) {
+        callbacks.values.forEach((f) => f(event));
+      });
+    }
+    callbacks[observer] = callback;
+    observers.update(observer, (v) => v + 1, ifAbsent: () => 1);
   }
 
-  void unsubscribeItems() {
-    _subscription?.cancel();
-    _subscription = null;
+  void unsubscribeItems(Object observer) {
+    observers.update(observer, (v) => v - 1, ifAbsent: () => 0);
+
+    if (observers[observer] == 0) {
+      callbacks.remove(observer);
+    }
+
+    if (callbacks.isEmpty) {
+      _subscription?.cancel();
+      _subscription = null;
+    }
   }
 
   Future<UserList> createUserList(String listName) async {

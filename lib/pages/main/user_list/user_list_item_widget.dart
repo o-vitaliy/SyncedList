@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:shared_shopping_list/l.dart';
 import 'package:shared_shopping_list/models/user_list.dart';
 import 'package:shared_shopping_list/pages/main/items_list/list_item_item.dart';
@@ -31,7 +32,7 @@ class UserListItemWidget extends StatelessWidget {
           children: [
             Expanded(child: Text(item.name)),
             if (item.shared) shareIcon(),
-            dragIcon,
+            ReorderableListener(child: dragIcon),
             PopupMenuButton<Choice>(
               onSelected: (v) => v.action(),
               itemBuilder: (BuildContext context) {

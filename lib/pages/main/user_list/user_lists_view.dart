@@ -19,7 +19,16 @@ import 'user_list_empty_widget.dart';
 typedef ItemAction<T> = Function(BuildContext context, T item);
 typedef ReorderAction<T> = Function(T item, int oldPos, int newPos);
 
-class UserListsView extends StatelessWidget {
+const _key = Key("UserListsView");
+
+class UserListsView extends StatefulWidget {
+  const UserListsView() : super(key: _key);
+
+  @override
+  State createState() => _State();
+}
+
+class _State extends State<UserListsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,18 +36,38 @@ class UserListsView extends StatelessWidget {
         title: Text(L.of(context).yourLists),
       ),
       floatingActionButton: _createListButton(context),
-      body: StoreConnector<AppState, _ViewModel>(
-          converter: _ViewModel.fromStore,
-          onDidChange: (vm) => modelChanged(context, vm),
-          onInit: (store) {
-            store.dispatch(UserListActionInit());
-            store.dispatch(UserListActionSubscribe());
-          },
-          onDispose: (store) {
-            store.dispatch(UserListActionUnsubscribe());
-          },
-          builder: (BuildContext c, _ViewModel vm) => _content(c, vm)),
+      body: const _UserListConnector(),
     );
+  }
+
+  Widget _createListButton(BuildContext context) {
+    return FloatingActionButton(
+      child: Icon(Icons.add),
+      onPressed: () => _createListDialog(context),
+    );
+  }
+
+  void _createListDialog(BuildContext context) {
+    rename(context, null);
+  }
+}
+
+class _UserListConnector extends StatelessWidget {
+  const _UserListConnector();
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, _ViewModel>(
+        distinct: true,
+        converter: _ViewModel.fromStore,
+        onInit: (store) {
+          store.dispatch(UserListActionInit());
+          store.dispatch(UserListActionSubscribe(this));
+        },
+        onDispose: (store) {
+          store.dispatch(UserListActionUnsubscribe(this));
+        },
+        builder: (BuildContext c, _ViewModel vm) => _content(c, vm));
   }
 
   Widget _content(BuildContext c, _ViewModel vm) {
@@ -60,17 +89,6 @@ class UserListsView extends StatelessWidget {
     );
   }
 
-  Widget _createListButton(BuildContext context) {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: () => _createListDialog(context),
-    );
-  }
-
-  void _createListDialog(BuildContext context) {
-    rename(context, null);
-  }
-
   void share(BuildContext context, UserList item, _ViewModel vm) {
     vm.share(item);
   }
@@ -81,25 +99,15 @@ class UserListsView extends StatelessWidget {
       vm.delete(item);
     });
   }
+}
 
-  void modelChanged(BuildContext context, _ViewModel vm) {
-    final invite = vm.inviteEvent.consume();
-    if (invite != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final msg = L.of(context).invitedInToLists(name: invite.join(", "));
-        defaultToast(msg);
-      });
-    }
-  }
-
-  void rename(BuildContext context, UserList item) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        content: NewListForm(item?.id, item?.name),
-      ),
-    );
-  }
+void rename(BuildContext context, UserList item) {
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      content: NewListForm(item?.id, item?.name),
+    ),
+  );
 }
 
 @immutable
@@ -109,7 +117,6 @@ class _ViewModel {
   final Function(UserList) share;
   final Function(UserList) delete;
   final Function(int oldPosition, int newPosition) reorder;
-  final Event<List<String>> inviteEvent;
 
   _ViewModel({
     @required this.loading,
@@ -117,7 +124,6 @@ class _ViewModel {
     @required this.share,
     @required this.delete,
     @required this.reorder,
-    @required this.inviteEvent,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -135,7 +141,17 @@ class _ViewModel {
       share: share,
       delete: delete,
       reorder: reorder,
-      inviteEvent: store.state.joinedToList,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _ViewModel &&
+          runtimeType == other.runtimeType &&
+          loading == other.loading &&
+          items == other.items;
+
+  @override
+  int get hashCode => loading.hashCode ^ items.hashCode;
 }

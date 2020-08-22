@@ -33,37 +33,32 @@ class ListItemItem extends StatelessWidget {
     final decoration =
         item.done ? TextDecoration.lineThrough : TextDecoration.none;
 
-    return ReorderableListener(
-      canStart: () => reorderEnabled,
-      child: Card(
-        child: Row(
-          children: [
-            Expanded(
-              child: CheckboxListTile(
-                contentPadding: EdgeInsets.all(0),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: item.done,
-                onChanged: (value) => onItemChanged(item, value),
-                title: Text(
-                  item.value,
-                  style: defaultTextStyle.copyWith(
-                    color: color,
-                    decoration: decoration,
-                  ),
+    return Card(
+      child: Row(
+        children: [
+          Expanded(
+            child: CheckboxListTile(
+              contentPadding: EdgeInsets.all(0),
+              controlAffinity: ListTileControlAffinity.leading,
+              value: item.done,
+              onChanged: (value) => onItemChanged(item, value),
+              title: Text(
+                item.value,
+                style: defaultTextStyle.copyWith(
+                  color: color,
+                  decoration: decoration,
                 ),
               ),
             ),
-            if (reorderEnabled) dragIcon,
-            PopupMenuButton<Choice>(
-              onSelected: (v) => v.action(),
-              itemBuilder: (BuildContext context) {
-                return getChoices(context, item)
-                    .map(buildMoreMenuItem)
-                    .toList();
-              },
-            )
-          ],
-        ),
+          ),
+          if (reorderEnabled) ReorderableListener(child: dragIcon),
+          PopupMenuButton<Choice>(
+            onSelected: (v) => v.action(),
+            itemBuilder: (BuildContext context) {
+              return getChoices(context, item).map(buildMoreMenuItem).toList();
+            },
+          )
+        ],
       ),
     );
   }
