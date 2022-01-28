@@ -5,7 +5,7 @@ import 'package:give_a_ride/ui/list/shopping_list_screen.dart';
 import 'package:give_a_ride/ui/splash/splash_screen.dart';
 
 import 'main.dart';
-import 'app_state.dart';
+import 'state/app_state.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 

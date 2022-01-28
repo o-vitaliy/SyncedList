@@ -1,4 +1,4 @@
-package ovi.ru.give_a_ride
+package ua.ovi.shared_shopping_list
 
 import io.flutter.embedding.android.FlutterActivity
 

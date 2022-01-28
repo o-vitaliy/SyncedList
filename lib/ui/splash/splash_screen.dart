@@ -1,9 +1,9 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:give_a_ride/app_state.dart';
+import 'package:give_a_ride/state/app_state.dart';
 import 'package:give_a_ride/ui/widgets/widgets.dart';
 
-import 'check_login.dart';
+import 'check_login_action.dart';
 
 class SplashConnector extends StatelessWidget {
   const SplashConnector({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _Factory extends VmFactory<AppState, SplashConnector> {
 
   @override
   _ViewModel fromStore() => _ViewModel(
-        authorized: state.authorized,
+        authorized: state.loginState.authorized,
       );
 }
 

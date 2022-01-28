@@ -1,22 +1,29 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/foundation.dart';
 
+import 'login_state.dart';
+
 @immutable
 class AppState {
-  final bool? authorized;
+  final LoginState loginState;
+
+  final Wait wait;
 
   const AppState({
-    required this.authorized,
+    required this.loginState,
+    required this.wait,
   });
 
   /// The copy method has a named [wait] parameter of type [Wait].
-  AppState copy({bool? authorized}) => AppState(
-        authorized: authorized ?? this.authorized,
+  AppState copy({LoginState? loginState, Wait? wait}) => AppState(
+        loginState: loginState ?? this.loginState,
+        wait: wait ?? this.wait,
       );
 
   /// The [wait] parameter is instantiated to `Wait()`.
   static AppState initialState() => AppState(
-        authorized: null,
+        loginState: LoginState.initialState(),
+        wait: Wait(),
       );
 
   @override
@@ -24,8 +31,9 @@ class AppState {
       identical(this, other) ||
       other is AppState &&
           runtimeType == other.runtimeType &&
-          authorized == other.authorized;
+          loginState == other.loginState &&
+          wait == other.wait;
 
   @override
-  int get hashCode => authorized.hashCode;
+  int get hashCode => loginState.hashCode ^ wait.hashCode;
 }

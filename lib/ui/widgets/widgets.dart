@@ -19,3 +19,22 @@ void showSnack(BuildContext context, String message) {
   final snackbar = SnackBar(content: Text(message));
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
+
+class LabelButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+
+  const LabelButton({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Text(text),
+    );
+  }
+}
