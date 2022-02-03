@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "syncedlist",
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "appAssociation": "AUTO",
+    "rewrites": [ { "source": "/links/**", "dynamicLinks": true } ]
+  }
+}

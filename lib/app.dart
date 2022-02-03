@@ -31,6 +31,14 @@ class App extends StatelessWidget {
       child: MaterialApp(
         routes: routes,
         navigatorKey: navigatorKey,
+        theme: ThemeData(
+          primaryColor: const Color(0xFFDC5607),
+          primaryColorDark: const Color(0xFFA32400),
+          primaryColorLight: const Color(0xFFFF873D),
+          appBarTheme: const AppBarTheme(color: Color(0xFFDC5607)),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              backgroundColor: Color(0xFFDC5607)),
+        ),
         localizationsDelegates: const [
           AppLocalizationsDelegate(),
           GlobalMaterialLocalizations.delegate,

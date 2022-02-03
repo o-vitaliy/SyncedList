@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>SyncedList</title>
+  <meta name="description" content="SyncedList">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="SyncedList">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="SyncedList main page">
+  <meta property="og:url" content="https://syncedlist.web.app">
+  <meta property="og:image" content="https://syncedlist.web.app/mstile-310x150.png">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#E5F0FF">
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background-color: #DC5607;
+      color: #ececec;
+      margin: 0;
+      padding: 0;
+    }
+    h1{
+      color: #ececec;
+      font-size: 30px;
+      text-align: center;
+    }
+    .logo{
+      position: relative;
+      display: block;
+      width: 200px;
+      height: 200px;
+      margin: 30px auto;
+    }
+    .download-btn{
+      display: block;
+      margin: 0 auto 30px;
+    }
+    .download-btn img{
+      display: block;
+      width: 150px;
+      height: auto;
+      margin: 0 auto;
+    }
+    .text{
+      color: #ececec;
+      width: 80%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .links{
+      display: flex;
+      justify-content: space-around;
+      width: 80%;
+      max-width: 800px;
+      margin: 60px auto 30px;
+    }
+    .links a{
+      color: #ececec;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>SyncedList</h1>
+<img src="shopping-cart.svg" alt="Synced List logo" class="logo">
+<a href="https://play.google.com/store/apps/details?id=ua.ovi.shared_shopping_list" class="download-btn">
+  <img src="google-play-badge-1.svg" alt="download Synced List">
+</a>
+<div id="text" class="text">
+  <p>Простой и удобный в использовании список покупок.
+    С возможностью делиться списками с друзьями и родственниками для совместных походов по магазинам.</p>
+
+  <p>Наши преимущества:</p>
+
+  <strong>Простота в использовании</strong>
+  <p>Удобное добавление, редактирование, удаление товара. Возможность отсортировать товары в нужном вам порядке.
+    Вам больше не нужно долго разбираться в сложных приложениях с большим количеством ненужных функций. Всё просто и интуитивно понятно.</p>
+
+  <strong>Возможность совместного использования списка</strong>
+  <p>Теперь вы можете экономить время и совершать покупки вместе по одному списку.
+    Как только ваш друг/партнер отметил товар купленным - вы сразу же увидите изменение в списке. Вам нужно только данное приложение и доступ к Интернету.</p>
+</div>
+
+<div class="links">
+  <a href="terms.html">Terms &amp; Conditions</a>
+  <a href="privacy.html">Privacy Policy</a>
+</div>
+
+
+</body>
+<script>
+
+    function load(path,callback) {
+        let xobj = new XMLHttpRequest();
+        //xobj.overrideMimeType("application/json");
+        xobj.open('GET', path, true);
+        xobj.onreadystatechange = function () {
+            if (xobj.readyState == 4 && xobj.status == "200") {
+                callback(xobj.responseText);
+            }
+        };
+        xobj.send(null);
+    }
+
+    let lang = window.navigator.languages ? window.navigator.languages[0] : null;
+    lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
+
+    let shortLang = lang;
+    if (shortLang.indexOf('-') !== -1)
+        shortLang = shortLang.split('-')[0];
+
+    if (shortLang.indexOf('_') !== -1)
+        shortLang = shortLang.split('_')[0];
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var lngData;
+        load('lng.json', function(response) {
+            lngData = JSON.parse(response);
+            if (lngData &&  lngData[shortLang]){
+                load(lngData[shortLang], function(response) {
+                    let textElem = document.getElementById("text");
+                    textElem.innerHTML = response;
+                });
+            }
+        });
+
+
+    });
+
+</script>
+</html>
