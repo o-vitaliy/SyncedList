@@ -17,7 +17,7 @@ abstract class BaseLogin extends ReduxAction<AppState> {
 
       final loginState = state.loginState.copy(authorized: true);
 
-      return state.copy(loginState: loginState);
+      return state.copyWith(loginState: loginState);
     } on FirebaseException catch (e) {
       throw UserException(e.message ?? "Some thing went wrong");
     }

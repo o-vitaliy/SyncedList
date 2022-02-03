@@ -33,7 +33,7 @@ class AuthDataSource {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return await _auth.signInWithCredential(credential);
   }
 
   Future loginViaFacebook() async {
@@ -53,6 +53,8 @@ class AuthDataSource {
         FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     // Once signed in, return the UserCredential
-    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    return _auth.signInWithCredential(facebookAuthCredential);
   }
+
+  String? userId() => _auth.currentUser?.uid;
 }
