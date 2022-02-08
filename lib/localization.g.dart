@@ -80,7 +80,7 @@ final localizedLabels = <Locale, AppLocalizationsData>{
     newListName: 'Название нового списка',
     ok: 'ОК',
     cancel: 'Отмена',
-    save: 'Сохранять',
+    save: 'Сохранить',
     view: 'Вид',
     unexpectedError: 'Мы сожалеем. Произошла неожиданная ошибка :((',
     passwordMatch: 'Пароли не совпадают',

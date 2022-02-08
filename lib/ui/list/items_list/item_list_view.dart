@@ -30,7 +30,7 @@ class ListItemsView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(args.name),
-          actions: [const ItemListSortWidget(), _share(args)],
+          actions: [const ItemListSortWidget(), _share(context, args)],
         ),
         floatingActionButton: _createListButton(context, args.id),
         body: _ListItemsConnector(args: args));
@@ -47,10 +47,11 @@ class ListItemsView extends StatelessWidget {
     rename(context, listId, null);
   }
 
-  Widget _share(UserList list) {
+  Widget _share(BuildContext context, UserList list) {
+    final l = Localizations.of(context, AppLocalizationsData);
     return IconButton(
       icon: const Icon(Icons.share),
-      tooltip: "Share",
+      tooltip: l.share,
       onPressed: () => mainStore.dispatch(UserListActionShare(list)),
     );
   }
