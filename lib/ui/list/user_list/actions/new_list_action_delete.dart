@@ -1,8 +1,8 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:get_it/get_it.dart';
-import 'package:give_a_ride/data/entities/user_list.dart';
-import 'package:give_a_ride/data/repos/lists_repo.dart';
-import 'package:give_a_ride/state/app_state.dart';
+import 'package:shopping_list/data/entities/user_list.dart';
+import 'package:shopping_list/data/repos/lists_repo.dart';
+import 'package:shopping_list/state/app_state.dart';
 
 class UserListActionDelete extends ReduxAction<AppState> {
   final UserList item;

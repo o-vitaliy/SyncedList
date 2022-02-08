@@ -1,4 +1,4 @@
-# give_a_ride
+# shopping_list
 
 GiveARide Flutter project.
 

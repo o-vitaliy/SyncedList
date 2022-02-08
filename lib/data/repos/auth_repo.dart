@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:give_a_ride/data/sources/auth/auth_datasource.dart';
+import 'package:shopping_list/data/sources/auth/auth_datasource.dart';
 
 class AuthRepo {
   AuthDataSource get _dataSource => GetIt.I.get<AuthDataSource>();

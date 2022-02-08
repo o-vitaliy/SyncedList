@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:give_a_ride/localization.dart';
+import 'package:shopping_list/localization.dart';
 
 class ListItemEmpty extends StatelessWidget {
   const ListItemEmpty({Key? key}) : super(key: key);

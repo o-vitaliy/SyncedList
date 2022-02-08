@@ -1,7 +1,7 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:give_a_ride/state/app_state.dart';
-import 'package:give_a_ride/ui/widgets/widgets.dart';
+import 'package:shopping_list/state/app_state.dart';
+import 'package:shopping_list/ui/widgets/widgets.dart';
 
 import 'check_login_action.dart';
 

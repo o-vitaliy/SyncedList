@@ -4,7 +4,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:give_a_ride/localization.dart';
+import 'package:shopping_list/localization.dart';
 
 void defaultUserExceptionDialog(
   BuildContext context,

@@ -1,6 +1,6 @@
 {
-    "name": "give_a_ride",
-    "short_name": "give_a_ride",
+    "name": "shopping_list",
+    "short_name": "shopping_list",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

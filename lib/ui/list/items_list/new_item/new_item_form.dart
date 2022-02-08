@@ -1,9 +1,9 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:give_a_ride/data/validators/validator.dart';
-import 'package:give_a_ride/localization.dart';
-import 'package:give_a_ride/ui/widgets/dialogs.dart';
-import 'package:give_a_ride/ui/widgets/widgets.dart';
+import 'package:shopping_list/data/validators/validator.dart';
+import 'package:shopping_list/localization.dart';
+import 'package:shopping_list/ui/widgets/dialogs.dart';
+import 'package:shopping_list/ui/widgets/widgets.dart';
 
 import 'new_item_action_add.dart';
 import 'new_item_action_change_name.dart';

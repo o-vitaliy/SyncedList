@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
-import 'package:give_a_ride/data/entities/user_list.dart';
-import 'package:give_a_ride/data/sources/prefs/prefs_data_source.dart';
+import 'package:shopping_list/data/entities/user_list.dart';
+import 'package:shopping_list/data/sources/prefs/prefs_data_source.dart';
 
 const parts = "=";
 const itemsJoint = "&";

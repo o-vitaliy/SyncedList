@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
-import 'package:give_a_ride/data/entities/choice.dart';
-import 'package:give_a_ride/data/entities/shopping_item.dart';
-import 'package:give_a_ride/localization.dart';
-import 'package:give_a_ride/ui/list/user_list/user_lists_view.dart';
+import 'package:shopping_list/data/entities/choice.dart';
+import 'package:shopping_list/data/entities/shopping_item.dart';
+import 'package:shopping_list/localization.dart';
+import 'package:shopping_list/ui/list/user_list/user_lists_view.dart';
 
 const dragIcon = Icon(Icons.drag_handle, color: Colors.black26);
 

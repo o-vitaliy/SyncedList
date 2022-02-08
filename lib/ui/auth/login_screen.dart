@@ -1,8 +1,8 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:give_a_ride/ui/auth/actions/login_via_facebook.dart';
-import 'package:give_a_ride/ui/auth/actions/login_via_google.dart';
-import 'package:give_a_ride/ui/widgets/widgets.dart';
+import 'package:shopping_list/ui/auth/actions/login_via_facebook.dart';
+import 'package:shopping_list/ui/auth/actions/login_via_google.dart';
+import 'package:shopping_list/ui/widgets/widgets.dart';
 
 import '../../state/app_state.dart';
 import 'actions/login_as_anonymous.dart';

@@ -2,9 +2,9 @@ import 'package:async_redux/async_redux.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:give_a_ride/ui/auth/login_screen.dart';
-import 'package:give_a_ride/ui/list/items_list/item_list_view.dart';
-import 'package:give_a_ride/ui/splash/splash_screen.dart';
+import 'package:shopping_list/ui/auth/login_screen.dart';
+import 'package:shopping_list/ui/list/items_list/item_list_view.dart';
+import 'package:shopping_list/ui/splash/splash_screen.dart';
 
 import 'localization.dart';
 import 'main.dart';

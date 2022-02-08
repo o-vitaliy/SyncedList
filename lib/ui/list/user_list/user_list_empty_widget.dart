@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:give_a_ride/localization.dart';
+import 'package:shopping_list/localization.dart';
 
 class UserListEmptyWidget extends StatelessWidget {
   final _lineBreak = const TextSpan(text: "\n");

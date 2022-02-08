@@ -1,10 +1,10 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:give_a_ride/data/entities/item_sort.dart';
-import 'package:give_a_ride/localization.dart';
-import 'package:give_a_ride/state/app_state.dart';
-import 'package:give_a_ride/ui/widgets/tiles.dart';
-import 'package:give_a_ride/ui/widgets/widgets.dart';
+import 'package:shopping_list/data/entities/item_sort.dart';
+import 'package:shopping_list/localization.dart';
+import 'package:shopping_list/state/app_state.dart';
+import 'package:shopping_list/ui/widgets/tiles.dart';
+import 'package:shopping_list/ui/widgets/widgets.dart';
 
 import 'sort_action_auto.dart';
 import 'sort_action_one_time.dart';

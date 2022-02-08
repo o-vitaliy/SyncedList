@@ -1,6 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:give_a_ride/data/entities/item_sort.dart';
+import 'package:shopping_list/data/entities/item_sort.dart';
 
 import 'item_list_state.dart';
 import 'login_state.dart';

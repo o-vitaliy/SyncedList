@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:give_a_ride/data/entities/user_list.dart';
+import 'package:shopping_list/data/entities/user_list.dart';
 
 @immutable
 class UserListState {

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:give_a_ride/localization.dart';
+import 'package:shopping_list/localization.dart';
 
 import 'empty_validator.dart';
 

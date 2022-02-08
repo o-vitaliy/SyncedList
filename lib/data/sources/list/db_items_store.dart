@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:give_a_ride/data/entities/new_shopping_item.dart';
-import 'package:give_a_ride/data/entities/shopping_item.dart';
+import 'package:shopping_list/data/entities/new_shopping_item.dart';
+import 'package:shopping_list/data/entities/shopping_item.dart';
 
 const _items = "items";
 const _products = "products";

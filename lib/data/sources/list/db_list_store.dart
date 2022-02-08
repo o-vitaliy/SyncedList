@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:give_a_ride/data/entities/user_list.dart';
+import 'package:shopping_list/data/entities/user_list.dart';
 
 const _lists = "lists";
 

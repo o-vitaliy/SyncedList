@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:get_it/get_it.dart';
-import 'package:give_a_ride/data/entities/new_shopping_item.dart';
-import 'package:give_a_ride/data/entities/shopping_item.dart';
-import 'package:give_a_ride/data/sources/list/db_items_store.dart';
+import 'package:shopping_list/data/entities/new_shopping_item.dart';
+import 'package:shopping_list/data/entities/shopping_item.dart';
+import 'package:shopping_list/data/sources/list/db_items_store.dart';
 
 class ItemsListRepo {
   DbItemsStore get _store => GetIt.I.get<DbItemsStore>();

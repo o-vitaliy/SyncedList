@@ -1,9 +1,9 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:get_it/get_it.dart';
-import 'package:give_a_ride/data/repos/auth_repo.dart';
-import 'package:give_a_ride/data/repos/invites_repo.dart';
-import 'package:give_a_ride/deeplinks/deeplink.dart';
-import 'package:give_a_ride/state/app_state.dart';
+import 'package:shopping_list/data/repos/auth_repo.dart';
+import 'package:shopping_list/data/repos/invites_repo.dart';
+import 'package:shopping_list/deeplinks/deeplink.dart';
+import 'package:shopping_list/state/app_state.dart';
 
 import 'new_list_action_add_from_invites.dart';
 

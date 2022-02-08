@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
-import 'package:give_a_ride/data/entities/user_list.dart';
-import 'package:give_a_ride/ui/widgets/reorderable_list_simple.dart';
+import 'package:shopping_list/data/entities/user_list.dart';
+import 'package:shopping_list/ui/widgets/reorderable_list_simple.dart';
 
 import 'user_list_item_widget.dart';
 import 'user_lists_view.dart';

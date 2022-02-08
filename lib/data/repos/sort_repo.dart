@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
-import 'package:give_a_ride/data/entities/item_sort.dart';
-import 'package:give_a_ride/data/sources/prefs/prefs_data_source.dart';
+import 'package:shopping_list/data/entities/item_sort.dart';
+import 'package:shopping_list/data/sources/prefs/prefs_data_source.dart';
 
 const _key = "sorts";
 

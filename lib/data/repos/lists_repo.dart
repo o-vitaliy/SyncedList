@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:get_it/get_it.dart';
-import 'package:give_a_ride/data/entities/user_list.dart';
-import 'package:give_a_ride/data/sources/auth/auth_datasource.dart';
-import 'package:give_a_ride/data/sources/list/db_list_store.dart';
+import 'package:shopping_list/data/entities/user_list.dart';
+import 'package:shopping_list/data/sources/auth/auth_datasource.dart';
+import 'package:shopping_list/data/sources/list/db_list_store.dart';
 
 class ListsRepo {
   DbListStore get _store => GetIt.I.get<DbListStore>();
