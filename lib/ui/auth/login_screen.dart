@@ -4,6 +4,7 @@ import 'package:shopping_list/ui/auth/actions/login_via_facebook.dart';
 import 'package:shopping_list/ui/auth/actions/login_via_google.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
+import '../../localization.dart';
 import '../../state/app_state.dart';
 import 'actions/login_as_anonymous.dart';
 
@@ -12,9 +13,10 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = Localizations.of(context, AppLocalizationsData);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: Text(l.login.title),
       ),
       body: UserExceptionDialog<AppState>(
         child: StoreConnector<AppState, _ViewModel>(
@@ -76,10 +78,12 @@ class _Page extends StatelessWidget {
             onPressed: loginAsAnonymous,
             text: "Login as Anonymous",
           ),
+          defaultSpacer8(),
           LabelButton(
             onPressed: loginViaGoogle,
             text: "Login with Google",
           ),
+          defaultSpacer8(),
           LabelButton(
             onPressed: loginViaFacebook,
             text: "Login with Facebook",

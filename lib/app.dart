@@ -37,7 +37,13 @@ class App extends StatelessWidget {
           primaryColorLight: const Color(0xFFFF873D),
           appBarTheme: const AppBarTheme(color: Color(0xFFDC5607)),
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
-              backgroundColor: Color(0xFFDC5607)),
+            backgroundColor: Color(0xFFDC5607),
+          ),
+          elevatedButtonTheme:  ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                primary: const Color(0xFFDC5607),
+              )
+          )
         ),
         localizationsDelegates: const [
           AppLocalizationsDelegate(),

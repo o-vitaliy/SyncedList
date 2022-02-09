@@ -13,7 +13,7 @@ abstract class BaseLogin extends ReduxAction<AppState> {
   Future<AppState> reduce() async {
     try {
       await login();
-      dispatch(NavigateAction.pushNamed("/main"));
+      dispatch(NavigateAction.pushReplacementNamed("/main"));
 
       final loginState = state.loginState.copy(authorized: true);
 
