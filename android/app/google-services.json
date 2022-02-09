@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "361380982242",
+    "firebase_url": "https://whattobuy-e3713.firebaseio.com",
+    "project_id": "whattobuy-e3713",
+    "storage_bucket": "whattobuy-e3713.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361380982242:android:a3354234f65716cce29dbb",
+        "android_client_info": {
+          "package_name": "ovi.ru.give_a_ride"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361380982242-hk4rg0cdviajk9udp23945cecs7hdef4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7sN6Whl1uXviK6vLRxygi0UQI7gY9NVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361380982242-hk4rg0cdviajk9udp23945cecs7hdef4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "361380982242-5hebee5eceormcdknn54vnqfetqq65js.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ua.ovi.sharedshoppinglist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361380982242:android:361f81eb522783d7e29dbb",
+        "android_client_info": {
+          "package_name": "ua.ovi.shared_shopping_list"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361380982242-78qrre9ugb2dsilst0r1fo1i6htqjtcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ua.ovi.shared_shopping_list",
+            "certificate_hash": "3820f680bff5d383b7bd413d1b6b025d95d9b430"
+          }
+        },
+        {
+          "client_id": "361380982242-hk4rg0cdviajk9udp23945cecs7hdef4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7sN6Whl1uXviK6vLRxygi0UQI7gY9NVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361380982242-hk4rg0cdviajk9udp23945cecs7hdef4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "361380982242-5hebee5eceormcdknn54vnqfetqq65js.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ua.ovi.sharedshoppinglist"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

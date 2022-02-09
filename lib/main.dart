@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -22,15 +25,17 @@ late Store<AppState> mainStore =
 GetIt getIt = GetIt.instance;
 
 void main() async {
+  runZonedGuarded<Future<void>>(() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   setupDependencies();
 
   NavigateAction.setNavigatorKey(navigatorKey);
   runApp(const App());
+} , (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
 
 void setupDependencies() {
