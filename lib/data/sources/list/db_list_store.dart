@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
+import 'package:shopping_list/state/write_errors.dart';
 
 const _lists = "lists";
 
@@ -28,31 +29,31 @@ class DbListStore {
       members: [userId],
     );
 
-    _store.doc("$_lists/$key").set(newUserList.toMap());
+    reportWriteFailure(_store.doc("$_lists/$key").set(newUserList.toMap()));
     return newUserList;
   }
 
   Future renameList(String listId, String name) async {
-    _store.doc("$_lists/$listId").update(<String, dynamic>{"name": name});
+    reportWriteFailure(
+      _store.doc("$_lists/$listId").update(<String, dynamic>{"name": name}),
+    );
   }
 
+  // arrayUnion/arrayRemove are atomic, so concurrent joins and leaves
+  // don't overwrite each other's member changes.
   Future addListMember(String listId, String userId) async {
-    final docRef = _store.doc("$_lists/$listId");
-    final members = await _getListMembers(docRef)
-      ..add(userId);
-    await docRef.update(<String, dynamic>{"members": members.toList()});
+    await _store.doc("$_lists/$listId").update(<String, dynamic>{
+      "members": FieldValue.arrayUnion([userId]),
+    });
   }
 
   Future deleteList(String userId, String listId) async {
     final docRef = _store.doc("$_lists/$listId");
-    final Set<String> members = await _getListMembers(docRef)
-      ..remove(userId);
-
-    if (members.isNotEmpty) {
-      await docRef.update(<String, dynamic>{"members": members.toList()});
-    } else {
-      await _store.doc("$_lists/$listId").delete();
-    }
+    await docRef.update(<String, dynamic>{
+      "members": FieldValue.arrayRemove([userId]),
+    });
+    final members = await _getListMembers(docRef);
+    if (members.isEmpty) await docRef.delete();
   }
 
   Future orderList(Map<String, int> reorders) async {
@@ -62,7 +63,7 @@ class DbListStore {
       final docRef = _store.doc("$_lists/$key");
       batch.update(docRef, <String, dynamic>{"order": value});
     });
-    batch.commit();
+    await batch.commit();
   }
 
   static List<UserList> fromQuerySnapshot(QuerySnapshot snapshot) {

@@ -20,6 +20,7 @@ class SortRepo {
 
   Future<ItemSort?> getSort() async {
     final items = await getList();
+    if (items.isEmpty) return null;
     return items.length == 2 ? ItemSort.nameDone : items.first;
   }
 

@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+/// Thrown when the user dismisses a sign-in flow without signing in.
+class LoginCancelled implements Exception {}
+
 class AuthDataSource {
   late final FirebaseAuth _auth;
   Future<void>? _googleInit;
@@ -28,7 +31,7 @@ class AuthDataSource {
     try {
       googleUser = await googleSignIn.authenticate();
     } on GoogleSignInException catch (e) {
-      if (e.code == GoogleSignInExceptionCode.canceled) return null;
+      if (e.code == GoogleSignInExceptionCode.canceled) throw LoginCancelled();
       throw UserException(e.description ?? "Some thing went wrong");
     }
 
@@ -41,6 +44,7 @@ class AuthDataSource {
 
   Future loginViaFacebook() async {
     LoginResult loginResult = await FacebookAuth.instance.login();
+    if (loginResult.status == LoginStatus.cancelled) throw LoginCancelled();
 
     if (loginResult.status == LoginStatus.failed) {
       await FacebookAuth.instance.logOut();
@@ -52,7 +56,7 @@ class AuthDataSource {
     }
 
     final accessToken = loginResult.accessToken;
-    if (accessToken == null) return null;
+    if (accessToken == null) throw LoginCancelled();
 
     final OAuthCredential facebookAuthCredential =
         FacebookAuthProvider.credential(accessToken.tokenString);

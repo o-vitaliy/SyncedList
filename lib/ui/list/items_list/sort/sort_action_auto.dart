@@ -28,6 +28,11 @@ class SortActionAuto extends ReduxAction<AppState> {
 
   @override
   void after() {
-    dispatch(ItemListActionChangeList(state.itemListState?.items ?? []));
+    final itemListState = state.itemListState;
+    if (itemListState != null) {
+      dispatch(
+        ItemListActionChangeList(itemListState.list.id, itemListState.items),
+      );
+    }
   }
 }

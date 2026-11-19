@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:async_redux/async_redux.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shopping_list/data/repos/auth_repo.dart';
+import 'package:shopping_list/ui/list/new_list/actions/new_list_action_add_from_invites.dart';
 
 import '/state/app_state.dart';
 
@@ -20,6 +21,7 @@ class CheckLoginAction extends ReduxAction<AppState> {
   @override
   void after() {
     if (state.loginState.authorized == true) {
+      dispatch(NewListActionAddFromInvite());
       dispatch(NavigateAction.pushReplacementNamed("/main"));
     } else {
       dispatch(NavigateAction.pushReplacementNamed("/login"));

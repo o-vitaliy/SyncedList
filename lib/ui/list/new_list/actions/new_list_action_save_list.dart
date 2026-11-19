@@ -18,12 +18,13 @@ class NewListActionSaveList extends ReduxAction<NewListState> {
   @override
   Future<NewListState> reduce() async {
     final repo = GetIt.I.get<ListsRepo>();
+    final name = state.name.trim();
     if (state.id == null) {
-      final result = await repo.createUserList(state.name);
+      final result = await repo.createUserList(name);
       return state.copyWith(savedEvent: Event<UserList>(result));
     } else {
-      await repo.saveUserList(ArgumentError.checkNotNull(state.id), state.name);
-      return state.copyWith(editedEvent: Event<String>(state.name));
+      await repo.saveUserList(ArgumentError.checkNotNull(state.id), name);
+      return state.copyWith(editedEvent: Event<String>(name));
     }
   }
 }

@@ -61,12 +61,19 @@ class _FormContainer extends StatefulWidget {
 }
 
 class _FormContainerState extends State<_FormContainer> {
+  final _formKey = GlobalKey<FormState>();
+
   _ViewModel get vm => widget.vm;
+
+  void _onSave() {
+    if (_formKey.currentState?.validate() == true) vm.save();
+  }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return Form(
+      key: _formKey,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -86,7 +93,7 @@ class _FormContainerState extends State<_FormContainer> {
                   onPressed: () => Navigator.pop(context),
                 ),
                 defaultSpacer(),
-                ElevatedButton(onPressed: vm.save, child: Text(l.save)),
+                ElevatedButton(onPressed: _onSave, child: Text(l.save)),
               ],
             )
           else

@@ -30,6 +30,9 @@ class App extends StatelessWidget {
       store: mainStore,
       child: MaterialApp(
         routes: routes,
+        // Shows UserExceptions from any action, via NavigateAction.navigatorKey.
+        builder: (context, child) =>
+            UserExceptionDialog<AppState>(child: child!),
         navigatorKey: navigatorKey,
         theme: ThemeData(
           primaryColor: const Color(0xFFDC5607),

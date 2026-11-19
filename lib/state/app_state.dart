@@ -89,6 +89,16 @@ class AppState {
     );
   }
 
+  /// [copyWith] can't set a field to null, so clearing the open list needs this.
+  AppState withoutItemList() => AppState(
+    loginState: loginState,
+    userListState: userListState,
+    itemListState: null,
+    loginToViewList: loginToViewList,
+    joinedToList: joinedToList,
+    sorts: sorts,
+  );
+
   Map<String, dynamic> toMap() {
     return {
       'loginState': loginState,

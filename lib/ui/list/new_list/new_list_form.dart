@@ -10,8 +10,6 @@ import 'actions/new_list_action_change_name.dart';
 import 'actions/new_list_action_save_list.dart';
 import 'new_list_state.dart';
 
-final _formKey = GlobalKey<FormState>();
-
 class NewListForm extends StatefulWidget {
   final Store<NewListState> store;
   final String? initialName;
@@ -74,6 +72,8 @@ class _FormContainer extends StatefulWidget {
 }
 
 class _FormContainerState extends State<_FormContainer> {
+  final _formKey = GlobalKey<FormState>();
+
   String get initialName => widget.initialName;
 
   bool get loading => widget.loading;

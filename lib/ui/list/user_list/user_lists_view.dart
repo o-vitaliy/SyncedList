@@ -29,6 +29,7 @@ class UserListsView extends StatelessWidget {
       floatingActionButton: _createListButton(context),
       body: StoreConnector<AppState, _ViewModel>(
         converter: _ViewModel.fromStore,
+        onInitialBuild: (_, s, vm) => _modelChanged(context, vm),
         onDidChange: (_, s, vm) => _modelChanged(context, vm),
         onInit: (store) {
           store.dispatch(UserListActionInit());

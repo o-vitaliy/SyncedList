@@ -16,17 +16,24 @@ class LoginScreen extends StatelessWidget {
     final l = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(l.loginTitle)),
-      body: UserExceptionDialog<AppState>(
-        child: StoreConnector<AppState, _ViewModel>(
-          vm: () => _Factory(this),
-          builder: (BuildContext context, _ViewModel vm) => _Page(
-            loginAsAnonymous: vm.loginAsAnonymous,
-            loginViaGoogle: vm.loginViaGoogle,
-            loginViaFacebook: vm.loginViaFacebook,
-          ),
+      body: StoreConnector<AppState, _ViewModel>(
+        vm: () => _Factory(this),
+        onInitialBuild: (_, s, vm) => _showInvite(context, vm),
+        onDidChange: (_, s, vm) => _showInvite(context, vm),
+        builder: (BuildContext context, _ViewModel vm) => _Page(
+          loginAsAnonymous: vm.loginAsAnonymous,
+          loginViaGoogle: vm.loginViaGoogle,
+          loginViaFacebook: vm.loginViaFacebook,
         ),
       ),
     );
+  }
+}
+
+void _showInvite(BuildContext context, _ViewModel vm) {
+  final listName = vm.loginToViewList.consume();
+  if (listName != null) {
+    defaultToast(AppLocalizations.of(context).loginToAddList(listName));
   }
 }
 
@@ -38,6 +45,7 @@ class _Factory extends VmFactory<AppState, LoginScreen, _ViewModel> {
     loginAsAnonymous: () => dispatch(LoginAsAnonymousAction()),
     loginViaGoogle: () => dispatch(LoginViaGoogle()),
     loginViaFacebook: () => dispatch(LoginViaFacebook()),
+    loginToViewList: state.loginToViewList,
   );
 }
 
@@ -45,12 +53,14 @@ class _ViewModel extends Vm {
   final VoidCallback loginAsAnonymous;
   final VoidCallback loginViaGoogle;
   final VoidCallback loginViaFacebook;
+  final Event<String> loginToViewList;
 
   _ViewModel({
     required this.loginAsAnonymous,
     required this.loginViaGoogle,
     required this.loginViaFacebook,
-  }) : super(equals: []);
+    required this.loginToViewList,
+  }) : super(equals: [loginToViewList]);
 }
 
 class _Page extends StatelessWidget {

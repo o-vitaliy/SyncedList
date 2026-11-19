@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shopping_list/data/entities/shopping_item.dart';
 import 'package:shopping_list/data/repos/user_lists_repo.dart';
 import 'package:shopping_list/state/app_state.dart';
+import 'package:shopping_list/state/write_errors.dart';
 
 class ItemListActionDone extends ReduxAction<AppState> {
   final ShoppingItem item;
@@ -21,7 +22,9 @@ class ItemListActionDone extends ReduxAction<AppState> {
       }
     });
     final repo = GetIt.I.get<ItemsListRepo>();
-    repo.changeItemDone(itemListState.list.id, item.id, done);
+    reportWriteFailure(
+      repo.changeItemDone(itemListState.list.id, item.id, done),
+    );
     final s = itemListState.copyWith(items: items.toList(growable: false));
     return state.copyWith(itemListState: s);
   }

@@ -10,8 +10,12 @@ class ItemsListRepo {
 
   StreamSubscription? _subscription;
 
-  Future<ShoppingItem> addItem(String listId, String itemName) async {
-    final item = NewShoppingItem(value: itemName, done: false, order: 0);
+  Future<ShoppingItem> addItem(
+    String listId,
+    String itemName,
+    int order,
+  ) async {
+    final item = NewShoppingItem(value: itemName, done: false, order: order);
     return _store.addItem(listId, item);
   }
 

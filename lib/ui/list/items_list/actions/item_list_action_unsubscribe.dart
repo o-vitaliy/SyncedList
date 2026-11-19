@@ -8,6 +8,6 @@ class ItemListActionUnsubscribe extends ReduxAction<AppState> {
   AppState reduce() {
     final repo = GetIt.I.get<ItemsListRepo>();
     repo.unsubscribeItems();
-    return state.copyWith(itemListState: null);
+    return state.withoutItemList();
   }
 }

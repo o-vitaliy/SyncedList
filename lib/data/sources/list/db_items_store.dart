@@ -49,7 +49,7 @@ class DbItemsStore {
       final docRef = _store.doc("$_items/$listId/$_products/$key");
       batch.update(docRef, <String, dynamic>{"order": value});
     });
-    batch.commit();
+    await batch.commit();
   }
 
   static List<ShoppingItem> fromQuerySnapshot(QuerySnapshot snapshot) {

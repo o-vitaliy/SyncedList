@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shopping_list/data/repos/lists_repo.dart';
 import 'package:shopping_list/state/app_state.dart';
+import 'package:shopping_list/state/write_errors.dart';
 
 class UserListActionReorder extends ReduxAction<AppState> {
   final int oldPos;
@@ -30,7 +31,7 @@ class UserListActionReorder extends ReduxAction<AppState> {
         .sublist(start, end)
         .forEachIndexed((i, e) => changes[e.id] = start + i);
 
-    repo.orderList(changes);
+    reportWriteFailure(repo.orderList(changes));
 
     return state.copyWith(
       userListState: state.userListState!.copyWith(list: items),
