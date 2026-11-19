@@ -1,4 +1,3 @@
-import 'package:async_redux/async_redux.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -7,7 +6,7 @@ class LoginState {
 
   const LoginState({required this.authorized});
 
-  LoginState copy({bool? authorized, Wait? waitLogin}) =>
+  LoginState copy({bool? authorized}) =>
       LoginState(authorized: authorized ?? this.authorized);
 
   static LoginState initialState() => LoginState(authorized: null);

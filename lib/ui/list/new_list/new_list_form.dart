@@ -23,10 +23,7 @@ class NewListForm extends StatefulWidget {
     initialName: name,
   );
 
-  const NewListForm._({
-    required this.store,
-    required this.initialName,
-  });
+  const NewListForm._({required this.store, required this.initialName});
 
   @override
   State<StatefulWidget> createState() => _NewListFormState();
@@ -94,7 +91,6 @@ class _FormContainerState extends State<_FormContainer> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context);
     return Form(
       key: _formKey,
       child: Column(

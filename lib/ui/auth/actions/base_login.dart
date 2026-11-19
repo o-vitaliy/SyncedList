@@ -4,8 +4,6 @@ import 'package:async_redux/async_redux.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shopping_list/state/app_state.dart';
 
-const String waitLoginAction = "waitLoginAction";
-
 abstract class BaseLogin extends ReduxAction<AppState> {
   Future login();
 
@@ -22,10 +20,4 @@ abstract class BaseLogin extends ReduxAction<AppState> {
       throw UserException(e.message ?? "Some thing went wrong");
     }
   }
-
-  @override
-  void before() => dispatch(WaitAction.add(waitLoginAction));
-
-  @override
-  void after() => dispatch(WaitAction.remove(waitLoginAction));
 }

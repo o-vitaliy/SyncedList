@@ -19,7 +19,7 @@ class SplashConnector extends StatelessWidget {
 }
 
 class _Factory extends VmFactory<AppState, SplashConnector, _ViewModel> {
-  _Factory(widget) : super(widget);
+  _Factory(SplashConnector super.widget);
 
   @override
   _ViewModel fromStore() => _ViewModel(authorized: state.loginState.authorized);

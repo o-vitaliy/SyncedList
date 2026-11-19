@@ -29,7 +29,7 @@ class UserListsView extends StatelessWidget {
       floatingActionButton: _createListButton(context),
       body: StoreConnector<AppState, _ViewModel>(
         converter: _ViewModel.fromStore,
-        onDidChange: (_, s, vm) => modelChanged(context, vm),
+        onDidChange: (_, s, vm) => _modelChanged(context, vm),
         onInit: (store) {
           store.dispatch(UserListActionInit());
           store.dispatch(UserListActionSubscribe());
@@ -55,8 +55,8 @@ class UserListsView extends StatelessWidget {
   Widget _list(BuildContext c, _ViewModel vm) {
     return UserListsWidget(
       items: vm.items,
-      delete: (c, i) => delete(c, i, vm),
-      share: (c, i) => share(c, i, vm),
+      delete: (c, i) => _delete(c, i, vm),
+      share: (c, i) => _share(c, i, vm),
       rename: rename,
       reorder: (i, o, n) => vm.reorder(o, n),
     );
@@ -73,18 +73,18 @@ class UserListsView extends StatelessWidget {
     rename(context, null);
   }
 
-  void share(BuildContext context, UserList item, _ViewModel vm) {
+  void _share(BuildContext context, UserList item, _ViewModel vm) {
     vm.share(item);
   }
 
-  void delete(BuildContext context, UserList item, _ViewModel vm) {
+  void _delete(BuildContext context, UserList item, _ViewModel vm) {
     final l = AppLocalizations.of(context);
     confirmDialog(context, l.deleteListConfirm, () {
       vm.delete(item);
     });
   }
 
-  void modelChanged(BuildContext context, _ViewModel vm) {
+  void _modelChanged(BuildContext context, _ViewModel vm) {
     final invite = vm.inviteEvent.consume();
     if (invite != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

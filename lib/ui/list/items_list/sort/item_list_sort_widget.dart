@@ -26,14 +26,15 @@ class ItemListSortWidget extends StatelessWidget {
       onSelected: (v) => vm.sortChanged(v),
       icon: const Icon(Icons.sort),
       itemBuilder: (BuildContext context) {
-        return [_title(context, "${l.sortAuto}:"), ...ItemSortHelper.autoSorts().map(
-              (e) => _sortCheckboxes(context, e, vm),
-            ), const PopupMenuDivider(), _title(context, "${l.sortOneTime}:")]
-          
-          
-          
-          
-          ..addAll(ItemSortHelper.manualSorts().map((e) => _sorts(context, e)));
+        return [
+          _title(context, "${l.sortAuto}:"),
+          ...ItemSortHelper.autoSorts().map(
+            (e) => _sortCheckboxes(context, e, vm),
+          ),
+          const PopupMenuDivider(),
+          _title(context, "${l.sortOneTime}:"),
+          ...ItemSortHelper.manualSorts().map((e) => _sorts(context, e)),
+        ];
       },
     );
   }
@@ -75,9 +76,9 @@ class ItemListSortWidget extends StatelessWidget {
 
 @immutable
 class _ViewModel extends Vm {
-  List<ItemSort>? selectedSorts;
-  Function(ItemSort) sortChanged;
-  Function(ItemSort, bool) autoSortChanged;
+  final List<ItemSort>? selectedSorts;
+  final Function(ItemSort) sortChanged;
+  final Function(ItemSort, bool) autoSortChanged;
 
   _ViewModel({
     required this.selectedSorts,

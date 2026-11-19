@@ -27,7 +27,10 @@ class UserListState {
 
   @override
   String toString() {
-    return 'UserListState{' ' loading: $loading,' ' list: $list,' '}';
+    return 'UserListState{'
+        ' loading: $loading,'
+        ' list: $list,'
+        '}';
   }
 
   UserListState copyWith({bool? loading, List<UserList>? list}) {

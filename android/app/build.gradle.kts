@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -6,6 +8,15 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 }
+
+// Release signing reads android/key.properties (gitignored). Without it, or
+// without the keystore it points to, builds fall back to the debug key.
+val keyProperties = Properties().apply {
+    val f = rootProject.file("key.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+val releaseKeystore: File? = keyProperties.getProperty("storeFile")?.let { rootProject.file(it) }
+val hasReleaseKey = releaseKeystore?.exists() == true
 
 android {
     namespace = "ua.ovi.shared_shopping_list"
@@ -25,20 +36,19 @@ android {
         versionName = flutter.versionName
     }
 
-    // The upload keystore isn't in the repo; without it, builds fall back to the debug key.
-    val releaseKeystore = file("../keys/key.jks")
-
     signingConfigs {
         create("release") {
-            storeFile = file("../keys/key.jks")
-            storePassword = "8acw15zcrjgCSc1a"
-            keyAlias = "alias"
-            keyPassword = "asdq3WksF8LLirX6"
+            if (hasReleaseKey) {
+                storeFile = releaseKeystore
+                storePassword = keyProperties.getProperty("storePassword")
+                keyAlias = keyProperties.getProperty("keyAlias")
+                keyPassword = keyProperties.getProperty("keyPassword")
+            }
         }
     }
 
     buildTypes {
-        val signing = signingConfigs.getByName(if (releaseKeystore.exists()) "release" else "debug")
+        val signing = signingConfigs.getByName(if (hasReleaseKey) "release" else "debug")
         debug {
             signingConfig = signing
         }

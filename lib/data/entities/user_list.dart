@@ -26,15 +26,11 @@ class UserList {
 
   Map<String, dynamic> toMap() {
     // ignore: unnecessary_cast
-    return {
-      'id': id,
-      'name': name,
-      'order': order,
-      'members': members,
-    } as Map<String, dynamic>;
+    return {'id': id, 'name': name, 'order': order, 'members': members}
+        as Map<String, dynamic>;
   }
 
-  static List<UserList> from(value) {
+  static List<UserList> from(dynamic value) {
     if (value == null) {
       return <UserList>[];
     } else if (value is Map) {

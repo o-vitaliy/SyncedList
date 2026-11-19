@@ -15,15 +15,19 @@ void main() {
   for (final locale in AppLocalizations.supportedLocales) {
     testWidgets('loads ${locale.languageCode} translations', (tester) async {
       late AppLocalizations l;
-      await tester.pumpWidget(MaterialApp(
-        locale: locale,
-        localizationsDelegates: appLocalizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Builder(builder: (context) {
-          l = AppLocalizations.of(context);
-          return const SizedBox();
-        }),
-      ));
+      await tester.pumpWidget(
+        MaterialApp(
+          locale: locale,
+          localizationsDelegates: appLocalizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Builder(
+            builder: (context) {
+              l = AppLocalizations.of(context);
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
 
       expect(l.invitedInToLists('Milk'), contains('Milk'));
       expect(l.loginToAddList('Milk'), contains('Milk'));

@@ -25,10 +25,7 @@ class NewItemForm extends StatelessWidget {
     initialName: name,
   );
 
-  const NewItemForm._({
-    required this.store,
-    required this.initialName,
-  });
+  const NewItemForm._({required this.store, required this.initialName});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +66,6 @@ class _FormContainerState extends State<_FormContainer> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context);
     return Form(
       child: Column(
         mainAxisSize: MainAxisSize.min,

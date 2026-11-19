@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/data/repos/invites_repo.dart';
@@ -22,7 +23,7 @@ class NewListActionAddFromInvite extends ReduxAction<AppState> {
         names.add(item.name);
         item = await invitesRepos.first();
       } catch (e) {
-        print(e);
+        debugPrint("$e");
         break;
       }
     }

@@ -35,7 +35,7 @@ class ShoppingItem {
     );
   }
 
-  static List<ShoppingItem> from(v) {
+  static List<ShoppingItem> from(dynamic v) {
     if (v == null) {
       return <ShoppingItem>[];
     } else if (v is Iterable) {

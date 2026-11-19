@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-SyncedList is a Flutter app (Dart package name `shopping_list`) for shared shopping lists that sync in real time through Firebase (Auth, Firestore, Crashlytics, Hosting). Targets Android (`ua.ovi.shared_shopping_list`), iOS and web. Built with Flutter 3.50 / Dart 3.14 (`sdk: ^3.14.0`). Widgets import `package:material_ui/material_ui.dart` / `package:cupertino_ui/cupertino_ui.dart` (the standalone Material/Cupertino packages), not `package:flutter/material.dart`.
+SyncedList is a Flutter app (Dart package name `shopping_list`) for shared shopping lists that sync in real time through Firebase (Auth, Firestore, Crashlytics, Hosting). Targets Android (`ua.ovi.shared_shopping_list`), iOS (`ua.ovi.sharedshoppinglist`) and web. Built with Flutter 3.50 / Dart 3.14 (`sdk: ^3.14.0`). Widgets import `package:material_ui/material_ui.dart` / `package:cupertino_ui/cupertino_ui.dart` (the standalone Material/Cupertino packages), not `package:flutter/material.dart`.
 
 ## Commands
 
@@ -23,7 +23,7 @@ Localization code generation (also runs automatically on `pub get`/build, since 
 flutter gen-l10n
 ```
 
-Android builds need JDK 17+ (`JAVA_HOME`). The Gradle build is Kotlin DSL (`android/*.gradle.kts`); without `android/keys/key.jks` it signs with the debug key.
+Android builds need JDK 17+ (`JAVA_HOME`). The Gradle build is Kotlin DSL (`android/*.gradle.kts`); release signing reads the gitignored `android/key.properties` (`storeFile` relative to `android/`, `storePassword`, `keyAlias`, `keyPassword`); without it or the keystore it points to, it signs with the debug key.
 
 Firebase Hosting (landing page, privacy/terms, and the `/.well-known` App Links / Universal Links files) lives in `firebase_hosting/`; deploy from that directory with `firebase deploy --only hosting`.
 

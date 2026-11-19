@@ -39,8 +39,6 @@ class ItemSortHelper {
         return "done";
       case ItemSort.nameDone:
         return "name_done";
-      default:
-        throw UnsupportedError("unknown type $sort");
     }
   }
 
@@ -52,8 +50,6 @@ class ItemSortHelper {
         return Icons.done;
       case ItemSort.nameDone:
         return Icons.spellcheck;
-      default:
-        throw UnsupportedError("unknown type $sort");
     }
   }
 
@@ -66,8 +62,6 @@ class ItemSortHelper {
         return l.sortDone;
       case ItemSort.nameDone:
         return l.sortNameDone;
-      default:
-        throw UnsupportedError("unknown type $sort");
     }
   }
 

@@ -32,7 +32,11 @@ class ItemListState {
 
   @override
   String toString() {
-    return 'ItemListState{' ' list: $list,' ' loading: $loading,' ' items: $items,' '}';
+    return 'ItemListState{'
+        ' list: $list,'
+        ' loading: $loading,'
+        ' items: $items,'
+        '}';
   }
 
   ItemListState copyWith({

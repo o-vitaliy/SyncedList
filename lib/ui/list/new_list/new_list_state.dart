@@ -56,9 +56,13 @@ class NewListState {
 
   @override
   String toString() {
-    return 'NewListState{' ' id: $id,' ' name: $name,' ' loading: $loading,' ' savedEvent: $savedEvent,' +
-        ' editedEvent: $editedEvent,' +
-        ' error: $error,' +
+    return 'NewListState{'
+        ' id: $id,'
+        ' name: $name,'
+        ' loading: $loading,'
+        ' savedEvent: $savedEvent,'
+        ' editedEvent: $editedEvent,'
+        ' error: $error,'
         '}';
   }
 

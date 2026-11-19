@@ -2,12 +2,12 @@ import 'dart:core';
 
 import 'validator.dart';
 
-enum type { None, Alphabetic, Numeric, AlphaNumeric }
+enum _DomainType { none, alphabetic, numeric }
 
 class EmailValidator extends Validator {
   static int _index = 0;
   static const String _atomCharacters = "!#\$%&'*+-/=?^_`{|}~";
-  static type _domainType = type.None;
+  static _DomainType _domainType = _DomainType.none;
 
   @override
   dynamic valid(String value, dynamic error) {
@@ -36,12 +36,12 @@ class EmailValidator extends Validator {
   static bool _isDomain(String c, bool allowInternational) {
     if (c.codeUnitAt(0) < 128) {
       if (_isLetter(c) || c == '-') {
-        _domainType = type.Alphabetic;
+        _domainType = _DomainType.alphabetic;
         return true;
       }
 
       if (_isDigit(c)) {
-        _domainType = type.Numeric;
+        _domainType = _DomainType.numeric;
         return true;
       }
 
@@ -49,7 +49,7 @@ class EmailValidator extends Validator {
     }
 
     if (allowInternational) {
-      _domainType = type.Alphabetic;
+      _domainType = _DomainType.alphabetic;
       return true;
     }
 
@@ -59,26 +59,26 @@ class EmailValidator extends Validator {
   static bool _isDomainStart(String c, bool allowInternational) {
     if (c.codeUnitAt(0) < 128) {
       if (_isLetter(c)) {
-        _domainType = type.Alphabetic;
+        _domainType = _DomainType.alphabetic;
         return true;
       }
 
       if (_isDigit(c)) {
-        _domainType = type.Numeric;
+        _domainType = _DomainType.numeric;
         return true;
       }
 
-      _domainType = type.None;
+      _domainType = _DomainType.none;
 
       return false;
     }
 
     if (allowInternational) {
-      _domainType = type.Alphabetic;
+      _domainType = _DomainType.alphabetic;
       return true;
     }
 
-    _domainType = type.None;
+    _domainType = _DomainType.none;
 
     return false;
   }
@@ -136,7 +136,7 @@ class EmailValidator extends Validator {
     }
 
     // Note: by allowing AlphaNumeric, we get away with not having to support punycode.
-    if (_domainType == type.Numeric) {
+    if (_domainType == _DomainType.numeric) {
       return false;
     }
 

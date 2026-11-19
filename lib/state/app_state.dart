@@ -10,8 +10,6 @@ import 'user_list_state.dart';
 class AppState {
   final LoginState loginState;
 
-  final Wait wait;
-
   final UserListState? userListState;
   final ItemListState? itemListState;
 
@@ -22,7 +20,6 @@ class AppState {
 
   static AppState initialState() => AppState(
     loginState: LoginState.initialState(),
-    wait: Wait(),
     userListState: null,
     itemListState: null,
     sorts: null,
@@ -34,7 +31,6 @@ class AppState {
 
   const AppState({
     required this.loginState,
-    required this.wait,
     this.userListState,
     this.itemListState,
     required this.loginToViewList,
@@ -48,7 +44,6 @@ class AppState {
       (other is AppState &&
           runtimeType == other.runtimeType &&
           loginState == other.loginState &&
-          wait == other.wait &&
           userListState == other.userListState &&
           itemListState == other.itemListState &&
           loginToViewList == other.loginToViewList &&
@@ -58,7 +53,6 @@ class AppState {
   @override
   int get hashCode =>
       loginState.hashCode ^
-      wait.hashCode ^
       userListState.hashCode ^
       itemListState.hashCode ^
       loginToViewList.hashCode ^
@@ -67,16 +61,18 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState{' ' loginState: $loginState,' ' wait: $wait,' ' userListState: $userListState,' ' itemListState: $itemListState,' +
-        ' loginToViewList: $loginToViewList,' +
-        ' joinedToList: $joinedToList,' +
-        ' sorts: $sorts,' +
+    return 'AppState{'
+        ' loginState: $loginState,'
+        ' userListState: $userListState,'
+        ' itemListState: $itemListState,'
+        ' loginToViewList: $loginToViewList,'
+        ' joinedToList: $joinedToList,'
+        ' sorts: $sorts,'
         '}';
   }
 
   AppState copyWith({
     LoginState? loginState,
-    Wait? wait,
     UserListState? userListState,
     ItemListState? itemListState,
     Event<String>? loginToViewList,
@@ -85,7 +81,6 @@ class AppState {
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
-      wait: wait ?? this.wait,
       userListState: userListState ?? this.userListState,
       itemListState: itemListState ?? this.itemListState,
       loginToViewList: loginToViewList ?? this.loginToViewList,
@@ -97,7 +92,6 @@ class AppState {
   Map<String, dynamic> toMap() {
     return {
       'loginState': loginState,
-      'wait': wait,
       'userListState': userListState,
       'itemListState': itemListState,
       'loginToViewList': loginToViewList,
@@ -109,7 +103,6 @@ class AppState {
   factory AppState.fromMap(Map<String, dynamic> map) {
     return AppState(
       loginState: map['loginState'] as LoginState,
-      wait: map['wait'] as Wait,
       userListState: map['userListState'] as UserListState,
       itemListState: map['itemListState'] as ItemListState,
       loginToViewList: map['loginToViewList'] as Event<String>,

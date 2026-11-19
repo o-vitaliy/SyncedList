@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 class _Factory extends VmFactory<AppState, LoginScreen, _ViewModel> {
-  _Factory(widget) : super(widget);
+  _Factory(LoginScreen super.widget);
 
   @override
   _ViewModel fromStore() => _ViewModel(

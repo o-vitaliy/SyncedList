@@ -1,7 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 
 class LabeledCheckbox extends StatelessWidget {
-  const LabeledCheckbox({super.key, 
+  const LabeledCheckbox({
+    super.key,
     required this.label,
     required this.value,
     required this.onChanged,
@@ -48,7 +49,8 @@ class LabeledRadio<T> extends StatelessWidget {
   final ValueChanged<T?> onChanged;
   final bool extended;
 
-  const LabeledRadio({super.key, 
+  const LabeledRadio({
+    super.key,
     required this.label,
     required this.value,
     required this.groupValue,
@@ -60,13 +62,16 @@ class LabeledRadio<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget builder(BuildContext context) {
-      return Radio(
-        value: value,
+      return RadioGroup<T>(
         groupValue: groupValue,
         onChanged: onChanged,
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        child: Radio<T>(
+          value: value,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
       );
     }
+
     return _LabeledWidget<T>(
       label: label,
       value: value,
@@ -79,7 +84,8 @@ class LabeledRadio<T> extends StatelessWidget {
 }
 
 class LabeledSwitch extends StatelessWidget {
-  const LabeledSwitch({super.key, 
+  const LabeledSwitch({
+    super.key,
     required this.label,
     required this.value,
     required this.onChanged,
