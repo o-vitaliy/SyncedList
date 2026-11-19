@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.361380982242-9g7st7t3bpq4v17quhpbtq9975h3c4ld</string>
+				<string>com.googleusercontent.apps.361380982242-5hebee5eceormcdknn54vnqfetqq65js</string>
 			</array>
 		</dict>
 		<dict>
@@ -48,7 +48,7 @@
 	<key>FacebookDisplayName</key>
 	<string>SyncedList</string>
 	<key>GIDClientID</key>
-	<string>361380982242-9g7st7t3bpq4v17quhpbtq9975h3c4ld.apps.googleusercontent.com</string>
+	<string>361380982242-5hebee5eceormcdknn54vnqfetqq65js.apps.googleusercontent.com</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

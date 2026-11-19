@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD7sN6Whl1uXviK6vLRxygi0UQI7gY9NVQ',
-    appId: '1:361380982242:android:a3354234f65716cce29dbb',
+    appId: '1:361380982242:android:361f81eb522783d7e29dbb',
     messagingSenderId: '361380982242',
     projectId: 'whattobuy-e3713',
     databaseURL: 'https://whattobuy-e3713.firebaseio.com',
@@ -57,13 +57,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB4AKo6svLnOZijyVkJeDl3vEvekd05TkA',
-    appId: '1:361380982242:ios:1d1ffce1bb458780e29dbb',
+    appId: '1:361380982242:ios:aa64dabf2b2559c7e29dbb',
     messagingSenderId: '361380982242',
     projectId: 'whattobuy-e3713',
     databaseURL: 'https://whattobuy-e3713.firebaseio.com',
     storageBucket: 'whattobuy-e3713.appspot.com',
     androidClientId: '361380982242-78qrre9ugb2dsilst0r1fo1i6htqjtcm.apps.googleusercontent.com',
-    iosClientId: '361380982242-9g7st7t3bpq4v17quhpbtq9975h3c4ld.apps.googleusercontent.com',
-    iosBundleId: 'ru.ovi.shoppinglist',
+    iosClientId: '361380982242-5hebee5eceormcdknn54vnqfetqq65js.apps.googleusercontent.com',
+    iosBundleId: 'ua.ovi.sharedshoppinglist',
   );
 }
