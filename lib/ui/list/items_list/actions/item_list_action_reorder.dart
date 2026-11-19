@@ -34,9 +34,7 @@ class ItemListActionReorder extends ReduxAction<AppState> {
 
     repo.orderItem(listId, changes);
 
-    final s = itemListState.copyWith(
-      items: items.toList(growable: false),
-    );
+    final s = itemListState.copyWith(items: items.toList(growable: false));
     return state.copyWith(itemListState: s);
   }
 }

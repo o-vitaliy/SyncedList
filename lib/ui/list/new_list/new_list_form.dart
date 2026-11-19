@@ -1,5 +1,5 @@
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/data/validators/validator.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
@@ -17,17 +17,16 @@ class NewListForm extends StatefulWidget {
   final String? initialName;
 
   factory NewListForm(String? id, String? name) => NewListForm._(
-        store: Store<NewListState>(
-          initialState: NewListState.initial(id, name ?? ""),
-        ),
-        initialName: name,
-      );
+    store: Store<NewListState>(
+      initialState: NewListState.initial(id, name ?? ""),
+    ),
+    initialName: name,
+  );
 
   const NewListForm._({
-    Key? key,
     required this.store,
     required this.initialName,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _NewListFormState();
@@ -37,18 +36,20 @@ class _NewListFormState extends State<NewListForm> {
   @override
   Widget build(BuildContext context) {
     return StoreProvider<NewListState>(
-        store: widget.store,
-        child: StoreConnector<NewListState, _ViewModel>(
-            converter: _ViewModel.fromStore,
-            builder: (BuildContext context, _ViewModel vm) => _FormContainer(
-                  initialName: widget.store.state.name,
-                  loading: vm.loading,
-                  nameChanged: vm.nameChanged,
-                  save: vm.save,
-                  error: vm.error,
-                  saved: vm.saved,
-                  edited: vm.edited,
-                )));
+      store: widget.store,
+      child: StoreConnector<NewListState, _ViewModel>(
+        converter: _ViewModel.fromStore,
+        builder: (BuildContext context, _ViewModel vm) => _FormContainer(
+          initialName: widget.store.state.name,
+          loading: vm.loading,
+          nameChanged: vm.nameChanged,
+          save: vm.save,
+          error: vm.error,
+          saved: vm.saved,
+          edited: vm.edited,
+        ),
+      ),
+    );
   }
 }
 
@@ -62,7 +63,6 @@ class _FormContainer extends StatefulWidget {
   final Event<String> edited;
 
   const _FormContainer({
-    Key? key,
     required this.initialName,
     required this.loading,
     required this.nameChanged,
@@ -70,7 +70,7 @@ class _FormContainer extends StatefulWidget {
     required this.error,
     required this.saved,
     required this.edited,
-  }) : super(key: key);
+  });
 
   @override
   State createState() => _FormContainerState();
@@ -93,7 +93,7 @@ class _FormContainerState extends State<_FormContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final l = Localizations.of(context, AppLocalizationsData);
+    final l = AppLocalizations.of(context);
     final t = Theme.of(context);
     return Form(
       key: _formKey,
@@ -115,12 +115,9 @@ class _FormContainerState extends State<_FormContainer> {
                 onPressed: () => Navigator.pop(context),
               ),
               defaultSpacer(),
-              ElevatedButton(
-                child: Text(l.save),
-                onPressed: onSave,
-              ),
+              ElevatedButton(onPressed: onSave, child: Text(l.save)),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -136,21 +133,21 @@ class _FormContainerState extends State<_FormContainer> {
 
     final errorMessage = error.consume();
     if (errorMessage != null) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         defaultUserExceptionDialog(context, errorMessage);
       });
     }
 
     final savedValue = saved.consume();
     if (savedValue != null) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pop(context);
         Navigator.pushNamed(context, "/items", arguments: savedValue);
       });
     }
 
     if (edited.consume() != null) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pop(context);
       });
     }
@@ -175,16 +172,18 @@ class _ViewModel extends Vm {
   }) : super(equals: [loading, error, saved, edited]);
 
   static _ViewModel fromStore(Store<NewListState> store) {
-    void nameChanged(String v) => store.dispatch(NewListActionChangeName(value: v));
+    void nameChanged(String v) =>
+        store.dispatch(NewListActionChangeName(value: v));
     void save() => store.dispatch(NewListActionSaveList());
 
     final state = store.state;
     return _ViewModel(
-        loading: state.loading,
-        nameChanged: nameChanged,
-        save: save,
-        saved: state.savedEvent,
-        edited: state.editedEvent,
-        error: Event(store.getAndRemoveFirstError()));
+      loading: state.loading,
+      nameChanged: nameChanged,
+      save: save,
+      saved: state.savedEvent,
+      edited: state.editedEvent,
+      error: Event(store.getAndRemoveFirstError()),
+    );
   }
 }

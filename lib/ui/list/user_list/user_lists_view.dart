@@ -1,11 +1,12 @@
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/ui/list/new_list/new_list_form.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
+
 import 'actions/new_list_action_delete.dart';
 import 'actions/new_list_action_init.dart';
 import 'actions/new_list_action_reorder.dart';
@@ -19,26 +20,25 @@ typedef ItemAction<T> = Function(BuildContext context, T item);
 typedef ReorderAction<T> = Function(T item, int oldPos, int newPos);
 
 class UserListsView extends StatelessWidget {
-  const UserListsView({Key? key}) : super(key: key);
+  const UserListsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Localizations.of(context, AppLocalizationsData).yourLists),
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).yourLists)),
       floatingActionButton: _createListButton(context),
       body: StoreConnector<AppState, _ViewModel>(
-          converter: _ViewModel.fromStore,
-          onDidChange: (c, s, vm) => modelChanged(c, vm),
-          onInit: (store) {
-            store.dispatch(UserListActionInit());
-            store.dispatch(UserListActionSubscribe());
-          },
-          onDispose: (store) {
-            store.dispatch(UserListActionUnsubscribe());
-          },
-          builder: (BuildContext c, _ViewModel vm) => _content(c, vm)),
+        converter: _ViewModel.fromStore,
+        onDidChange: (_, s, vm) => modelChanged(context, vm),
+        onInit: (store) {
+          store.dispatch(UserListActionInit());
+          store.dispatch(UserListActionSubscribe());
+        },
+        onDispose: (store) {
+          store.dispatch(UserListActionUnsubscribe());
+        },
+        builder: (BuildContext c, _ViewModel vm) => _content(c, vm),
+      ),
     );
   }
 
@@ -78,7 +78,7 @@ class UserListsView extends StatelessWidget {
   }
 
   void delete(BuildContext context, UserList item, _ViewModel vm) {
-    final l = Localizations.of(context, AppLocalizationsData);
+    final l = AppLocalizations.of(context);
     confirmDialog(context, l.deleteListConfirm, () {
       vm.delete(item);
     });
@@ -87,9 +87,9 @@ class UserListsView extends StatelessWidget {
   void modelChanged(BuildContext context, _ViewModel vm) {
     final invite = vm.inviteEvent.consume();
     if (invite != null) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        final msg = Localizations.of(context, AppLocalizationsData)
-            .invitedInToLists(name: invite.join(", "));
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final msg = AppLocalizations.of(context)
+            .invitedInToLists(invite.join(", "));
         defaultToast(msg);
       });
     }
@@ -98,9 +98,7 @@ class UserListsView extends StatelessWidget {
   void rename(BuildContext context, UserList? item) {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        content: NewListForm(item?.id, item?.name),
-      ),
+      builder: (_) => AlertDialog(content: NewListForm(item?.id, item?.name)),
     );
   }
 }

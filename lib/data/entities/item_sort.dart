@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/localization.dart';
 
 import 'shopping_item.dart';
@@ -58,14 +58,14 @@ class ItemSortHelper {
   }
 
   static String getTitle(BuildContext context, ItemSort sort) {
-    final l = Localizations.of(context, AppLocalizationsData);
+    final l = AppLocalizations.of(context);
     switch (sort) {
       case ItemSort.name:
-        return l.sort.name;
+        return l.sortName;
       case ItemSort.done:
-        return l.sort.done;
+        return l.sortDone;
       case ItemSort.nameDone:
-        return l.sort.nameDone;
+        return l.sortNameDone;
       default:
         throw UnsupportedError("unknown type $sort");
     }

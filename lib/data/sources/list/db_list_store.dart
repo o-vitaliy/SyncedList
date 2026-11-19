@@ -22,10 +22,11 @@ class DbListStore {
   Future<UserList> createList(String userId, String listName) async {
     final key = _store.collection(_lists).doc().id;
     final newUserList = UserList(
-        id: key,
-        name: listName,
-        order: DateTime.now().millisecondsSinceEpoch,
-        members: [userId]);
+      id: key,
+      name: listName,
+      order: DateTime.now().millisecondsSinceEpoch,
+      members: [userId],
+    );
 
     _store.doc("$_lists/$key").set(newUserList.toMap());
     return newUserList;

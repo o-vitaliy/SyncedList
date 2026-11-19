@@ -2,4 +2,6 @@
 <resources>
     <string name="facebook_app_id">702457650614756</string>
     <string name="fb_login_protocol_scheme">fb702457650614756</string>
+    <!-- TODO: Facebook app dashboard > Settings > Advanced > Client token -->
+    <string name="facebook_client_token">REPLACE_WITH_FACEBOOK_CLIENT_TOKEN</string>
 </resources>

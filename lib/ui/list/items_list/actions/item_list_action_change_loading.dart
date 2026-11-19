@@ -9,10 +9,6 @@ class ItemListActionChangeLoading extends ReduxAction<AppState> {
   @override
   AppState reduce() {
     final itemsState = state.itemListState!;
-    return state.copyWith(
-      itemListState: itemsState.copyWith(
-        loading: value,
-      ),
-    );
+    return state.copyWith(itemListState: itemsState.copyWith(loading: value));
   }
 }

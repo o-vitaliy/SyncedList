@@ -27,10 +27,10 @@ class UserList {
   Map<String, dynamic> toMap() {
     // ignore: unnecessary_cast
     return {
-      'id': this.id,
-      'name': this.name,
-      'order': this.order,
-      'members': this.members,
+      'id': id,
+      'name': name,
+      'order': order,
+      'members': members,
     } as Map<String, dynamic>;
   }
 
@@ -42,7 +42,7 @@ class UserList {
     } else if (value is Iterable) {
       return value.map((e) => UserList.fromMap(e)).toList();
     } else {
-      return <UserList>[]..add(UserList.fromMap(value));
+      return <UserList>[UserList.fromMap(value)];
     }
   }
 

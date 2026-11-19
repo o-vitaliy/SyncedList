@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthDataSource {
   late final FirebaseAuth _auth;
+  Future<void>? _googleInit;
 
   AuthDataSource() {
     _auth = FirebaseAuth.instance;
@@ -20,19 +21,21 @@ class AuthDataSource {
   }
 
   Future loginViaGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final googleSignIn = GoogleSignIn.instance;
+    await (_googleInit ??= googleSignIn.initialize());
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignInAccount googleUser;
+    try {
+      googleUser = await googleSignIn.authenticate();
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) return null;
+      throw UserException(e.description ?? "Some thing went wrong");
+    }
 
-    // Create a new credential
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      idToken: googleUser.authentication.idToken,
     );
 
-    // Once signed in, return the UserCredential
     return await _auth.signInWithCredential(credential);
   }
 
@@ -48,11 +51,12 @@ class AuthDataSource {
       throw UserException(loginResult.message ?? "Some thing went wrong");
     }
 
-    // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    final accessToken = loginResult.accessToken;
+    if (accessToken == null) return null;
 
-    // Once signed in, return the UserCredential
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(accessToken.tokenString);
+
     return _auth.signInWithCredential(facebookAuthCredential);
   }
 

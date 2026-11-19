@@ -102,8 +102,8 @@ class EmailValidator extends Validator {
 
     _index++;
 
-    while (
-        _index < text.length && _isDomain(text[_index], allowInternational)) {
+    while (_index < text.length &&
+        _isDomain(text[_index], allowInternational)) {
       _index++;
     }
 
@@ -111,7 +111,10 @@ class EmailValidator extends Validator {
   }
 
   static bool _skipDomain(
-      String text, bool allowTopLevelDomains, bool allowInternational) {
+    String text,
+    bool allowTopLevelDomains,
+    bool allowInternational,
+  ) {
     if (!_skipSubDomain(text, allowInternational)) {
       return false;
     }
@@ -288,13 +291,12 @@ class EmailValidator extends Validator {
   }
 
   /// Validate the specified email address.
-  static bool _validate(String email,
-      [bool allowTopLevelDomains = false, bool allowInternational = true]) {
+  static bool _validate(
+    String email, [
+    bool allowTopLevelDomains = false,
+    bool allowInternational = true,
+  ]) {
     _index = 0;
-
-    if (email == null) {
-      throw ArgumentError('email');
-    }
 
     if (email.isEmpty || email.length >= 255) {
       return false;

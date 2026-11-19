@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({Key? key}) : super(key: key);
+  const LoadingIndicator({super.key});
 
   @override
   Widget build(BuildContext context) => Center(
-        child: CircularProgressIndicator(
-            valueColor:
-                AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
-      );
+    child: CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+    ),
+  );
 }
 
 Widget defaultSpacer() => const SizedBox(width: 16, height: 16);
@@ -25,26 +25,19 @@ class LabelButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-  const LabelButton({
-    Key? key,
-    required this.text,
-    required this.onPressed,
-  }) : super(key: key);
+  const LabelButton({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: Text(text),
-    );
+    return ElevatedButton(onPressed: onPressed, child: Text(text));
   }
 }
 
-
 void defaultToast(String msg) {
   Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_LONG,
-      backgroundColor: Colors.black45,
-      textColor: Colors.white);
+    msg: msg,
+    toastLength: Toast.LENGTH_LONG,
+    backgroundColor: Colors.black45,
+    textColor: Colors.white,
+  );
 }

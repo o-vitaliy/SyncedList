@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/shopping_item.dart';
 import 'package:shopping_list/ui/list/user_list/user_lists_view.dart';
 import 'package:shopping_list/ui/widgets/reorderable_list_simple.dart';
@@ -14,27 +14,29 @@ class ListItemList extends StatelessWidget {
   final bool reorderEnabled;
 
   const ListItemList({
-    Key? key,
+    super.key,
     required this.items,
     required this.delete,
     required this.rename,
     required this.onItemChanged,
     required this.reorder,
     required this.reorderEnabled,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return ReorderableListSimple(
       children: items
-          .map((e) => ListItemItem(
-                e,
-                delete,
-                rename,
-                onItemChanged,
-                reorderEnabled,
-                key: ValueKey(e),
-              ))
+          .map(
+            (e) => ListItemItem(
+              e,
+              delete,
+              rename,
+              onItemChanged,
+              reorderEnabled,
+              key: ValueKey(e),
+            ),
+          )
           .toList(),
       onReorder: (int o, int n) => reorder(items[o], o, n),
     );

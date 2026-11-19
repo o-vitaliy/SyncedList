@@ -10,7 +10,7 @@ class ItemListState {
     return ItemListState(loading: true, list: list, items: []);
   }
 
-//<editor-fold desc="Data Methods">
+  //<editor-fold desc="Data Methods">
 
   const ItemListState({
     required this.list,
@@ -32,11 +32,7 @@ class ItemListState {
 
   @override
   String toString() {
-    return 'ItemListState{' +
-        ' list: $list,' +
-        ' loading: $loading,' +
-        ' items: $items,' +
-        '}';
+    return 'ItemListState{' ' list: $list,' ' loading: $loading,' ' items: $items,' '}';
   }
 
   ItemListState copyWith({
@@ -52,11 +48,7 @@ class ItemListState {
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'list': list,
-      'loading': loading,
-      'items': items,
-    };
+    return {'list': list, 'loading': loading, 'items': items};
   }
 
   factory ItemListState.fromMap(Map<String, dynamic> map) {
@@ -67,5 +59,5 @@ class ItemListState {
     );
   }
 
-//</editor-fold>
+  //</editor-fold>
 }

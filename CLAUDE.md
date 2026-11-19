@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-SyncedList is a Flutter app (Dart package name `shopping_list`) for shared shopping lists that sync in real time through Firebase (Auth, Firestore, Dynamic Links, Crashlytics). Targets Android (`ua.ovi.shared_shopping_list`), iOS (`ua.ovi.sharedshoppinglist`) and web. Dart SDK `>=2.12.0 <3.0.0` with null safety; the pinned packages are older (e.g. `firebase_core` 1.x, `async_redux` 13.x), so check the API of the pinned version before using newer package APIs.
+SyncedList is a Flutter app (Dart package name `shopping_list`) for shared shopping lists that sync in real time through Firebase (Auth, Firestore, Crashlytics, Hosting). Targets Android (`ua.ovi.shared_shopping_list`), iOS and web. Built with Flutter 3.50 / Dart 3.14 (`sdk: ^3.14.0`). Widgets import `package:material_ui/material_ui.dart` / `package:cupertino_ui/cupertino_ui.dart` (the standalone Material/Cupertino packages), not `package:flutter/material.dart`.
 
 ## Commands
 
@@ -17,15 +17,17 @@ flutter test test/widget_test.dart --plain-name "<test name>"   # single test
 flutter build apk / flutter build ios
 ```
 
-Localization code generation (regenerates `lib/localization.g.dart` from a Google Sheet, needs network access):
+Localization code generation (also runs automatically on `pub get`/build, since `generate: true`):
 
 ```bash
-flutter pub run build_runner build --delete-conflicting-outputs
+flutter gen-l10n
 ```
 
-Firebase Hosting (landing page, privacy/terms, and the `/links/**` Dynamic Links rewrite) lives in `firebase_hosting/`; deploy from that directory with `firebase deploy --only hosting`.
+Android builds need JDK 17+ (`JAVA_HOME`). The Gradle build is Kotlin DSL (`android/*.gradle.kts`); without `android/keys/key.jks` it signs with the debug key.
 
-Note: `test/widget_test.dart` is still the default Flutter counter template and does not reflect the app. It would also need Firebase mocked, since `App` uses a Store and widgets that touch Firebase-backed singletons.
+Firebase Hosting (landing page, privacy/terms, and the `/.well-known` App Links / Universal Links files) lives in `firebase_hosting/`; deploy from that directory with `firebase deploy --only hosting`.
+
+Tests in `test/` cover only Firebase-free code (share links, translations). Testing `App` itself would need Firebase mocked.
 
 ## Architecture
 
@@ -42,7 +44,7 @@ Layering: **UI widgets → async_redux actions → repos → data sources (Fires
   - Reordering is a batched update of the `order` field.
 - **Navigation** uses named routes in `lib/app.dart` (`/`, `/login`, `/main`, `/items`), driven from actions through `NavigateAction` with the global `navigatorKey`. `/items` receives the `UserList` as route arguments. The splash screen dispatches `CheckLoginAction`, which routes to `/login` or `/main`.
 - **Auth** (`lib/ui/auth/actions/`): Google, Facebook and anonymous login all extend `BaseLogin`, which wraps `login()` with `WaitAction` (`waitLoginAction`) and turns `FirebaseException` into `UserException`.
-- **Sharing / invites.** `Deeplink.createLink` builds a Firebase Dynamic Link (`https://syncedlist.page.link/link?id=&name=`). An incoming link dispatches `NewListActionFromDeepLink`, which saves the invite to SharedPreferences (`InviteRepos`). If the user is logged in it adds them as a list member right away; otherwise it sets the `loginToViewList` `Event` so the login screen can prompt. `initDynamicLinks()` in `app.dart` is currently defined but never called.
-- **Localization** comes from `flutter_sheet_localization`: the `@SheetLocalization` annotation in `lib/localization.dart` points to a Google Sheet, and `lib/localization.g.dart` is generated, so don't edit it by hand. Access strings with `Localizations.of(context, AppLocalizationsData)`.
+- **Sharing / invites.** `Deeplink.createLink` builds `https://syncedlist.web.app/link?id=&name=`, opened in the app through Android App Links / iOS Universal Links (Firebase Dynamic Links was shut down). `initDeepLinks()` in `app.dart` (called from `main`) listens via `app_links` and dispatches `NewListActionFromDeepLink`, which saves the invite to SharedPreferences (`InviteRepos`). If the user is logged in it adds them as a list member right away; otherwise it sets the `loginToViewList` `Event` so the login screen can prompt.
+- **Localization** uses Flutter gen-l10n: edit `lib/l10n/app_en.arb` (template) and `app_ru.arb`; `lib/l10n/app_localizations*.dart` are generated, so don't edit them by hand. Access strings with `AppLocalizations.of(context)`. `MaterialApp` must use `appLocalizationsDelegates` from `lib/localization.dart`, not the generated `AppLocalizations.localizationsDelegates`: the generated list's Material delegates come from `flutter_localizations`, which `material_ui`'s `MaterialApp` doesn't recognize, so Russian fails.
 - **Item sort preference** (`SortRepo`) is stored in SharedPreferences as a JSON array of `ItemSort` names.
 - Errors are reported to Crashlytics through `runZonedGuarded` and `FlutterError.onError` in `main()`.

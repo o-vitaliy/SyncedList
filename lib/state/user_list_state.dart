@@ -10,12 +10,9 @@ class UserListState {
     return const UserListState(loading: true, list: []);
   }
 
-//<editor-fold desc="Data Methods">
+  //<editor-fold desc="Data Methods">
 
-  const UserListState({
-    required this.loading,
-    required this.list,
-  });
+  const UserListState({required this.loading, required this.list});
 
   @override
   bool operator ==(Object other) =>
@@ -30,13 +27,10 @@ class UserListState {
 
   @override
   String toString() {
-    return 'UserListState{' + ' loading: $loading,' + ' list: $list,' + '}';
+    return 'UserListState{' ' loading: $loading,' ' list: $list,' '}';
   }
 
-  UserListState copyWith({
-    bool? loading,
-    List<UserList>? list,
-  }) {
+  UserListState copyWith({bool? loading, List<UserList>? list}) {
     return UserListState(
       loading: loading ?? this.loading,
       list: list ?? this.list,
@@ -44,10 +38,7 @@ class UserListState {
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'loading': this.loading,
-      'list': this.list,
-    };
+    return {'loading': loading, 'list': list};
   }
 
   factory UserListState.fromMap(Map<String, dynamic> map) {
@@ -57,5 +48,5 @@ class UserListState {
     );
   }
 
-//</editor-fold>
+  //</editor-fold>
 }

@@ -1,5 +1,5 @@
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/validators/validator.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
@@ -18,23 +18,17 @@ class NewItemForm extends StatelessWidget {
     String? name,
     String? id,
     int? order,
-  }) =>
-      NewItemForm._(
-          store: Store<NewItemState>(
-            initialState: NewItemState.initial(
-              listId,
-              name,
-              id,
-              order,
-            ),
-          ),
-          initialName: name);
+  }) => NewItemForm._(
+    store: Store<NewItemState>(
+      initialState: NewItemState.initial(listId, name, id, order),
+    ),
+    initialName: name,
+  );
 
   const NewItemForm._({
-    Key? key,
     required this.store,
     required this.initialName,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +57,7 @@ class _FormContainer extends StatefulWidget {
   final _ViewModel vm;
   final String? initialName;
 
-  const _FormContainer(this.vm, this.initialName, {Key? key}) : super(key: key);
+  const _FormContainer(this.vm, this.initialName);
 
   @override
   State createState() => _FormContainerState();
@@ -74,7 +68,7 @@ class _FormContainerState extends State<_FormContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final l = Localizations.of(context, AppLocalizationsData);
+    final l = AppLocalizations.of(context);
     final t = Theme.of(context);
     return Form(
       child: Column(
@@ -96,14 +90,11 @@ class _FormContainerState extends State<_FormContainer> {
                   onPressed: () => Navigator.pop(context),
                 ),
                 defaultSpacer(),
-                ElevatedButton(
-                  child: Text(l.save),
-                  onPressed: vm.save,
-                ),
+                ElevatedButton(onPressed: vm.save, child: Text(l.save)),
               ],
             )
           else
-            const LoadingIndicator()
+            const LoadingIndicator(),
         ],
       ),
     );
@@ -115,14 +106,14 @@ class _FormContainerState extends State<_FormContainer> {
 
     final error = vm.error.consume();
     if (error != null) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         defaultUserExceptionDialog(context, error);
       });
     }
 
     final saved = vm.savedEvent.consume();
     if (saved != null) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pop(context);
       });
     }
@@ -149,10 +140,11 @@ class _ViewModel extends Vm {
         store.dispatch(NewItemActionChangeName(value: v));
     void save() => store.dispatch(NewItemActionAddList());
     return _ViewModel(
-        loading: store.state.loading,
-        nameChanged: nameChanged,
-        save: save,
-        savedEvent: store.state.savedEvent,
-        error: Event(store.getAndRemoveFirstError()));
+      loading: store.state.loading,
+      nameChanged: nameChanged,
+      save: save,
+      savedEvent: store.state.savedEvent,
+      error: Event(store.getAndRemoveFirstError()),
+    );
   }
 }

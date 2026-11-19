@@ -1,12 +1,12 @@
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
 import 'check_login_action.dart';
 
 class SplashConnector extends StatelessWidget {
-  const SplashConnector({Key? key}) : super(key: key);
+  const SplashConnector({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,29 +18,22 @@ class SplashConnector extends StatelessWidget {
   }
 }
 
-class _Factory extends VmFactory<AppState, SplashConnector> {
+class _Factory extends VmFactory<AppState, SplashConnector, _ViewModel> {
   _Factory(widget) : super(widget);
 
   @override
-  _ViewModel fromStore() => _ViewModel(
-        authorized: state.loginState.authorized,
-      );
+  _ViewModel fromStore() => _ViewModel(authorized: state.loginState.authorized);
 }
 
 class _ViewModel extends Vm {
   final bool? authorized;
 
-  _ViewModel({
-    required this.authorized,
-  }) : super(equals: [authorized]);
+  _ViewModel({required this.authorized}) : super(equals: [authorized]);
 }
 
 class _SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: const LoadingIndicator(),
-    );
+    return Container(color: Colors.white, child: const LoadingIndicator());
   }
 }

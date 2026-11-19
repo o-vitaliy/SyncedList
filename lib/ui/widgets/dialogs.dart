@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/localization.dart';
 
 void defaultUserExceptionDialog(
@@ -14,13 +14,13 @@ void defaultUserExceptionDialog(
     showCupertinoDialog(
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
-        title: Text(userException.dialogTitle()),
-        content: Text(userException.dialogContent()),
+        title: Text(userException.titleAndContent().$1),
+        content: Text(userException.titleAndContent().$2),
         actions: [
           CupertinoDialogAction(
-            child: Text(Localizations.of(context, AppLocalizationsData).ok),
+            child: Text(AppLocalizations.of(context).ok),
             onPressed: () => Navigator.of(context).pop(),
-          )
+          ),
         ],
       ),
     );
@@ -28,13 +28,13 @@ void defaultUserExceptionDialog(
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Text(userException.dialogTitle()),
-        content: Text(userException.dialogContent()),
+        title: Text(userException.titleAndContent().$1),
+        content: Text(userException.titleAndContent().$2),
         actions: [
           TextButton(
-            child: Text(Localizations.of(context, AppLocalizationsData).ok),
+            child: Text(AppLocalizations.of(context).ok),
             onPressed: () => Navigator.of(context).pop(),
-          )
+          ),
         ],
       ),
     );
@@ -42,25 +42,28 @@ void defaultUserExceptionDialog(
 }
 
 void confirmDialog(BuildContext context, String title, VoidCallback action) {
-  final l = Localizations.of(context, AppLocalizationsData);
+  final l = AppLocalizations.of(context);
   final t = Theme.of(context);
   showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-            title: Text(title),
-            actions: [
-              ElevatedButton(
-                  child: Text(l.cancel),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
-              ElevatedButton(
-                  child: Text(l.ok),
-                  style: t.elevatedButtonTheme.style,
-                  onPressed: () {
-                    action();
-                    Navigator.of(context).pop();
-                  })
-            ],
-          ));
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text(title),
+      actions: [
+        ElevatedButton(
+          child: Text(l.cancel),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        ElevatedButton(
+          style: t.elevatedButtonTheme.style,
+          onPressed: () {
+            action();
+            Navigator.of(context).pop();
+          },
+          child: Text(l.ok),
+        ),
+      ],
+    ),
+  );
 }

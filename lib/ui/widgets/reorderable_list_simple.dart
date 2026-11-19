@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart' hide ReorderableList;
+import 'package:material_ui/material_ui.dart' hide ReorderableList;
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 
 class ReorderableListSimple extends StatefulWidget {
   const ReorderableListSimple({
-    Key? key,
+    super.key,
     required this.children,
     required this.onReorder,
     this.padding,
-  }) : super(key: key);
+  });
 
   final List<Widget> children;
   final ReorderCallback onReorder;
@@ -34,13 +34,15 @@ class _ReorderableListSimpleState extends State<ReorderableListSimple> {
   }
 
   int _oldIndexOfKey(Key key) {
-    return widget.children
-        .indexWhere((Widget w) => Key(w.hashCode.toString()) == key);
+    return widget.children.indexWhere(
+      (Widget w) => Key(w.hashCode.toString()) == key,
+    );
   }
 
   int _indexOfKey(Key key) {
-    return _children
-        .indexWhere((Widget w) => Key(w.hashCode.toString()) == key);
+    return _children.indexWhere(
+      (Widget w) => Key(w.hashCode.toString()) == key,
+    );
   }
 
   Widget _buildReorderableItem(BuildContext context, int index) {
@@ -76,7 +78,6 @@ class _ReorderableListSimpleState extends State<ReorderableListSimple> {
       //     ],
       //   ),
       // ),
-
       onReorder: (Key draggedItem, Key newPosition) {
         int draggingIndex = _indexOfKey(draggedItem);
         int newPositionIndex = _indexOfKey(newPosition);
@@ -101,10 +102,8 @@ class _ReorderableListSimpleState extends State<ReorderableListSimple> {
 }
 
 class ReorderableItemSimple extends StatelessWidget {
-  const ReorderableItemSimple({
-    required Key key,
-    required this.innerItem,
-  }) : super(key: key);
+  const ReorderableItemSimple({required Key key, required this.innerItem})
+    : super(key: key);
 
   final Widget innerItem;
 

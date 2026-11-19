@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/ui/widgets/reorderable_list_simple.dart';
@@ -15,13 +15,13 @@ class UserListsWidget extends StatelessWidget {
   final ReorderAction reorder;
 
   const UserListsWidget({
-    Key? key,
+    super.key,
     required this.items,
     required this.share,
     required this.delete,
     required this.rename,
     required this.reorder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +35,13 @@ class UserListsWidget extends StatelessWidget {
 
   Widget _listItem(BuildContext context, UserList item) {
     return ReorderableListener(
-        child: UserListItemWidget(
-      key: ValueKey(item),
-      item: item,
-      share: share,
-      delete: delete,
-      rename: rename,
-    ));
+      child: UserListItemWidget(
+        key: ValueKey(item),
+        item: item,
+        share: share,
+        delete: delete,
+        rename: rename,
+      ),
+    );
   }
 }

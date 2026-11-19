@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class LabeledCheckbox extends StatelessWidget {
-  const LabeledCheckbox({
+  const LabeledCheckbox({super.key, 
     required this.label,
     required this.value,
     required this.onChanged,
@@ -19,23 +19,24 @@ class LabeledCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetBuilder builder = (BuildContext context) {
+    Widget builder(BuildContext context) {
       return Checkbox(
         value: value,
         onChanged: (v) => onChanged(v ?? false),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       );
-    };
+    }
 
     return _LabeledWidget<bool>(
-        label: label,
-        subLabel: subLabel,
-        value: value,
-        trialing: true,
-        onChanged: (v) => onChanged(!value),
-        builder: builder,
-        extended: extended,
-        padding: padding);
+      label: label,
+      subLabel: subLabel,
+      value: value,
+      trialing: true,
+      onChanged: (v) => onChanged(!value),
+      builder: builder,
+      extended: extended,
+      padding: padding,
+    );
   }
 }
 
@@ -47,7 +48,7 @@ class LabeledRadio<T> extends StatelessWidget {
   final ValueChanged<T?> onChanged;
   final bool extended;
 
-  LabeledRadio({
+  const LabeledRadio({super.key, 
     required this.label,
     required this.value,
     required this.groupValue,
@@ -58,26 +59,27 @@ class LabeledRadio<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final WidgetBuilder builder = (context) {
+    Widget builder(BuildContext context) {
       return Radio(
         value: value,
         groupValue: groupValue,
         onChanged: onChanged,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       );
-    };
+    }
     return _LabeledWidget<T>(
-        label: label,
-        value: value,
-        onChanged: onChanged,
-        builder: builder,
-        padding: padding,
-        extended: extended);
+      label: label,
+      value: value,
+      onChanged: onChanged,
+      builder: builder,
+      padding: padding,
+      extended: extended,
+    );
   }
 }
 
 class LabeledSwitch extends StatelessWidget {
-  const LabeledSwitch({
+  const LabeledSwitch({super.key, 
     required this.label,
     required this.value,
     required this.onChanged,
@@ -91,22 +93,23 @@ class LabeledSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final WidgetBuilder builder = (context) {
+    Widget builder(BuildContext context) {
       return Switch(
         value: value,
         onChanged: (bool newValue) {
           onChanged(!value);
         },
       );
-    };
+    }
 
     return _LabeledWidget<bool>(
-        label: label,
-        value: value,
-        onChanged: (v) => onChanged(!value),
-        builder: builder,
-        trialing: true,
-        padding: padding);
+      label: label,
+      value: value,
+      onChanged: (v) => onChanged(!value),
+      builder: builder,
+      trialing: true,
+      padding: padding,
+    );
   }
 }
 
@@ -143,7 +146,8 @@ class _LabeledWidget<T> extends StatelessWidget {
         onChanged(value);
       },
       child: Padding(
-        padding: padding ??
+        padding:
+            padding ??
             (trialing
                 ? const EdgeInsets.only(left: 16)
                 : const EdgeInsets.all(0)),
@@ -163,14 +167,18 @@ class _LabeledWidget<T> extends StatelessWidget {
       widget = Text(label);
     } else {
       widget = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(label),
-            Text(subtitle,
-                style: theme.textTheme.bodyText2!
-                    .copyWith(color: theme.textTheme.caption!.color))
-          ]);
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label),
+          Text(
+            subtitle,
+            style: theme.textTheme.bodyMedium!.copyWith(
+              color: theme.textTheme.bodySmall!.color,
+            ),
+          ),
+        ],
+      );
     }
     if (extended) {
       return Expanded(child: widget);

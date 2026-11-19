@@ -1,5 +1,5 @@
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/item_sort.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/state/app_state.dart';
@@ -10,7 +10,7 @@ import 'sort_action_auto.dart';
 import 'sort_action_one_time.dart';
 
 class ItemListSortWidget extends StatelessWidget {
-  const ItemListSortWidget({Key? key}) : super(key: key);
+  const ItemListSortWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +21,18 @@ class ItemListSortWidget extends StatelessWidget {
   }
 
   Widget _content(BuildContext context, _ViewModel vm) {
-    final l = Localizations.of(context, AppLocalizationsData);
+    final l = AppLocalizations.of(context);
     return PopupMenuButton<ItemSort>(
       onSelected: (v) => vm.sortChanged(v),
       icon: const Icon(Icons.sort),
       itemBuilder: (BuildContext context) {
-        return []
-          ..add(_title(context, l.sort.auto + ":"))
-          ..addAll(ItemSortHelper.autoSorts()
-              .map((e) => _sortCheckboxes(context, e, vm)))
-          ..add(const PopupMenuDivider())
-          ..add(_title(context, l.sort.oneTime + ":"))
+        return [_title(context, "${l.sortAuto}:"), ...ItemSortHelper.autoSorts().map(
+              (e) => _sortCheckboxes(context, e, vm),
+            ), const PopupMenuDivider(), _title(context, "${l.sortOneTime}:")]
+          
+          
+          
+          
           ..addAll(ItemSortHelper.manualSorts().map((e) => _sorts(context, e)));
       },
     );
@@ -42,10 +43,7 @@ class ItemListSortWidget extends StatelessWidget {
       value: sort,
       child: Row(
         children: [
-          Icon(
-            ItemSortHelper.getIcon(sort),
-            color: Colors.black,
-          ),
+          Icon(ItemSortHelper.getIcon(sort), color: Colors.black),
           defaultSpacer8(),
           Text(ItemSortHelper.getTitle(context, sort)),
         ],
@@ -54,13 +52,14 @@ class ItemListSortWidget extends StatelessWidget {
   }
 
   PopupMenuItem<ItemSort> _title(BuildContext context, String title) {
-    return PopupMenuItem<ItemSort>(
-      child: Text(title),
-    );
+    return PopupMenuItem<ItemSort>(child: Text(title));
   }
 
   PopupMenuItem<ItemSort> _sortCheckboxes(
-      BuildContext context, ItemSort sort, _ViewModel vm) {
+    BuildContext context,
+    ItemSort sort,
+    _ViewModel vm,
+  ) {
     return PopupMenuItem<ItemSort>(
       child: LabeledCheckbox(
         value: vm.selectedSorts?.contains(sort) ?? false,

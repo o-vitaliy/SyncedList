@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:shopping_list/data/entities/choice.dart';
 import 'package:shopping_list/data/entities/shopping_item.dart';
@@ -20,17 +20,18 @@ class ListItemItem extends StatelessWidget {
     this.rename,
     this.onItemChanged,
     this.reorderEnabled, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context);
-    final defaultTextStyle = t.textTheme.bodyText1!;
+    final defaultTextStyle = t.textTheme.bodyLarge!;
 
     final color = item.done ? Colors.black45 : defaultTextStyle.color;
-    final decoration =
-        item.done ? TextDecoration.lineThrough : TextDecoration.none;
+    final decoration = item.done
+        ? TextDecoration.lineThrough
+        : TextDecoration.none;
 
     return ReorderableListener(
       canStart: () => reorderEnabled,
@@ -56,11 +57,12 @@ class ListItemItem extends StatelessWidget {
             PopupMenuButton<Choice>(
               onSelected: (v) => v.action(),
               itemBuilder: (BuildContext context) {
-                return getChoices(context, item)
-                    .map(buildMoreMenuItem)
-                    .toList();
+                return getChoices(
+                  context,
+                  item,
+                ).map(buildMoreMenuItem).toList();
               },
-            )
+            ),
           ],
         ),
       ),
@@ -70,17 +72,12 @@ class ListItemItem extends StatelessWidget {
   PopupMenuItem<Choice> buildMoreMenuItem(Choice choice) {
     return PopupMenuItem<Choice>(
       value: choice,
-      child: Row(
-        children: [
-          Icon(choice.icon),
-          Text(choice.title),
-        ],
-      ),
+      child: Row(children: [Icon(choice.icon), Text(choice.title)]),
     );
   }
 
   List<Choice> getChoices(BuildContext context, ShoppingItem item) {
-    final l = Localizations.of(context, AppLocalizationsData);
+    final l = AppLocalizations.of(context);
     return [
       Choice(
         title: l.delete,

@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/localization.dart';
 
 class UserListEmptyWidget extends StatelessWidget {
   final _lineBreak = const TextSpan(text: "\n");
-  
-  const UserListEmptyWidget({Key? key}) : super(key: key);
+
+  const UserListEmptyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l = Localizations.of(context, AppLocalizationsData);
+    final l = AppLocalizations.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -17,23 +17,26 @@ class UserListEmptyWidget extends StatelessWidget {
             style: const TextStyle(color: Colors.black, fontSize: 16),
             children: [
               TextSpan(
-                  text: l.emptyListInfo1,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                  )),
-              _lineBreak ,
-            _lineBreak,
+                text: l.emptyListInfo1,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+              ),
+              _lineBreak,
+              _lineBreak,
               TextSpan(text: l.emptyListInfoClick),
               const WidgetSpan(
-                  child: Icon(Icons.add),
-                  alignment: PlaceholderAlignment.middle),
+                child: Icon(Icons.add),
+                alignment: PlaceholderAlignment.middle,
+              ),
               TextSpan(text: l.emptyListInfoClickToCreate),
-            _lineBreak,
+              _lineBreak,
               TextSpan(text: l.emptyListInfoClick),
               const WidgetSpan(
-                  child: Icon(Icons.share),
-                  alignment: PlaceholderAlignment.middle),
+                child: Icon(Icons.share),
+                alignment: PlaceholderAlignment.middle,
+              ),
               TextSpan(text: l.emptyListInfoClickToShare),
               _lineBreak,
               _lineBreak,

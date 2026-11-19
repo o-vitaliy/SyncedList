@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:async_redux/async_redux.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:get_it/get_it.dart';
 
 import 'app.dart';
@@ -19,23 +19,25 @@ import 'data/sources/prefs/prefs_data_source.dart';
 import 'firebase_options.dart';
 import 'state/app_state.dart';
 
-late Store<AppState> mainStore =
-    Store<AppState>(initialState: AppState.initialState());
+Store<AppState> mainStore = Store<AppState>(
+  initialState: AppState.initialState(),
+);
 
 GetIt getIt = GetIt.instance;
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  setupDependencies();
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    setupDependencies();
 
-  NavigateAction.setNavigatorKey(navigatorKey);
-  runApp(const App());
-} , (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
+    NavigateAction.setNavigatorKey(navigatorKey);
+    runApp(const App());
+    initDeepLinks();
+  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
 
 void setupDependencies() {

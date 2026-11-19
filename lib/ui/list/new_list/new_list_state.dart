@@ -22,7 +22,7 @@ class NewListState {
     );
   }
 
-//<editor-fold desc="Data Methods">
+  //<editor-fold desc="Data Methods">
 
   const NewListState({
     required this.id,
@@ -56,11 +56,7 @@ class NewListState {
 
   @override
   String toString() {
-    return 'NewListState{' +
-        ' id: $id,' +
-        ' name: $name,' +
-        ' loading: $loading,' +
-        ' savedEvent: $savedEvent,' +
+    return 'NewListState{' ' id: $id,' ' name: $name,' ' loading: $loading,' ' savedEvent: $savedEvent,' +
         ' editedEvent: $editedEvent,' +
         ' error: $error,' +
         '}';
@@ -86,12 +82,12 @@ class NewListState {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'name': this.name,
-      'loading': this.loading,
-      'savedEvent': this.savedEvent,
-      'editedEvent': this.editedEvent,
-      'error': this.error,
+      'id': id,
+      'name': name,
+      'loading': loading,
+      'savedEvent': savedEvent,
+      'editedEvent': editedEvent,
+      'error': error,
     };
   }
 
@@ -106,5 +102,5 @@ class NewListState {
     );
   }
 
-//</editor-fold>
+  //</editor-fold>
 }

@@ -1,5 +1,5 @@
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/shopping_item.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/localization.dart';
@@ -21,19 +21,20 @@ import 'new_item/new_item_form.dart';
 import 'sort/item_list_sort_widget.dart';
 
 class ListItemsView extends StatelessWidget {
-  const ListItemsView({Key? key}) : super(key: key);
+  const ListItemsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final UserList args =
         ModalRoute.of(context)!.settings.arguments! as UserList;
     return Scaffold(
-        appBar: AppBar(
-          title: Text(args.name),
-          actions: [const ItemListSortWidget(), _share(context, args)],
-        ),
-        floatingActionButton: _createListButton(context, args.id),
-        body: _ListItemsConnector(args: args));
+      appBar: AppBar(
+        title: Text(args.name),
+        actions: [const ItemListSortWidget(), _share(context, args)],
+      ),
+      floatingActionButton: _createListButton(context, args.id),
+      body: _ListItemsConnector(args: args),
+    );
   }
 
   Widget _createListButton(BuildContext context, String listId) {
@@ -48,7 +49,7 @@ class ListItemsView extends StatelessWidget {
   }
 
   Widget _share(BuildContext context, UserList list) {
-    final l = Localizations.of(context, AppLocalizationsData);
+    final l = AppLocalizations.of(context);
     return IconButton(
       icon: const Icon(Icons.share),
       tooltip: l.share,
@@ -60,7 +61,7 @@ class ListItemsView extends StatelessWidget {
 class _ListItemsConnector extends StatelessWidget {
   final UserList args;
 
-  const _ListItemsConnector({Key? key, required this.args}) : super(key: key);
+  const _ListItemsConnector({required this.args});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class _ListItemsConnector extends StatelessWidget {
     );
   }
 
-  Widget _content(final BuildContext context, _ViewModel vm) {
+  Widget _content(BuildContext context, _ViewModel vm) {
     if (vm.loading) {
       return const LoadingIndicator();
     } else if (vm.items.isEmpty) {
@@ -102,13 +103,11 @@ class _ListItemsConnector extends StatelessWidget {
   }
 
   Widget progress(int done, int total) {
-    return LinearProgressIndicator(
-      value: done.toDouble() / total.toDouble(),
-    );
+    return LinearProgressIndicator(value: done.toDouble() / total.toDouble());
   }
 
   void delete(BuildContext context, ShoppingItem item, _ViewModel vm) {
-    final l = Localizations.of(context, AppLocalizationsData);
+    final l = AppLocalizations.of(context);
     confirmDialog(context, l.deleteItemConfirm, () {
       vm.delete(item);
     });
@@ -165,13 +164,14 @@ class _ViewModel extends Vm {
 
     final reorderEnabled = store.state.sorts?.isEmpty ?? false;
     return _ViewModel(
-        loading: loading,
-        listId: listId,
-        items: items,
-        doneCount: doneCount,
-        done: done,
-        delete: delete,
-        reorder: reorder,
-        reorderEnabled: reorderEnabled);
+      loading: loading,
+      listId: listId,
+      items: items,
+      doneCount: doneCount,
+      done: done,
+      delete: delete,
+      reorder: reorder,
+      reorderEnabled: reorderEnabled,
+    );
   }
 }

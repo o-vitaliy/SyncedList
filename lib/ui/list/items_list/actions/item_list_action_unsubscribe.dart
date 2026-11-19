@@ -4,7 +4,6 @@ import 'package:shopping_list/data/repos/user_lists_repo.dart';
 import 'package:shopping_list/state/app_state.dart';
 
 class ItemListActionUnsubscribe extends ReduxAction<AppState> {
-
   @override
   AppState reduce() {
     final repo = GetIt.I.get<ItemsListRepo>();

@@ -1,27 +1,16 @@
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-
 const idKey = "id";
 const nameKey = "name";
 
-class Deeplink {
-  static Future<Uri> createLink(String id, String name) async {
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://syncedlist.page.link',
-      link: Uri.parse(
-          'https://syncedlist.page.link/link?$idKey=$id&$nameKey=$name'),
-      androidParameters: const AndroidParameters(
-        packageName: 'ua.ovi.shared_shopping_list',
-      ),
-      iosParameters: const IOSParameters(
-        bundleId: 'ua.ovi.sharedshoppinglist',
-      ),
-    );
+/// Host that serves the share links (Firebase Hosting site "syncedlist").
+/// Android App Links and iOS Universal Links are verified against this host
+/// via /.well-known/assetlinks.json and /.well-known/apple-app-site-association.
+const linkHost = "syncedlist.web.app";
+const linkPath = "/link";
 
-    FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
-    final ShortDynamicLink shortLink =
-        await dynamicLinks.buildShortLink(parameters);
-    final url = shortLink.shortUrl;
-    print(url);
-    return url;
-  }
+class Deeplink {
+  static Uri createLink(String id, String name) =>
+      Uri.https(linkHost, linkPath, {idKey: id, nameKey: name});
+
+  static bool isListLink(Uri uri) =>
+      uri.host == linkHost && uri.path == linkPath;
 }

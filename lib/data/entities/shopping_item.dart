@@ -22,20 +22,11 @@ class ShoppingItem {
 
   Map<String, dynamic> toMap() {
     // ignore: unnecessary_cast
-    return {
-      'id': id,
-      'value': value,
-      'order': order,
-      'done': done,
-    } as Map<String, dynamic>;
+    return {'id': id, 'value': value, 'order': order, 'done': done}
+        as Map<String, dynamic>;
   }
 
-  ShoppingItem copyWith({
-    String? id,
-    String? value,
-    int? order,
-    bool? done,
-  }) {
+  ShoppingItem copyWith({String? id, String? value, int? order, bool? done}) {
     return ShoppingItem(
       id: id ?? this.id,
       value: value ?? this.value,

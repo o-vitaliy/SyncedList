@@ -4,10 +4,16 @@
     "public": "public",
     "ignore": [
       "firebase.json",
-      "**/.*",
       "**/node_modules/**"
     ],
-    "appAssociation": "AUTO",
-    "rewrites": [ { "source": "/links/**", "dynamicLinks": true } ]
+    "headers": [
+      {
+        "source": "/.well-known/apple-app-site-association",
+        "headers": [{ "key": "Content-Type", "value": "application/json" }]
+      }
+    ],
+    "rewrites": [
+      { "source": "/link", "destination": "/index.html" }
+    ]
   }
 }

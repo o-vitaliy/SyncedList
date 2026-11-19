@@ -5,17 +5,12 @@ import 'package:flutter/foundation.dart';
 class LoginState {
   final bool? authorized;
 
-  const LoginState({
-    required this.authorized,
-  });
+  const LoginState({required this.authorized});
 
-  LoginState copy({bool? authorized, Wait? waitLogin}) => LoginState(
-        authorized: authorized ?? this.authorized,
-      );
+  LoginState copy({bool? authorized, Wait? waitLogin}) =>
+      LoginState(authorized: authorized ?? this.authorized);
 
-  static LoginState initialState() => LoginState(
-        authorized: null,
-      );
+  static LoginState initialState() => LoginState(authorized: null);
 
   @override
   bool operator ==(Object other) =>

@@ -21,16 +21,16 @@ class AppState {
   final List<ItemSort>? sorts;
 
   static AppState initialState() => AppState(
-        loginState: LoginState.initialState(),
-        wait: Wait(),
-        userListState: null,
-        itemListState: null,
-        sorts: null,
-        loginToViewList: Event<String>.spent(),
-        joinedToList: Event<List<String>>.spent(),
-      );
+    loginState: LoginState.initialState(),
+    wait: Wait(),
+    userListState: null,
+    itemListState: null,
+    sorts: null,
+    loginToViewList: Event<String>.spent(),
+    joinedToList: Event<List<String>>.spent(),
+  );
 
-//<editor-fold desc="Data Methods">
+  //<editor-fold desc="Data Methods">
 
   const AppState({
     required this.loginState,
@@ -67,11 +67,7 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState{' +
-        ' loginState: $loginState,' +
-        ' wait: $wait,' +
-        ' userListState: $userListState,' +
-        ' itemListState: $itemListState,' +
+    return 'AppState{' ' loginState: $loginState,' ' wait: $wait,' ' userListState: $userListState,' ' itemListState: $itemListState,' +
         ' loginToViewList: $loginToViewList,' +
         ' joinedToList: $joinedToList,' +
         ' sorts: $sorts,' +
@@ -100,13 +96,13 @@ class AppState {
 
   Map<String, dynamic> toMap() {
     return {
-      'loginState': this.loginState,
-      'wait': this.wait,
-      'userListState': this.userListState,
-      'itemListState': this.itemListState,
-      'loginToViewList': this.loginToViewList,
-      'joinedToList': this.joinedToList,
-      'sorts': this.sorts,
+      'loginState': loginState,
+      'wait': wait,
+      'userListState': userListState,
+      'itemListState': itemListState,
+      'loginToViewList': loginToViewList,
+      'joinedToList': joinedToList,
+      'sorts': sorts,
     };
   }
 
@@ -122,5 +118,5 @@ class AppState {
     );
   }
 
-//</editor-fold>
+  //</editor-fold>
 }

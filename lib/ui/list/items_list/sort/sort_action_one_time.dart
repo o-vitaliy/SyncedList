@@ -23,9 +23,7 @@ class SortActionOneTime extends ReduxAction<AppState> {
     items.forEachIndexed((i, e) => changes[e.id] = i);
     repo.orderItem(state.itemListState!.list.id, changes);
 
-    final s = state.itemListState!.copyWith(
-      items: items,
-    );
+    final s = state.itemListState!.copyWith(items: items);
     return state.copyWith(itemListState: s, sorts: []);
   }
 }

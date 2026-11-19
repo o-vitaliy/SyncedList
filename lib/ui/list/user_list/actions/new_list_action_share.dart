@@ -11,8 +11,8 @@ class UserListActionShare extends ReduxAction<AppState> {
 
   @override
   Future<AppState?> reduce() async {
-    final link = await Deeplink.createLink(item.id, item.name);
-    await Share.share(link.toString());
+    final link = Deeplink.createLink(item.id, item.name);
+    await SharePlus.instance.share(ShareParams(uri: link));
     return null;
   }
 }
