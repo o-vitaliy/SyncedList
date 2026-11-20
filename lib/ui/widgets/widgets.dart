@@ -1,5 +1,4 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({super.key});
@@ -33,11 +32,11 @@ class LabelButton extends StatelessWidget {
   }
 }
 
+/// Lets [defaultToast] show messages without a BuildContext; set on MaterialApp.
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
 void defaultToast(String msg) {
-  Fluttertoast.showToast(
-    msg: msg,
-    toastLength: Toast.LENGTH_LONG,
-    backgroundColor: Colors.black45,
-    textColor: Colors.white,
+  scaffoldMessengerKey.currentState?.showSnackBar(
+    SnackBar(content: Text(msg), duration: const Duration(seconds: 4)),
   );
 }

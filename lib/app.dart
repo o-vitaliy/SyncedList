@@ -11,6 +11,7 @@ import 'state/app_state.dart';
 import 'deeplinks/deeplink.dart';
 import 'ui/list/new_list/actions/new_list_action_from_deeplink.dart';
 import 'ui/list/user_list/user_lists_view.dart';
+import 'ui/widgets/widgets.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -34,6 +35,7 @@ class App extends StatelessWidget {
         builder: (context, child) =>
             UserExceptionDialog<AppState>(child: child!),
         navigatorKey: navigatorKey,
+        scaffoldMessengerKey: scaffoldMessengerKey,
         theme: ThemeData(
           primaryColor: const Color(0xFFDC5607),
           primaryColorDark: const Color(0xFFA32400),

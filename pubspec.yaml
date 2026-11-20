@@ -46,7 +46,6 @@ dependencies:
     sdk: flutter
   cloud_firestore: ^7.2.0
   flutter_reorderable_list: ^1.2.0
-  fluttertoast: ^10.0.2
   share_plus: ^13.3.1
   firebase_crashlytics: ^6.1.0
   app_links: ^7.2.2
