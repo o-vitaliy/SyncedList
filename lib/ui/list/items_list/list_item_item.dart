@@ -1,14 +1,13 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
-import 'package:shopping_list/data/entities/choice.dart';
 import 'package:shopping_list/data/entities/shopping_item.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/ui/list/user_list/user_lists_view.dart';
-
-const dragIcon = Icon(Icons.drag_handle, color: Colors.black26);
+import 'package:shopping_list/ui/widgets/reorderable.dart';
+import 'package:shopping_list/ui/widgets/widgets.dart';
 
 class ListItemItem extends StatelessWidget {
   final ShoppingItem item;
+  final int index;
   final ItemAction<ShoppingItem> delete;
   final ItemAction<ShoppingItem> rename;
   final Function(ShoppingItem, bool) onItemChanged;
@@ -16,6 +15,7 @@ class ListItemItem extends StatelessWidget {
 
   const ListItemItem(
     this.item,
+    this.index,
     this.delete,
     this.rename,
     this.onItemChanged,
@@ -25,70 +25,62 @@ class ListItemItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = Theme.of(context);
-    final defaultTextStyle = t.textTheme.bodyLarge!;
+    final l = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final done = item.done;
 
-    final color = item.done ? Colors.black45 : defaultTextStyle.color;
-    final decoration = item.done
-        ? TextDecoration.lineThrough
-        : TextDecoration.none;
-
-    return ReorderableListener(
-      canStart: () => reorderEnabled,
-      child: Card(
-        child: Row(
-          children: [
-            Expanded(
-              child: CheckboxListTile(
-                contentPadding: EdgeInsets.all(0),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: item.done,
+    return Card(
+      // Bought items recede: flatter background, muted struck-through text.
+      color: done ? Colors.transparent : scheme.surfaceContainerLow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: done ? BorderSide(color: scheme.outlineVariant) : BorderSide.none,
+      ),
+      child: InkWell(
+        onTap: () => onItemChanged(item, !done),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+          child: Row(
+            children: [
+              Checkbox(
+                value: done,
                 onChanged: (value) => onItemChanged(item, value ?? false),
-                title: Text(
-                  item.value,
-                  style: defaultTextStyle.copyWith(
-                    color: color,
-                    decoration: decoration,
+              ),
+              Expanded(
+                child: AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 200),
+                  style: theme.textTheme.bodyLarge!.copyWith(
+                    color: done ? scheme.onSurfaceVariant : scheme.onSurface,
+                    decoration: done
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none,
+                    decorationColor: scheme.onSurfaceVariant,
                   ),
+                  child: Text(item.value),
                 ),
               ),
-            ),
-            if (reorderEnabled) dragIcon,
-            PopupMenuButton<Choice>(
-              onSelected: (v) => v.action(),
-              itemBuilder: (BuildContext context) {
-                return getChoices(
-                  context,
-                  item,
-                ).map(buildMoreMenuItem).toList();
-              },
-            ),
-          ],
+              PopupMenuButton<VoidCallback>(
+                onSelected: (action) => action(),
+                itemBuilder: (context) => [
+                  menuAction(
+                    Icons.edit_outlined,
+                    l.rename,
+                    () => rename(context, item),
+                  ),
+                  menuAction(
+                    Icons.delete_outline,
+                    l.delete,
+                    () => delete(context, item),
+                    color: scheme.error,
+                  ),
+                ],
+              ),
+              if (reorderEnabled) DragHandle(index: index),
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  PopupMenuItem<Choice> buildMoreMenuItem(Choice choice) {
-    return PopupMenuItem<Choice>(
-      value: choice,
-      child: Row(children: [Icon(choice.icon), Text(choice.title)]),
-    );
-  }
-
-  List<Choice> getChoices(BuildContext context, ShoppingItem item) {
-    final l = AppLocalizations.of(context);
-    return [
-      Choice(
-        title: l.delete,
-        icon: Icons.delete,
-        action: () => delete(context, item),
-      ),
-      Choice(
-        title: l.rename,
-        icon: Icons.edit,
-        action: () => rename(context, item),
-      ),
-    ];
   }
 }

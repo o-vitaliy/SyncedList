@@ -98,8 +98,12 @@ class _FormContainerState extends State<_FormContainer> {
         children: [
           TextFormField(
             initialValue: initialName,
+            autofocus: true,
+            textCapitalization: TextCapitalization.sentences,
+            textInputAction: TextInputAction.done,
             decoration: InputDecoration(hintText: l.newListName),
             onChanged: nameChanged,
+            onFieldSubmitted: (_) => onSave(),
             validator: (v) => requiredValidation(context, v),
           ),
           defaultSpacer(),
@@ -110,8 +114,12 @@ class _FormContainerState extends State<_FormContainer> {
                 child: Text(l.cancel),
                 onPressed: () => Navigator.pop(context),
               ),
-              defaultSpacer(),
-              ElevatedButton(onPressed: onSave, child: Text(l.save)),
+              defaultSpacer8(),
+              FilledButton(
+                style: FilledButton.styleFrom(minimumSize: const Size(88, 44)),
+                onPressed: onSave,
+                child: Text(l.save),
+              ),
             ],
           ),
         ],

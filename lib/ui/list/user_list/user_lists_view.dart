@@ -4,6 +4,7 @@ import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/ui/list/new_list/new_list_form.dart';
+import 'package:shopping_list/ui/settings/theme_menu_button.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
@@ -25,7 +26,10 @@ class UserListsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).yourLists)),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).yourLists),
+        actions: const [ThemeMenuButton(), SizedBox(width: 4)],
+      ),
       floatingActionButton: _createListButton(context),
       body: StoreConnector<AppState, _ViewModel>(
         converter: _ViewModel.fromStore,
@@ -64,8 +68,9 @@ class UserListsView extends StatelessWidget {
   }
 
   Widget _createListButton(BuildContext context) {
-    return FloatingActionButton(
-      child: const Icon(Icons.add),
+    return FloatingActionButton.extended(
+      icon: const Icon(Icons.add),
+      label: Text(AppLocalizations.of(context).newList),
       onPressed: () => _createListDialog(context),
     );
   }
@@ -99,7 +104,14 @@ class UserListsView extends StatelessWidget {
   void rename(BuildContext context, UserList? item) {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(content: NewListForm(item?.id, item?.name)),
+      builder: (_) => AlertDialog(
+        title: Text(
+          item == null
+              ? AppLocalizations.of(context).newList
+              : AppLocalizations.of(context).renameList,
+        ),
+        content: NewListForm(item?.id, item?.name),
+      ),
     );
   }
 }

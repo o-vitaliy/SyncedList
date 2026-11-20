@@ -1,7 +1,5 @@
 {
   "@@locale": "en",
-  "emptyItemsListInfoClickToShare": " to share the shopping list.",
-  "emptyItemsListInfoClickToCreate": " add new items.",
   "emptyItemsListInfo1": "Your shopping list is empty.",
   "invitedInToLists": "{name} list has been added",
   "@invitedInToLists": {
@@ -19,10 +17,6 @@
       }
     }
   },
-  "emptyListEnjoySharing": "Enjoy checking a list together",
-  "emptyListInfoClickToShare": "to share a content of the shopping list.",
-  "emptyListInfoClickToCreate": "to create new one.",
-  "emptyListInfoClick": "Click",
   "emptyListInfo1": "You don't have any shopping list yet.",
   "rename": "Rename",
   "deleteItemConfirm": "Are sure you want to delete this item?",
@@ -35,8 +29,6 @@
   "ok": "Ok",
   "cancel": "Cancel",
   "save": "Save",
-  "view": "View",
-  "unexpectedError": "We are sorry. Unexpected error has happened :((",
   "passwordMatch": "Passwords don't match",
   "invalidEmailFormat": "Invalid email",
   "requiredField": "This field is required",
@@ -45,14 +37,31 @@
   "sortNameDone": "By name & done",
   "sortDone": "By done",
   "sortName": "By name",
-  "registerExecute": "Sign Up",
-  "registerTitle": "Sign Up",
-  "registerTo": "Sign Up",
-  "hintPasswordConfirm": "Repeat password",
-  "hintPassword": "Password",
-  "hintEmail": "Email",
-  "loginExecuteFacebook": "Login with Facebook",
-  "loginExecuteGoogle": "Login with Google",
-  "loginExecute": "Login",
-  "loginTitle": "Login"
+  "loginExecuteFacebook": "Continue with Facebook",
+  "loginExecuteGoogle": "Continue with Google",
+  "appTagline": "Shopping lists you share and check off together, in real time.",
+  "loginAnonymous": "Continue without an account",
+  "themeTitle": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "newList": "New list",
+  "addItem": "Add item",
+  "editItem": "Edit item",
+  "renameList": "Rename list",
+  "sharedList": "Shared",
+  "sortMenu": "Sort",
+  "itemsProgress": "{done} of {total} done",
+  "emptyListsBody": "Create a list, then share it to shop together.",
+  "emptyItemsBody": "Add the first item, or share the list so others can add theirs.",
+  "@itemsProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

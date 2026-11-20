@@ -10,12 +10,6 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get emptyItemsListInfoClickToShare => 'чтобы поделиться списком';
-
-  @override
-  String get emptyItemsListInfoClickToCreate => 'чтобы добавить новый товар';
-
-  @override
   String get emptyItemsListInfo1 => 'Ваш список покупок пуст.';
 
   @override
@@ -27,19 +21,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String loginToAddList(String name) {
     return 'С вами доделились списком $name. Войдите, чтобы его просмотреть';
   }
-
-  @override
-  String get emptyListEnjoySharing =>
-      'Наслаждайся совместным использованием списка';
-
-  @override
-  String get emptyListInfoClickToShare => 'чтобы поделиться списком';
-
-  @override
-  String get emptyListInfoClickToCreate => 'чтобы создать новый';
-
-  @override
-  String get emptyListInfoClick => 'Нажмите';
 
   @override
   String get emptyListInfo1 => 'У вас еще нет списков покупок';
@@ -78,12 +59,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get save => 'Сохранить';
 
   @override
-  String get view => 'Вид';
-
-  @override
-  String get unexpectedError => 'Мы сожалеем. Произошла неожиданная ошибка :((';
-
-  @override
   String get passwordMatch => 'Пароли не совпадают';
 
   @override
@@ -108,32 +83,58 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sortName => 'По имени';
 
   @override
-  String get registerExecute => 'Зарегистрироваться';
+  String get loginExecuteFacebook => 'Продолжить с Facebook';
 
   @override
-  String get registerTitle => 'Зарегистрироваться';
+  String get loginExecuteGoogle => 'Продолжить с Google';
 
   @override
-  String get registerTo => 'Зарегистрироваться';
+  String get appTagline =>
+      'Списки покупок, которые вы ведёте вместе — в реальном времени.';
 
   @override
-  String get hintPasswordConfirm => 'Повторите пароль';
+  String get loginAnonymous => 'Продолжить без аккаунта';
 
   @override
-  String get hintPassword => 'Пароль';
+  String get themeTitle => 'Тема';
 
   @override
-  String get hintEmail => 'Электронное письмо';
+  String get themeSystem => 'Как в системе';
 
   @override
-  String get loginExecuteFacebook => 'Войти через Facebook';
+  String get themeLight => 'Светлая';
 
   @override
-  String get loginExecuteGoogle => 'Вход через Google';
+  String get themeDark => 'Тёмная';
 
   @override
-  String get loginExecute => 'Авторизоваться';
+  String get newList => 'Новый список';
 
   @override
-  String get loginTitle => 'Авторизоваться';
+  String get addItem => 'Добавить';
+
+  @override
+  String get editItem => 'Изменить';
+
+  @override
+  String get renameList => 'Переименовать список';
+
+  @override
+  String get sharedList => 'Общий';
+
+  @override
+  String get sortMenu => 'Сортировка';
+
+  @override
+  String itemsProgress(int done, int total) {
+    return '$done из $total куплено';
+  }
+
+  @override
+  String get emptyListsBody =>
+      'Создайте список и поделитесь им, чтобы покупать вместе.';
+
+  @override
+  String get emptyItemsBody =>
+      'Добавьте первый товар или поделитесь списком, чтобы другие тоже могли добавлять.';
 }

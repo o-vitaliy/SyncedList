@@ -11,7 +11,9 @@ import 'state/app_state.dart';
 import 'deeplinks/deeplink.dart';
 import 'ui/list/new_list/actions/new_list_action_from_deeplink.dart';
 import 'ui/list/user_list/user_lists_view.dart';
+import 'ui/theme/app_theme.dart';
 import 'ui/widgets/widgets.dart';
+import 'data/entities/app_theme_mode.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -29,31 +31,31 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
       store: mainStore,
-      child: MaterialApp(
-        routes: routes,
-        // Shows UserExceptions from any action, via NavigateAction.navigatorKey.
-        builder: (context, child) =>
-            UserExceptionDialog<AppState>(child: child!),
-        navigatorKey: navigatorKey,
-        scaffoldMessengerKey: scaffoldMessengerKey,
-        theme: ThemeData(
-          primaryColor: const Color(0xFFDC5607),
-          primaryColorDark: const Color(0xFFA32400),
-          primaryColorLight: const Color(0xFFFF873D),
-          appBarTheme: const AppBarTheme(backgroundColor: Color(0xFFDC5607)),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Color(0xFFDC5607),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFDC5607),
-              foregroundColor: Colors.white,
-            ),
-          ),
-        ),
-        localizationsDelegates: appLocalizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
+      child: StoreConnector<AppState, AppThemeMode>(
+        converter: (store) => store.state.themeMode,
+        builder: (context, mode) => _app(_toThemeMode(mode)),
       ),
+    );
+  }
+
+  static ThemeMode _toThemeMode(AppThemeMode mode) => switch (mode) {
+    AppThemeMode.system => ThemeMode.system,
+    AppThemeMode.light => ThemeMode.light,
+    AppThemeMode.dark => ThemeMode.dark,
+  };
+
+  Widget _app(ThemeMode themeMode) {
+    return MaterialApp(
+      routes: routes,
+      // Shows UserExceptions from any action, via NavigateAction.navigatorKey.
+      builder: (context, child) => UserExceptionDialog<AppState>(child: child!),
+      navigatorKey: navigatorKey,
+      scaffoldMessengerKey: scaffoldMessengerKey,
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: themeMode,
+      localizationsDelegates: appLocalizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }

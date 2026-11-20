@@ -34,6 +34,17 @@ class _ViewModel extends Vm {
 class _SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.white, child: const LoadingIndicator());
+    return const Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppMark(),
+            SizedBox(height: 32),
+            SizedBox(width: 120, child: LinearProgressIndicator()),
+          ],
+        ),
+      ),
+    );
   }
 }

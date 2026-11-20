@@ -98,18 +98,6 @@ abstract class AppLocalizations {
     Locale('ru'),
   ];
 
-  /// No description provided for @emptyItemsListInfoClickToShare.
-  ///
-  /// In en, this message translates to:
-  /// **' to share the shopping list.'**
-  String get emptyItemsListInfoClickToShare;
-
-  /// No description provided for @emptyItemsListInfoClickToCreate.
-  ///
-  /// In en, this message translates to:
-  /// **' add new items.'**
-  String get emptyItemsListInfoClickToCreate;
-
   /// No description provided for @emptyItemsListInfo1.
   ///
   /// In en, this message translates to:
@@ -127,30 +115,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name} has been shared with you. Login to view it.'**
   String loginToAddList(String name);
-
-  /// No description provided for @emptyListEnjoySharing.
-  ///
-  /// In en, this message translates to:
-  /// **'Enjoy checking a list together'**
-  String get emptyListEnjoySharing;
-
-  /// No description provided for @emptyListInfoClickToShare.
-  ///
-  /// In en, this message translates to:
-  /// **'to share a content of the shopping list.'**
-  String get emptyListInfoClickToShare;
-
-  /// No description provided for @emptyListInfoClickToCreate.
-  ///
-  /// In en, this message translates to:
-  /// **'to create new one.'**
-  String get emptyListInfoClickToCreate;
-
-  /// No description provided for @emptyListInfoClick.
-  ///
-  /// In en, this message translates to:
-  /// **'Click'**
-  String get emptyListInfoClick;
 
   /// No description provided for @emptyListInfo1.
   ///
@@ -224,18 +188,6 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get save;
 
-  /// No description provided for @view.
-  ///
-  /// In en, this message translates to:
-  /// **'View'**
-  String get view;
-
-  /// No description provided for @unexpectedError.
-  ///
-  /// In en, this message translates to:
-  /// **'We are sorry. Unexpected error has happened :(('**
-  String get unexpectedError;
-
   /// No description provided for @passwordMatch.
   ///
   /// In en, this message translates to:
@@ -284,65 +236,107 @@ abstract class AppLocalizations {
   /// **'By name'**
   String get sortName;
 
-  /// No description provided for @registerExecute.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign Up'**
-  String get registerExecute;
-
-  /// No description provided for @registerTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign Up'**
-  String get registerTitle;
-
-  /// No description provided for @registerTo.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign Up'**
-  String get registerTo;
-
-  /// No description provided for @hintPasswordConfirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Repeat password'**
-  String get hintPasswordConfirm;
-
-  /// No description provided for @hintPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get hintPassword;
-
-  /// No description provided for @hintEmail.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get hintEmail;
-
   /// No description provided for @loginExecuteFacebook.
   ///
   /// In en, this message translates to:
-  /// **'Login with Facebook'**
+  /// **'Continue with Facebook'**
   String get loginExecuteFacebook;
 
   /// No description provided for @loginExecuteGoogle.
   ///
   /// In en, this message translates to:
-  /// **'Login with Google'**
+  /// **'Continue with Google'**
   String get loginExecuteGoogle;
 
-  /// No description provided for @loginExecute.
+  /// No description provided for @appTagline.
   ///
   /// In en, this message translates to:
-  /// **'Login'**
-  String get loginExecute;
+  /// **'Shopping lists you share and check off together, in real time.'**
+  String get appTagline;
 
-  /// No description provided for @loginTitle.
+  /// No description provided for @loginAnonymous.
   ///
   /// In en, this message translates to:
-  /// **'Login'**
-  String get loginTitle;
+  /// **'Continue without an account'**
+  String get loginAnonymous;
+
+  /// No description provided for @themeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get themeTitle;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @newList.
+  ///
+  /// In en, this message translates to:
+  /// **'New list'**
+  String get newList;
+
+  /// No description provided for @addItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get addItem;
+
+  /// No description provided for @editItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit item'**
+  String get editItem;
+
+  /// No description provided for @renameList.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename list'**
+  String get renameList;
+
+  /// No description provided for @sharedList.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared'**
+  String get sharedList;
+
+  /// No description provided for @sortMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sortMenu;
+
+  /// No description provided for @itemsProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} done'**
+  String itemsProgress(int done, int total);
+
+  /// No description provided for @emptyListsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a list, then share it to shop together.'**
+  String get emptyListsBody;
+
+  /// No description provided for @emptyItemsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the first item, or share the list so others can add theirs.'**
+  String get emptyItemsBody;
 }
 
 class _AppLocalizationsDelegate

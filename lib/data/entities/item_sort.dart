@@ -47,7 +47,7 @@ class ItemSortHelper {
       case ItemSort.name:
         return Icons.sort_by_alpha;
       case ItemSort.done:
-        return Icons.done;
+        return Icons.playlist_add_check;
       case ItemSort.nameDone:
         return Icons.spellcheck;
     }

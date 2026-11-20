@@ -41,27 +41,36 @@ void defaultUserExceptionDialog(
   }
 }
 
-void confirmDialog(BuildContext context, String title, VoidCallback action) {
+/// Asks before a destructive action; [action] runs only on confirm.
+void confirmDialog(
+  BuildContext context,
+  String title,
+  VoidCallback action, {
+  IconData icon = Icons.delete_outline,
+}) {
   final l = AppLocalizations.of(context);
-  final t = Theme.of(context);
+  final scheme = Theme.of(context).colorScheme;
   showDialog(
     context: context,
-    builder: (_) => AlertDialog(
-      title: Text(title),
+    builder: (dialogContext) => AlertDialog(
+      icon: Icon(icon, color: scheme.error),
+      title: Text(title, textAlign: TextAlign.center),
       actions: [
-        ElevatedButton(
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(),
           child: Text(l.cancel),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
         ),
-        ElevatedButton(
-          style: t.elevatedButtonTheme.style,
+        FilledButton(
+          style: FilledButton.styleFrom(
+            backgroundColor: scheme.error,
+            foregroundColor: scheme.onError,
+            minimumSize: const Size(64, 40),
+          ),
           onPressed: () {
             action();
-            Navigator.of(context).pop();
+            Navigator.of(dialogContext).pop();
           },
-          child: Text(l.ok),
+          child: Text(l.delete),
         ),
       ],
     ),

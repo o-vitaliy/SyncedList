@@ -3,7 +3,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/item_sort.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/state/app_state.dart';
-import 'package:shopping_list/ui/widgets/tiles.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
 import 'sort_action_auto.dart';
@@ -22,54 +21,53 @@ class ItemListSortWidget extends StatelessWidget {
 
   Widget _content(BuildContext context, _ViewModel vm) {
     final l = AppLocalizations.of(context);
-    return PopupMenuButton<ItemSort>(
-      onSelected: (v) => vm.sortChanged(v),
+    return PopupMenuButton<VoidCallback>(
       icon: const Icon(Icons.sort),
+      tooltip: l.sortMenu,
+      onSelected: (action) => action(),
       itemBuilder: (BuildContext context) {
         return [
-          _title(context, "${l.sortAuto}:"),
-          ...ItemSortHelper.autoSorts().map(
-            (e) => _sortCheckboxes(context, e, vm),
-          ),
+          _header(context, l.sortAuto),
+          for (final sort in ItemSortHelper.autoSorts())
+            _autoSort(context, sort, vm),
           const PopupMenuDivider(),
-          _title(context, "${l.sortOneTime}:"),
-          ...ItemSortHelper.manualSorts().map((e) => _sorts(context, e)),
+          _header(context, l.sortOneTime),
+          for (final sort in ItemSortHelper.manualSorts())
+            menuAction(
+              ItemSortHelper.getIcon(sort),
+              ItemSortHelper.getTitle(context, sort),
+              () => vm.sortChanged(sort),
+            ),
         ];
       },
     );
   }
 
-  PopupMenuItem<ItemSort> _sorts(BuildContext context, ItemSort sort) {
-    return PopupMenuItem<ItemSort>(
-      value: sort,
-      child: Row(
-        children: [
-          Icon(ItemSortHelper.getIcon(sort), color: Colors.black),
-          defaultSpacer8(),
-          Text(ItemSortHelper.getTitle(context, sort)),
-        ],
+  PopupMenuEntry<VoidCallback> _header(BuildContext context, String title) {
+    final theme = Theme.of(context);
+    return PopupMenuItem<VoidCallback>(
+      enabled: false,
+      height: 36,
+      child: Text(
+        title,
+        style: theme.textTheme.labelMedium?.copyWith(
+          color: theme.colorScheme.primary,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
 
-  PopupMenuItem<ItemSort> _title(BuildContext context, String title) {
-    return PopupMenuItem<ItemSort>(child: Text(title));
-  }
-
-  PopupMenuItem<ItemSort> _sortCheckboxes(
+  PopupMenuEntry<VoidCallback> _autoSort(
     BuildContext context,
     ItemSort sort,
     _ViewModel vm,
   ) {
-    return PopupMenuItem<ItemSort>(
-      child: LabeledCheckbox(
-        value: vm.selectedSorts?.contains(sort) ?? false,
-        onChanged: (v) {
-          vm.autoSortChanged(sort, v);
-          Navigator.of(context).pop();
-        },
-        label: ItemSortHelper.getTitle(context, sort),
-      ),
+    final checked = vm.selectedSorts?.contains(sort) ?? false;
+    return CheckedPopupMenuItem<VoidCallback>(
+      value: () => vm.autoSortChanged(sort, !checked),
+      checked: checked,
+      child: Text(ItemSortHelper.getTitle(context, sort)),
     );
   }
 }

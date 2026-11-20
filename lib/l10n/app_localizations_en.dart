@@ -10,12 +10,6 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get emptyItemsListInfoClickToShare => ' to share the shopping list.';
-
-  @override
-  String get emptyItemsListInfoClickToCreate => ' add new items.';
-
-  @override
   String get emptyItemsListInfo1 => 'Your shopping list is empty.';
 
   @override
@@ -27,19 +21,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String loginToAddList(String name) {
     return '$name has been shared with you. Login to view it.';
   }
-
-  @override
-  String get emptyListEnjoySharing => 'Enjoy checking a list together';
-
-  @override
-  String get emptyListInfoClickToShare =>
-      'to share a content of the shopping list.';
-
-  @override
-  String get emptyListInfoClickToCreate => 'to create new one.';
-
-  @override
-  String get emptyListInfoClick => 'Click';
 
   @override
   String get emptyListInfo1 => 'You don\'t have any shopping list yet.';
@@ -78,13 +59,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get save => 'Save';
 
   @override
-  String get view => 'View';
-
-  @override
-  String get unexpectedError =>
-      'We are sorry. Unexpected error has happened :((';
-
-  @override
   String get passwordMatch => 'Passwords don\'t match';
 
   @override
@@ -109,32 +83,57 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sortName => 'By name';
 
   @override
-  String get registerExecute => 'Sign Up';
+  String get loginExecuteFacebook => 'Continue with Facebook';
 
   @override
-  String get registerTitle => 'Sign Up';
+  String get loginExecuteGoogle => 'Continue with Google';
 
   @override
-  String get registerTo => 'Sign Up';
+  String get appTagline =>
+      'Shopping lists you share and check off together, in real time.';
 
   @override
-  String get hintPasswordConfirm => 'Repeat password';
+  String get loginAnonymous => 'Continue without an account';
 
   @override
-  String get hintPassword => 'Password';
+  String get themeTitle => 'Theme';
 
   @override
-  String get hintEmail => 'Email';
+  String get themeSystem => 'System';
 
   @override
-  String get loginExecuteFacebook => 'Login with Facebook';
+  String get themeLight => 'Light';
 
   @override
-  String get loginExecuteGoogle => 'Login with Google';
+  String get themeDark => 'Dark';
 
   @override
-  String get loginExecute => 'Login';
+  String get newList => 'New list';
 
   @override
-  String get loginTitle => 'Login';
+  String get addItem => 'Add item';
+
+  @override
+  String get editItem => 'Edit item';
+
+  @override
+  String get renameList => 'Rename list';
+
+  @override
+  String get sharedList => 'Shared';
+
+  @override
+  String get sortMenu => 'Sort';
+
+  @override
+  String itemsProgress(int done, int total) {
+    return '$done of $total done';
+  }
+
+  @override
+  String get emptyListsBody => 'Create a list, then share it to shop together.';
+
+  @override
+  String get emptyItemsBody =>
+      'Add the first item, or share the list so others can add theirs.';
 }

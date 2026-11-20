@@ -27,33 +27,26 @@ class ListItemsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserList args =
         ModalRoute.of(context)!.settings.arguments! as UserList;
+    final l = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(args.name),
-        actions: [const ItemListSortWidget(), _share(context, args)],
+        title: Text(args.name, overflow: TextOverflow.ellipsis),
+        actions: [
+          const ItemListSortWidget(),
+          IconButton(
+            icon: const Icon(Icons.share_outlined),
+            tooltip: l.share,
+            onPressed: () => mainStore.dispatch(UserListActionShare(args)),
+          ),
+          const SizedBox(width: 4),
+        ],
       ),
-      floatingActionButton: _createListButton(context, args.id),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.add),
+        label: Text(l.addItem),
+        onPressed: () => rename(context, args.id, null),
+      ),
       body: _ListItemsConnector(args: args),
-    );
-  }
-
-  Widget _createListButton(BuildContext context, String listId) {
-    return FloatingActionButton(
-      child: const Icon(Icons.add),
-      onPressed: () => _createItemDialog(context, listId),
-    );
-  }
-
-  void _createItemDialog(BuildContext context, String listId) {
-    rename(context, listId, null);
-  }
-
-  Widget _share(BuildContext context, UserList list) {
-    final l = AppLocalizations.of(context);
-    return IconButton(
-      icon: const Icon(Icons.share),
-      tooltip: l.share,
-      onPressed: () => mainStore.dispatch(UserListActionShare(list)),
     );
   }
 }
@@ -83,27 +76,20 @@ class _ListItemsConnector extends StatelessWidget {
     } else {
       return Column(
         children: [
-          if (vm.items.length > 1) progress(vm.doneCount, vm.items.length),
+          _ProgressHeader(done: vm.doneCount, total: vm.items.length),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListItemList(
-                items: vm.items,
-                delete: (c, i) => delete(c, i, vm),
-                rename: (c, i) => rename(c, vm.listId, i),
-                onItemChanged: vm.done,
-                reorder: vm.reorder,
-                reorderEnabled: vm.reorderEnabled,
-              ),
+            child: ListItemList(
+              items: vm.items,
+              delete: (c, i) => delete(c, i, vm),
+              rename: (c, i) => rename(c, vm.listId, i),
+              onItemChanged: vm.done,
+              reorder: vm.reorder,
+              reorderEnabled: vm.reorderEnabled,
             ),
           ),
         ],
       );
     }
-  }
-
-  Widget progress(int done, int total) {
-    return LinearProgressIndicator(value: done.toDouble() / total.toDouble());
   }
 
   void delete(BuildContext context, ShoppingItem item, _ViewModel vm) {
@@ -114,10 +100,59 @@ class _ListItemsConnector extends StatelessWidget {
   }
 }
 
+/// "3 of 7 done" with a progress bar above the items.
+class _ProgressHeader extends StatelessWidget {
+  final int done;
+  final int total;
+
+  const _ProgressHeader({required this.done, required this.total});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final complete = done == total;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                complete ? Icons.check_circle : Icons.shopping_basket_outlined,
+                size: 18,
+                color: complete ? scheme.primary : scheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                AppLocalizations.of(context).itemsProgress(done, total),
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          TweenAnimationBuilder<double>(
+            tween: Tween(end: total == 0 ? 0 : done / total),
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            builder: (context, value, _) =>
+                LinearProgressIndicator(value: value),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 void rename(BuildContext context, String listId, ShoppingItem? item) {
+  final l = AppLocalizations.of(context);
   showDialog(
     context: context,
     builder: (_) => AlertDialog(
+      title: Text(item == null ? l.addItem : l.editItem),
       content: NewItemForm(
         listId: listId,
         name: item?.value,

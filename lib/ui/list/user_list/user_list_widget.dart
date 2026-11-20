@@ -1,14 +1,12 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
-import 'package:shopping_list/ui/widgets/reorderable_list_simple.dart';
+import 'package:shopping_list/ui/widgets/reorderable.dart';
 
 import 'user_list_item_widget.dart';
 import 'user_lists_view.dart';
 
 class UserListsWidget extends StatelessWidget {
   final List<UserList> items;
-
   final ItemAction<UserList> share;
   final ItemAction<UserList> delete;
   final ItemAction<UserList> rename;
@@ -25,23 +23,29 @@ class UserListsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableListSimple(
-      children: items.map((e) => _listItem(context, e)).toList(growable: false),
-      onReorder: (oldPos, newPos) {
-        reorder(items[oldPos], oldPos, newPos);
+    return ReorderableListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+      buildDefaultDragHandles: false,
+      proxyDecorator: liftedProxyDecorator,
+      itemCount: items.length,
+      onReorderItem: (oldPos, newPos) => reorder(items[oldPos], oldPos, newPos),
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return Padding(
+          key: ValueKey(item.id),
+          padding: const EdgeInsets.only(bottom: 8),
+          child: ReorderableDelayedDragStartListener(
+            index: index,
+            child: UserListItemWidget(
+              item: item,
+              index: index,
+              share: share,
+              delete: delete,
+              rename: rename,
+            ),
+          ),
+        );
       },
-    );
-  }
-
-  Widget _listItem(BuildContext context, UserList item) {
-    return ReorderableListener(
-      child: UserListItemWidget(
-        key: ValueKey(item),
-        item: item,
-        share: share,
-        delete: delete,
-        rename: rename,
-      ),
     );
   }
 }

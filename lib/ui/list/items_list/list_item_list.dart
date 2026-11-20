@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/shopping_item.dart';
 import 'package:shopping_list/ui/list/user_list/user_lists_view.dart';
-import 'package:shopping_list/ui/widgets/reorderable_list_simple.dart';
+import 'package:shopping_list/ui/widgets/reorderable.dart';
 
 import 'list_item_item.dart';
 
@@ -25,20 +25,27 @@ class ListItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableListSimple(
-      children: items
-          .map(
-            (e) => ListItemItem(
-              e,
-              delete,
-              rename,
-              onItemChanged,
-              reorderEnabled,
-              key: ValueKey(e),
-            ),
-          )
-          .toList(),
-      onReorder: (int o, int n) => reorder(items[o], o, n),
+    return ReorderableListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 96),
+      buildDefaultDragHandles: false,
+      proxyDecorator: liftedProxyDecorator,
+      itemCount: items.length,
+      onReorderItem: (o, n) => reorder(items[o], o, n),
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return Padding(
+          key: ValueKey(item.id),
+          padding: const EdgeInsets.only(bottom: 8),
+          child: ListItemItem(
+            item,
+            index,
+            delete,
+            rename,
+            onItemChanged,
+            reorderEnabled,
+          ),
+        );
+      },
     );
   }
 }

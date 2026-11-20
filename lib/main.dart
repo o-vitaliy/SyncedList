@@ -11,6 +11,7 @@ import 'data/repos/auth_repo.dart';
 import 'data/repos/invites_repo.dart';
 import 'data/repos/lists_repo.dart';
 import 'data/repos/sort_repo.dart';
+import 'data/repos/theme_repo.dart';
 import 'data/repos/user_lists_repo.dart';
 import 'data/sources/auth/auth_datasource.dart';
 import 'data/sources/list/db_items_store.dart';
@@ -18,6 +19,7 @@ import 'data/sources/list/db_list_store.dart';
 import 'data/sources/prefs/prefs_data_source.dart';
 import 'firebase_options.dart';
 import 'state/app_state.dart';
+import 'ui/settings/actions/theme_action_load.dart';
 
 Store<AppState> mainStore = Store<AppState>(
   initialState: AppState.initialState(),
@@ -35,6 +37,8 @@ void main() async {
     setupDependencies();
 
     NavigateAction.setNavigatorKey(navigatorKey);
+    // Load the saved theme first so the app doesn't flash the wrong one.
+    await mainStore.dispatchAndWait(ThemeActionLoad());
     runApp(const App());
     initDeepLinks();
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
@@ -53,4 +57,5 @@ void setupDependencies() {
   getIt.registerSingleton(ItemsListRepo());
   getIt.registerSingleton(InviteRepos());
   getIt.registerSingleton(SortRepo());
+  getIt.registerSingleton(ThemeRepo());
 }

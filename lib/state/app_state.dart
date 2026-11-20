@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shopping_list/data/entities/app_theme_mode.dart';
 import 'package:shopping_list/data/entities/item_sort.dart';
 
 import 'item_list_state.dart';
@@ -18,6 +19,8 @@ class AppState {
 
   final List<ItemSort>? sorts;
 
+  final AppThemeMode themeMode;
+
   static AppState initialState() => AppState(
     loginState: LoginState.initialState(),
     userListState: null,
@@ -25,6 +28,7 @@ class AppState {
     sorts: null,
     loginToViewList: Event<String>.spent(),
     joinedToList: Event<List<String>>.spent(),
+    themeMode: AppThemeMode.system,
   );
 
   //<editor-fold desc="Data Methods">
@@ -36,6 +40,7 @@ class AppState {
     required this.loginToViewList,
     required this.joinedToList,
     this.sorts,
+    required this.themeMode,
   });
 
   @override
@@ -48,7 +53,8 @@ class AppState {
           itemListState == other.itemListState &&
           loginToViewList == other.loginToViewList &&
           joinedToList == other.joinedToList &&
-          sorts == other.sorts);
+          sorts == other.sorts &&
+          themeMode == other.themeMode);
 
   @override
   int get hashCode =>
@@ -57,7 +63,8 @@ class AppState {
       itemListState.hashCode ^
       loginToViewList.hashCode ^
       joinedToList.hashCode ^
-      sorts.hashCode;
+      sorts.hashCode ^
+      themeMode.hashCode;
 
   @override
   String toString() {
@@ -68,6 +75,7 @@ class AppState {
         ' loginToViewList: $loginToViewList,'
         ' joinedToList: $joinedToList,'
         ' sorts: $sorts,'
+        ' themeMode: $themeMode,'
         '}';
   }
 
@@ -78,6 +86,7 @@ class AppState {
     Event<String>? loginToViewList,
     Event<List<String>>? joinedToList,
     List<ItemSort>? sorts,
+    AppThemeMode? themeMode,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -86,6 +95,7 @@ class AppState {
       loginToViewList: loginToViewList ?? this.loginToViewList,
       joinedToList: joinedToList ?? this.joinedToList,
       sorts: sorts ?? this.sorts,
+      themeMode: themeMode ?? this.themeMode,
     );
   }
 
@@ -97,6 +107,7 @@ class AppState {
     loginToViewList: loginToViewList,
     joinedToList: joinedToList,
     sorts: sorts,
+    themeMode: themeMode,
   );
 
   Map<String, dynamic> toMap() {
@@ -107,6 +118,7 @@ class AppState {
       'loginToViewList': loginToViewList,
       'joinedToList': joinedToList,
       'sorts': sorts,
+      'themeMode': themeMode,
     };
   }
 
@@ -118,6 +130,7 @@ class AppState {
       loginToViewList: map['loginToViewList'] as Event<String>,
       joinedToList: map['joinedToList'] as Event<List<String>>,
       sorts: map['sorts'] as List<ItemSort>,
+      themeMode: map['themeMode'] as AppThemeMode,
     );
   }
 
