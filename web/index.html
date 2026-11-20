@@ -8,9 +8,6 @@
     The path provided below has to start and end with a slash "/" in order for
     it to work correctly.
 
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
@@ -18,84 +15,144 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="GiveARide Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shared shopping lists that sync in real time.">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="shopping_list">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="SyncedList">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
 
-  <title>shopping_list</title>
+  <meta name="theme-color" content="#fff8f6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1d100b" media="(prefers-color-scheme: dark)">
+
+  <title>SyncedList</title>
   <link rel="manifest" href="manifest.json">
+
+  <!--
+    Loading screen shown until Flutter draws its first frame. Colors are the
+    app's Material 3 scheme (lib/ui/theme/app_theme.dart, seed #DC5607), and
+    the layout matches the splash screen, so the hand-off is seamless.
+  -->
+  <style>
+    :root {
+      --surface: #fff8f6;
+      --primary: #a03b00;
+      --track: #f7ddd4;
+      --mark: #c94c00;
+      --on-mark: #fffbff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --surface: #1d100b;
+        --primary: #ffb597;
+        --track: #41312b;
+        --mark: #f1651c;
+        --on-mark: #310d00;
+      }
+    }
+    :root[data-theme="dark"] {
+      --surface: #1d100b;
+      --primary: #ffb597;
+      --track: #41312b;
+      --mark: #f1651c;
+      --on-mark: #310d00;
+    }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--surface);
+    }
+    #loading {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      background: var(--surface);
+      transition: opacity 200ms ease-out;
+    }
+    #loading.done {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #loading .mark {
+      width: 88px;
+      height: 88px;
+      border-radius: 26.4px;
+      background: var(--mark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #loading .mark svg {
+      width: 44px;
+      height: 44px;
+      fill: var(--on-mark);
+    }
+    #loading .bar {
+      position: relative;
+      width: 120px;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--track);
+      overflow: hidden;
+    }
+    #loading .bar::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 45%;
+      border-radius: 4px;
+      background: var(--primary);
+      animation: indeterminate 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    @keyframes indeterminate {
+      from { left: -45%; }
+      to { left: 100%; }
+    }
+    /* `flutter run -d chrome` (debug only) adds its own blue bar at the top
+       of the page; the loader above already shows progress. */
+    .flutter-loader {
+      display: none !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #loading .bar::before {
+        animation-duration: 3s;
+      }
+    }
+  </style>
+  <script>
+    // Honor the theme picked in the app (saved by shared_preferences).
+    try {
+      var saved = JSON.parse(localStorage.getItem('flutter.themeMode'));
+      if (saved === 'light' || saved === 'dark') {
+        document.documentElement.dataset.theme = saved;
+      }
+    } catch (e) {}
+  </script>
 </head>
 <body>
-  <!-- This script installs service_worker.js to provide PWA functionality to
-       application. For more information, see:
-       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <div id="loading" role="progressbar" aria-label="Loading SyncedList">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49A.996.996 0 0 0 20.01 4H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+      </svg>
+    </div>
+    <div class="bar"></div>
+  </div>
   <script>
-    var serviceWorkerVersion = null;
-    var scriptLoaded = false;
-    function loadMainDartJs() {
-      if (scriptLoaded) {
-        return;
-      }
-      scriptLoaded = true;
-      var scriptTag = document.createElement('script');
-      scriptTag.src = 'main.dart.js';
-      scriptTag.type = 'application/javascript';
-      document.body.append(scriptTag);
-    }
-
-    if ('serviceWorker' in navigator) {
-      // Service workers are supported. Use them.
-      window.addEventListener('load', function () {
-        // Wait for registration to finish before dropping the <script> tag.
-        // Otherwise, the browser will load the script multiple times,
-        // potentially different versions.
-        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
-        navigator.serviceWorker.register(serviceWorkerUrl)
-          .then((reg) => {
-            function waitForActivation(serviceWorker) {
-              serviceWorker.addEventListener('statechange', () => {
-                if (serviceWorker.state == 'activated') {
-                  console.log('Installed new service worker.');
-                  loadMainDartJs();
-                }
-              });
-            }
-            if (!reg.active && (reg.installing || reg.waiting)) {
-              // No active web worker and we have installed or are installing
-              // one for the first time. Simply wait for it to activate.
-              waitForActivation(reg.installing || reg.waiting);
-            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
-              // When the app updates the serviceWorkerVersion changes, so we
-              // need to ask the service worker to update.
-              console.log('New service worker available.');
-              reg.update();
-              waitForActivation(reg.installing);
-            } else {
-              // Existing service worker is still good.
-              console.log('Loading app from service worker.');
-              loadMainDartJs();
-            }
-          });
-
-        // If service worker doesn't succeed in a reasonable amount of time,
-        // fallback to plaint <script> tag.
-        setTimeout(() => {
-          if (!scriptLoaded) {
-            console.warn(
-              'Failed to load app from service worker. Falling back to plain <script> tag.',
-            );
-            loadMainDartJs();
-          }
-        }, 4000);
-      });
-    } else {
-      // Service workers not supported. Just drop the <script> tag.
-      loadMainDartJs();
-    }
+    window.addEventListener('flutter-first-frame', function () {
+      var loading = document.getElementById('loading');
+      loading.classList.add('done');
+      setTimeout(function () { loading.remove(); }, 250);
+    });
   </script>
+  <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
