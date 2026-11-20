@@ -23,7 +23,7 @@ Localization code generation (also runs automatically on `pub get`/build, since 
 flutter gen-l10n
 ```
 
-Android builds need JDK 17+ (`JAVA_HOME`). The Gradle build is Kotlin DSL (`android/*.gradle.kts`); release signing reads the gitignored `android/key.properties` (`storeFile` relative to `android/`, `storePassword`, `keyAlias`, `keyPassword`); without it or the keystore it points to, it signs with the debug key.
+Android builds need JDK 17+ (`JAVA_HOME`). The Gradle build is Kotlin DSL (`android/*.gradle.kts`); release signing reads the gitignored `android/key.properties` (`storeFile` absolute or relative to `android/`, `storePassword`, `keyAlias`, `keyPassword`); without it or the keystore it points to, it signs with the debug key.
 
 Firebase Hosting (landing page, privacy/terms, and the `/.well-known` App Links / Universal Links files) lives in `firebase_hosting/`; deploy from that directory with `firebase deploy --only hosting`.
 
