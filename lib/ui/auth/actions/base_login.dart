@@ -24,6 +24,11 @@ abstract class BaseLogin extends ReduxAction<AppState> {
       return null;
     } on FirebaseException catch (e) {
       throw UserException(e.message ?? "Some thing went wrong");
+    } on UserException {
+      rethrow;
+    } catch (e) {
+      // Plugin errors (e.g. PlatformException) would otherwise fail silently.
+      throw UserException("Some thing went wrong", reason: "$e");
     }
   }
 }

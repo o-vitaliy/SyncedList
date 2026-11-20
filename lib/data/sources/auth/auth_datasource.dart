@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -24,6 +25,21 @@ class AuthDataSource {
   }
 
   Future loginViaGoogle() async {
+    // google_sign_in 7 doesn't support authenticate() on the web.
+    if (kIsWeb) {
+      try {
+        return await _auth.signInWithPopup(GoogleAuthProvider());
+      } on FirebaseAuthException catch (e) {
+        if (const {
+          'popup-closed-by-user',
+          'cancelled-popup-request',
+        }.contains(e.code)) {
+          throw LoginCancelled();
+        }
+        rethrow;
+      }
+    }
+
     final googleSignIn = GoogleSignIn.instance;
     await (_googleInit ??= googleSignIn.initialize());
 
