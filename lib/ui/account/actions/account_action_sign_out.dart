@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shopping_list/data/repos/auth_repo.dart';
 import 'package:shopping_list/data/repos/lists_repo.dart';
@@ -12,7 +13,13 @@ class AccountActionSignOut extends ReduxAction<AppState> {
     GetIt.I.get<ListsRepo>().unsubscribeItems();
     GetIt.I.get<ItemsListRepo>().unsubscribeItems();
 
-    await GetIt.I.get<AuthRepo>().signOut();
+    try {
+      await GetIt.I.get<AuthRepo>().signOut();
+    } on FirebaseException catch (e) {
+      throw UserException(e.message ?? "Some thing went wrong");
+    } catch (e) {
+      throw UserException("Some thing went wrong", reason: "$e");
+    }
     dispatch(NavigateAction.pushNamedAndRemoveAll("/login"));
     return state.signedOut();
   }

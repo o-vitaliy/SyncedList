@@ -73,21 +73,27 @@ class AuthDataSource {
     return _link(() => user.linkWithCredential(credential), own: credential);
   }
 
+  /// Signs out of Firebase first, so the app is signed out even if a
+  /// provider plugin fails or hangs; the provider sign-outs only reset their
+  /// account pickers, so they're best-effort and time-limited.
   Future<void> signOut() async {
-    if (!kIsWeb) {
-      try {
+    await _auth.signOut();
+    await Future.wait([
+      _bestEffort(() async {
+        if (kIsWeb) return;
         await (_googleInit ??= GoogleSignIn.instance.initialize());
         await GoogleSignIn.instance.signOut();
-      } catch (_) {
-        // Not signed in with Google; nothing to clear.
-      }
-    }
+      }),
+      _bestEffort(() => FacebookAuth.instance.logOut()),
+    ]);
+  }
+
+  static Future<void> _bestEffort(Future<void> Function() step) async {
     try {
-      await FacebookAuth.instance.logOut();
-    } catch (_) {
-      // Not signed in with Facebook; nothing to clear.
+      await step().timeout(const Duration(seconds: 5));
+    } catch (e) {
+      debugPrint("Provider sign-out skipped: $e");
     }
-    await _auth.signOut();
   }
 
   String? userId() => _auth.currentUser?.uid;
