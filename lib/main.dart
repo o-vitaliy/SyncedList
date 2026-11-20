@@ -19,6 +19,7 @@ import 'data/sources/list/db_list_store.dart';
 import 'data/sources/prefs/prefs_data_source.dart';
 import 'firebase_options.dart';
 import 'state/app_state.dart';
+import 'ui/account/actions/account_action_changed.dart';
 import 'ui/settings/actions/theme_action_load.dart';
 
 Store<AppState> mainStore = Store<AppState>(
@@ -35,6 +36,9 @@ void main() async {
     );
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     setupDependencies();
+    getIt.get<AuthRepo>().accountChanges().listen(
+      (account) => mainStore.dispatch(AccountActionChanged(account)),
+    );
 
     NavigateAction.setNavigatorKey(navigatorKey);
     // Load the saved theme first so the app doesn't flash the wrong one.

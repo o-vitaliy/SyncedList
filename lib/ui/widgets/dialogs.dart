@@ -47,6 +47,7 @@ void confirmDialog(
   String title,
   VoidCallback action, {
   IconData icon = Icons.delete_outline,
+  String? confirmLabel,
 }) {
   final l = AppLocalizations.of(context);
   final scheme = Theme.of(context).colorScheme;
@@ -70,7 +71,7 @@ void confirmDialog(
             action();
             Navigator.of(dialogContext).pop();
           },
-          child: Text(l.delete),
+          child: Text(confirmLabel ?? l.delete),
         ),
       ],
     ),

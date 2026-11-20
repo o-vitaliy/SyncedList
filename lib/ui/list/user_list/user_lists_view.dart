@@ -4,7 +4,7 @@ import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/ui/list/new_list/new_list_form.dart';
-import 'package:shopping_list/ui/settings/theme_menu_button.dart';
+import 'package:shopping_list/ui/account/account_sheet.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
@@ -28,7 +28,7 @@ class UserListsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).yourLists),
-        actions: const [ThemeMenuButton(), SizedBox(width: 4)],
+        actions: const [AccountButton(), SizedBox(width: 8)],
       ),
       floatingActionButton: _createListButton(context),
       body: StoreConnector<AppState, _ViewModel>(

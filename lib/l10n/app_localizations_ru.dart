@@ -137,4 +137,31 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get emptyItemsBody =>
       'Добавьте первый товар или поделитесь списком, чтобы другие тоже могли добавлять.';
+
+  @override
+  String get account => 'Аккаунт';
+
+  @override
+  String get guest => 'Гость';
+
+  @override
+  String get guestInfo =>
+      'Вы пользуетесь SyncedList без аккаунта. Войдите, чтобы сохранить списки и открывать их на других устройствах.';
+
+  @override
+  String get signedInWith => 'Вход выполнен';
+
+  @override
+  String get signOut => 'Выйти';
+
+  @override
+  String get signOutConfirm => 'Выйти из SyncedList?';
+
+  @override
+  String get accountLinked =>
+      'Вход выполнен. Ваши списки сохранены в аккаунте.';
+
+  @override
+  String get accountSwitched =>
+      'Вы вошли в существующий аккаунт. Ваши списки добавлены в него.';
 }

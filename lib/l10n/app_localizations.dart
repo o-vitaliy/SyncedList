@@ -337,6 +337,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add the first item, or share the list so others can add theirs.'**
   String get emptyItemsBody;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// No description provided for @guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest'**
+  String get guest;
+
+  /// No description provided for @guestInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re using SyncedList without an account. Sign in to keep your lists and use them on your other devices.'**
+  String get guestInfo;
+
+  /// No description provided for @signedInWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in'**
+  String get signedInWith;
+
+  /// No description provided for @signOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOut;
+
+  /// No description provided for @signOutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of SyncedList?'**
+  String get signOutConfirm;
+
+  /// No description provided for @accountLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in. Your lists are saved to your account.'**
+  String get accountLinked;
+
+  /// No description provided for @accountSwitched.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in to your existing account. Your lists were added to it.'**
+  String get accountSwitched;
 }
 
 class _AppLocalizationsDelegate

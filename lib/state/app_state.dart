@@ -110,6 +110,15 @@ class AppState {
     themeMode: themeMode,
   );
 
+  /// State after sign-out: no user data, but keep device preferences.
+  AppState signedOut() => AppState(
+    loginState: const LoginState(authorized: false),
+    loginToViewList: Event<String>.spent(),
+    joinedToList: Event<List<String>>.spent(),
+    sorts: sorts,
+    themeMode: themeMode,
+  );
+
   Map<String, dynamic> toMap() {
     return {
       'loginState': loginState,

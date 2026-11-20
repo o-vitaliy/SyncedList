@@ -20,6 +20,15 @@ class DbListStore {
         .map((event) => fromQuerySnapshot(event));
   }
 
+  /// One-off read of every list [userId] is a member of.
+  Future<List<UserList>> getUserListsOnce(String userId) async {
+    final snapshot = await _store
+        .collection(_lists)
+        .where("members", arrayContains: userId)
+        .get();
+    return fromQuerySnapshot(snapshot);
+  }
+
   Future<UserList> createList(String userId, String listName) async {
     final key = _store.collection(_lists).doc().id;
     final newUserList = UserList(

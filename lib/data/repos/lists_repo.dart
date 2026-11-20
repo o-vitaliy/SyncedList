@@ -23,6 +23,10 @@ class ListsRepo {
     _subscription = null;
   }
 
+  /// The current user's lists, read from Firestore (not the UI state).
+  Future<List<UserList>> currentUserListsOnce() =>
+      _store.getUserListsOnce(_auth.userId()!);
+
   Future<UserList> createUserList(String listName) async {
     final userId = _auth.userId()!;
     return _store.createList(userId, listName);

@@ -136,4 +136,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get emptyItemsBody =>
       'Add the first item, or share the list so others can add theirs.';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get guest => 'Guest';
+
+  @override
+  String get guestInfo =>
+      'You\'re using SyncedList without an account. Sign in to keep your lists and use them on your other devices.';
+
+  @override
+  String get signedInWith => 'Signed in';
+
+  @override
+  String get signOut => 'Sign out';
+
+  @override
+  String get signOutConfirm => 'Sign out of SyncedList?';
+
+  @override
+  String get accountLinked =>
+      'Signed in. Your lists are saved to your account.';
+
+  @override
+  String get accountSwitched =>
+      'Signed in to your existing account. Your lists were added to it.';
 }

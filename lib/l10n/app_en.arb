@@ -63,5 +63,13 @@
         "type": "int"
       }
     }
-  }
+  },
+  "account": "Account",
+  "guest": "Guest",
+  "guestInfo": "You're using SyncedList without an account. Sign in to keep your lists and use them on your other devices.",
+  "signedInWith": "Signed in",
+  "signOut": "Sign out",
+  "signOutConfirm": "Sign out of SyncedList?",
+  "accountLinked": "Signed in. Your lists are saved to your account.",
+  "accountSwitched": "Signed in to your existing account. Your lists were added to it."
 }
