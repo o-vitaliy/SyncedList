@@ -2,6 +2,8 @@ import 'package:async_redux/async_redux.dart';
 import 'package:app_links/app_links.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/ui/auth/login_screen.dart';
+import 'package:shopping_list/ui/legal/legal_content.dart';
+import 'package:shopping_list/ui/legal/legal_screen.dart';
 import 'package:shopping_list/ui/list/items_list/item_list_view.dart';
 import 'package:shopping_list/ui/splash/splash_screen.dart';
 
@@ -22,6 +24,10 @@ final routes = {
   "/login": (BuildContext context) => const LoginScreen(),
   "/main": (BuildContext context) => const UserListsView(),
   "/items": (BuildContext context) => const ListItemsView(),
+  "/terms": (BuildContext context) =>
+      const LegalScreen(type: LegalDocType.terms),
+  "/privacy": (BuildContext context) =>
+      const LegalScreen(type: LegalDocType.privacy),
 };
 
 class App extends StatelessWidget {

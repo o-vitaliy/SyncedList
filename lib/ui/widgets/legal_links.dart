@@ -1,11 +1,9 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../../deeplinks/deeplink.dart';
 import '../../localization.dart';
 
-/// Links to the terms and privacy pages served by Firebase Hosting
-/// (`web/terms.html`, `web/privacy.html`).
+/// Links to the in-app Terms of Use and Privacy Policy screens
+/// (`lib/ui/legal/`).
 class LegalLinks extends StatelessWidget {
   const LegalLinks({super.key});
 
@@ -22,18 +20,15 @@ class LegalLinks extends StatelessWidget {
       children: [
         TextButton(
           style: style,
-          onPressed: () => _open('/terms'),
+          onPressed: () => Navigator.of(context).pushNamed('/terms'),
           child: Text(l.termsOfUse),
         ),
         TextButton(
           style: style,
-          onPressed: () => _open('/privacy'),
+          onPressed: () => Navigator.of(context).pushNamed('/privacy'),
           child: Text(l.privacyPolicy),
         ),
       ],
     );
   }
-
-  static Future<void> _open(String path) =>
-      launchUrl(Uri.https(linkHost, path), webOnlyWindowName: '_blank');
 }
