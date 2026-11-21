@@ -1,11 +1,14 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/account.dart';
 import 'package:shopping_list/data/entities/app_theme_mode.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/ui/settings/actions/theme_action_change.dart';
+import 'package:shopping_list/ui/widgets/android_app_link.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
+import 'package:shopping_list/ui/widgets/legal_links.dart';
 
 import 'actions/account_action_link.dart';
 import 'actions/account_action_sign_out.dart';
@@ -84,6 +87,12 @@ class AccountSheet extends StatelessWidget {
                 _signOutButton(context, vm),
               const SizedBox(height: 28),
               _ThemePicker(current: vm.themeMode, onChanged: vm.setTheme),
+              if (kIsWeb) ...[
+                const SizedBox(height: 20),
+                const AndroidAppLink(),
+              ],
+              const SizedBox(height: 12),
+              const LegalLinks(),
             ],
           ),
         ),

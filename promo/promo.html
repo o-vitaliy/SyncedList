@@ -1,0 +1,359 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SyncedList Promo</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Flex:opsz,wght@8..144,600;8..144,800&display=block" rel="stylesheet">
+<style>
+  :root{
+    --seed:#DC5607; --primary:#A84300; --onPrimary:#fff;
+    --pc:#DC5607; --onPc:#fff;
+    --surface:#FFF8F5; --sLow:#FCEEE7; --sHigh:#F4E1D8;
+    --onS:#231914; --onSV:#55433A; --outlineV:#DCC1B4;
+    --cream:#FFF1E9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100vw;height:100vh;overflow:hidden;background:var(--seed);font-family:Roboto,-apple-system,Helvetica,Arial,sans-serif;color:var(--onS)}
+  #stage{position:absolute;inset:0;overflow:hidden}
+  .layer{position:absolute;inset:0}
+  .abs{position:absolute}
+  .center{display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .mark{width:200px;height:200px;border-radius:60px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 30px 60px rgba(80,20,0,.25)}
+  .mark svg{width:104px;height:104px}
+  .big{font-family:"Roboto Flex",Roboto,sans-serif;font-weight:800;letter-spacing:-2px}
+  .caption{font-family:"Roboto Flex",Roboto,sans-serif;font-weight:800;font-size:64px;letter-spacing:-1.5px;color:var(--onS);white-space:nowrap}
+  .caption em{font-style:normal;color:var(--seed)}
+
+  .phone{position:absolute;width:400px;height:820px;border-radius:56px;background:#1b1210;padding:12px;box-shadow:0 40px 80px rgba(90,30,0,.28),0 0 0 2px #3a2a24 inset}
+  .screen{position:relative;width:100%;height:100%;border-radius:44px;background:var(--surface);overflow:hidden}
+  .status{height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:15px;font-weight:500}
+  .notch{position:absolute;top:12px;left:50%;width:22px;height:22px;margin-left:-11px;border-radius:50%;background:#1b1210}
+  .appbar{height:64px;display:flex;align-items:center;padding:0 12px;gap:10px}
+  .appbar .title{font-size:22px;flex:1}
+  .icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+  .icon svg{width:24px;height:24px;fill:var(--onSV)}
+  .prog{padding:4px 24px 12px}
+  .prog .lbl{font-size:14px;font-weight:500;color:var(--onSV);margin-bottom:8px;letter-spacing:.1px}
+  .bar{height:6px;border-radius:3px;background:var(--sHigh);overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--primary);border-radius:3px}
+  .list{position:absolute;left:12px;right:12px;top:176px;bottom:0}
+  .item{position:absolute;left:0;right:0;height:60px;border-radius:16px;display:flex;align-items:center;padding:0 8px 0 10px;gap:12px;font-size:17px}
+  .cb{width:20px;height:20px;border-radius:3px;border:2px solid var(--onSV);margin:0 4px;position:relative;flex:none}
+  .cb svg{position:absolute;inset:-2px;width:20px;height:20px}
+  .item .txt{flex:1;position:relative;white-space:nowrap}
+  .item .strike{position:absolute;left:0;top:50%;height:1.5px;background:var(--onSV)}
+  .item .dots{width:24px;height:24px;opacity:.7}
+  .fab{position:absolute;right:20px;bottom:28px;height:56px;padding:0 20px 0 16px;border-radius:16px;background:var(--pc);color:var(--onPc);display:flex;align-items:center;gap:10px;font-weight:500;font-size:16px;box-shadow:0 4px 10px rgba(120,40,0,.3)}
+  .fab svg{width:24px;height:24px;fill:#fff}
+  .scrim{position:absolute;inset:0;background:rgba(35,25,20,.4)}
+  .dialog{position:absolute;left:24px;right:24px;top:250px;border-radius:28px;background:#FFF3EE;padding:24px}
+  .dialog h3{font-size:24px;font-weight:400;margin-bottom:18px}
+  .field{height:56px;border:2px solid var(--primary);border-radius:6px;display:flex;align-items:center;padding:0 14px;font-size:17px;position:relative}
+  .field .lab{position:absolute;top:-10px;left:10px;background:#FFF3EE;padding:0 4px;font-size:12px;color:var(--primary)}
+  .caret{display:inline-block;width:2px;height:22px;background:var(--primary);margin-left:1px;vertical-align:middle}
+  .dlgBtns{display:flex;justify-content:flex-end;gap:28px;margin-top:22px;font-weight:500;color:var(--primary);font-size:15px}
+  .tag{position:absolute;top:-26px;left:50%;transform:translateX(-50%);height:52px;padding:0 22px 0 8px;border-radius:26px;background:#fff;display:flex;align-items:center;gap:12px;font-weight:700;font-size:22px;box-shadow:0 10px 24px rgba(90,30,0,.2);z-index:2}
+  .av{width:38px;height:38px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px}
+  .tap{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(40,20,10,.28);border:3px solid rgba(255,255,255,.9);pointer-events:none}
+  .pulse{position:absolute;z-index:6;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--seed);box-shadow:0 0 0 8px rgba(220,86,7,.18),0 0 30px 8px rgba(220,86,7,.45)}
+  .hub{position:absolute;z-index:5;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px rgba(90,30,0,.18)}
+  .hub svg{width:50px;height:50px;fill:var(--seed)}
+  .linkcard{width:880px;padding:44px 48px;border-radius:40px;background:#fff;box-shadow:0 40px 80px rgba(90,30,0,.2)}
+  .chip{display:flex;align-items:center;gap:16px;height:84px;border-radius:42px;background:var(--sLow);padding:0 30px;font-size:30px;color:var(--onSV)}
+  .chip b{color:var(--onS);font-weight:500}
+  .chip svg{width:38px;height:38px;fill:var(--seed);flex:none}
+  .people{display:flex;gap:18px;margin-top:34px;align-items:center}
+  .people .av{width:76px;height:76px;font-size:32px;border:5px solid #fff;box-shadow:0 8px 18px rgba(0,0,0,.12)}
+  .people span{font-size:28px;color:var(--onSV);margin-left:10px}
+  .badge{display:flex;align-items:center;gap:14px;height:76px;padding:0 34px;border-radius:38px;background:#fff;color:var(--onS);font-size:28px;font-weight:500}
+  .badge svg{width:34px;height:34px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bgCream" class="layer" style="background:var(--cream)"></div>
+  <div id="blobs" class="layer"></div>
+
+  <!-- Intro -->
+  <div id="intro" class="layer center">
+    <div id="introMark" class="mark"></div>
+    <div id="introTitle" class="big" style="font-size:120px;color:#fff;margin-top:44px">SyncedList</div>
+    <div id="introTag" style="font-size:38px;color:rgba(255,255,255,.92);margin-top:14px">Shopping lists you share and check off together.</div>
+  </div>
+
+  <!-- Phones scene -->
+  <div id="phones" class="layer">
+    <div id="capWrap" class="abs" style="left:0;right:0;height:90px">
+      <div id="cap1" class="caption abs" style="left:0;right:0;text-align:center">Add an item on <em>your</em> phone…</div>
+      <div id="cap2" class="caption abs" style="left:0;right:0;text-align:center">…check it off on <em>theirs</em>.</div>
+      <div id="cap3" class="caption abs" style="left:0;right:0;text-align:center">Everyone sees it <em>instantly</em>.</div>
+    </div>
+    <div id="hub" class="hub"></div>
+    <div id="pulse" class="pulse"></div>
+  </div>
+
+  <!-- Share scene -->
+  <div id="share" class="layer center">
+    <div id="shareCap" class="caption" style="margin-bottom:56px">Share a list with <em>one link</em>.</div>
+    <div id="linkcard" class="linkcard">
+      <div class="chip" id="chip"></div>
+      <div class="people" id="people"></div>
+    </div>
+  </div>
+
+  <!-- End card -->
+  <div id="endBg" class="layer" style="background:var(--seed)"></div>
+  <div id="outro" class="layer center">
+    <div id="outMark" class="mark"></div>
+    <div id="outTitle" class="big" style="font-size:132px;color:#fff;margin-top:40px">SyncedList</div>
+    <div id="outTag" style="font-size:40px;color:rgba(255,255,255,.95);margin-top:8px">Shop together, in real time.</div>
+    <div id="outBadges" style="display:flex;gap:22px;margin-top:56px"></div>
+    <div id="outUrl" style="font-size:30px;font-weight:500;color:#fff;margin-top:40px;letter-spacing:.5px">syncedlist.web.app</div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const VERT = new URLSearchParams(location.search).get("format") === "vertical";
+const W = VERT ? 1080 : 1920, H = VERT ? 1920 : 1080;
+document.getElementById("capWrap").style.top = (VERT ? 330 : 64) + "px";
+const ICON = {
+  cart:'<svg viewBox="0 0 24 24"><path fill="#DC5607" d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49A.996.996 0 0 0 20.01 4H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>',
+  back:'<svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>',
+  sort:'<svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>',
+  share:'<svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>',
+  add:'<svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>',
+  dots:'<svg viewBox="0 0 24 24" fill="#55433A"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>',
+  sync:'<svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0 0 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 0 0 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>',
+  link:'<svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>',
+  check:'<svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>',
+};
+const bigCart = ICON.cart;
+
+$('introMark').innerHTML = bigCart; $('outMark').innerHTML = bigCart;
+$('hub').innerHTML = ICON.sync;
+$('chip').innerHTML = ICON.link + '<span style="white-space:nowrap">syncedlist.web.app/link · <b>Weekend groceries</b></span>';
+const PEOPLE = [['Y','#DC5607','You'],['A','#2E7D6B','Alex'],['M','#5B5BD6','Mom'],['S','#B8336A','Sam']];
+$('people').innerHTML = PEOPLE.map((p,i)=>`<div class="av" id="pp${i}" style="background:${p[1]}">${p[0]}</div>`).join('') + '<span id="ppTxt">Everyone edits the same list</span>';
+$('outBadges').innerHTML =
+  `<div class="badge">${ICON.check.replace('<svg','<svg fill="#DC5607"')} Android</div>`+
+  `<div class="badge">${ICON.check.replace('<svg','<svg fill="#DC5607"')} iPhone</div>`+
+  `<div class="badge">${ICON.check.replace('<svg','<svg fill="#DC5607"')} Web</div>`;
+
+// decorative soft circles
+$("blobs").innerHTML = (VERT ? [[-160,1500,480,.10],[760,-160,480,.10],[860,1560,280,.07],[60,120,200,.07]] : [[-120,760,420,.10],[1650,-140,460,.10],[1560,820,260,.07],[180,-60,200,.07]])
+  .map(([x,y,r,o])=>`<div class="abs" style="left:${x}px;top:${y}px;width:${r}px;height:${r}px;border-radius:50%;background:rgba(220,86,7,${o})"></div>`).join('');
+
+// ---------- phones ----------
+const ITEMS = [
+  {name:'Milk', a:0},
+  {name:'Bread', a:0},
+  {name:'Eggs', a:0},
+  {name:'Tomatoes', a:0},
+  {name:'Coffee beans', a:0},
+];
+// per-phone timings: appear time (null=from start), done time
+// L = You (left), R = Alex (right)
+const T = {
+  addTap: 4.3, dlgIn: 4.55, typeFrom: 4.9, typeTo: 5.7, okTap: 6.05,
+  newL: 6.2, pulse1: [6.25, 6.85], newR: 6.85,
+  milkTapR: 8.3, pulse2: [8.4, 9.0], milkL: 9.0,
+  breadTapL: 9.5, pulse3: [9.6, 10.2], breadR: 10.2,
+  eggsTapR: 10.7, pulse4: [10.8, 11.4], eggsL: 11.4,
+  avoTapL: 12.0, pulse5: [12.1, 12.7], avoR: 12.7,
+};
+const LIST = [
+  {name:'Avocados', aL:T.newL, aR:T.newR, dL:T.avoTapL, dR:T.avoR},
+  {name:'Milk', dL:T.milkL, dR:T.milkTapR},
+  {name:'Bread', dL:T.breadTapL, dR:T.breadR},
+  {name:'Eggs', dL:T.eggsL, dR:T.eggsTapR},
+  {name:'Tomatoes'},
+  {name:'Coffee beans'},
+];
+
+function makePhone(id, who, color, letter){
+  const p = document.createElement('div');
+  p.className='phone'; p.id=id;
+  p.innerHTML = `
+    <div class="tag"><div class="av" style="background:${color}">${letter}</div>${who}</div>
+    <div class="screen">
+      <div class="notch"></div>
+      <div class="status"><span>9:41</span><svg width="40" height="14" viewBox="0 0 40 14"><rect x="0" y="9" width="3" height="5" rx="1" fill="#231914"/><rect x="5" y="6" width="3" height="8" rx="1" fill="#231914"/><rect x="10" y="3" width="3" height="11" rx="1" fill="#231914"/><rect x="20" y="2" width="18" height="11" rx="3" fill="none" stroke="#231914" stroke-width="1.5"/><rect x="22.5" y="4.5" width="11" height="6" rx="1.5" fill="#231914"/></svg></div>
+      <div class="appbar"><div class="icon">${ICON.back}</div><div class="title">Weekend groceries</div><div class="icon">${ICON.sort}</div><div class="icon">${ICON.share}</div></div>
+      <div class="prog"><div class="lbl"></div><div class="bar"><i></i></div></div>
+      <div class="list"></div>
+      <div class="fab">${ICON.add}Add item</div>
+      <div class="scrim"></div>
+      <div class="dialog"><h3>Add item</h3><div class="field"><span class="lab">New item</span><span class="typed"></span><span class="caret"></span></div><div class="dlgBtns"><span>Cancel</span><span>Save</span></div></div>
+      <div class="tap"></div>
+    </div>`;
+  const list = p.querySelector('.list');
+  p._items = LIST.map(it=>{
+    const el=document.createElement('div'); el.className='item';
+    el.innerHTML=`<div class="cb"></div><div class="txt"><span>${it.name}</span><i class="strike"></i></div><div class="dots">${ICON.dots}</div>`;
+    list.appendChild(el); return el;
+  });
+  $('phones').appendChild(p);
+  return p;
+}
+const PL = makePhone('pL','You','#DC5607','Y');
+const PR = makePhone('pR','Alex','#2E7D6B','A');
+
+// ---------- math ----------
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const lin=(t,a,b)=>clamp((t-a)/(b-a));
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const eout=x=>1-Math.pow(1-x,3);
+const back=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const seg=(t,a,b,f=eio)=>f(lin(t,a,b));
+const mix=(a,b,k)=>a+(b-a)*k;
+const fadeWin=(t,a,b,d=.35)=>Math.min(seg(t,a,a+d),1-seg(t,b-d,b));
+
+function setPhone(p, side, t){
+  const L = side==='L';
+  // items
+  let y=0, doneSum=0, total=0;
+  LIST.forEach((it,i)=>{
+    const el=p._items[i];
+    const a = L ? it.aL : it.aR;
+    const d = L ? it.dL : it.dR;
+    const ap = a==null?1:seg(t,a,a+.35,eout);
+    const dp = d==null?0:seg(t,d,d+.22,eout);
+    const h = 60*ap, gap=8*ap;
+    el.style.top = y+'px';
+    el.style.opacity = ap;
+    el.style.transform = `scale(${mix(.85,1,ap)})`;
+    y += h+gap;
+    total += ap; doneSum += dp*ap;
+    // highlight when arrived from sync (remote change)
+    const remoteT = L ? (it.name==='Milk'?T.milkL:it.name==='Eggs'?T.eggsL:null)
+                      : (it.name==='Avocados'?T.newR:it.name==='Bread'?T.breadR:it.name==='Avocados'?T.avoR:null);
+    let glow=0;
+    [remoteT, (!L&&it.name==='Avocados')?T.avoR:null].forEach(rt=>{ if(rt!=null) glow=Math.max(glow, t>=rt? 1-seg(t,rt+.3,rt+1.3):0); });
+    const bgDone='rgba(0,0,0,0)';
+    el.style.background = dp>.5 ? bgDone : 'var(--sLow)';
+    el.style.border = dp>.5 ? '1px solid var(--outlineV)' : '1px solid transparent';
+    el.style.boxShadow = glow>0 ? `0 0 0 ${3*glow}px rgba(220,86,7,${.9*glow}), 0 0 ${24*glow}px rgba(220,86,7,${.5*glow})` : 'none';
+    const cb=el.querySelector('.cb');
+    cb.style.background = dp>0 ? `rgba(168,67,0,${dp})` : 'transparent';
+    cb.style.borderColor = dp>0 ? 'var(--primary)' : 'var(--onSV)';
+    cb.innerHTML = dp>0 ? `<svg viewBox="0 0 24 24" style="clip-path:inset(0 ${100-dp*100}% 0 0)"><path fill="#fff" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>` : '';
+    const txt=el.querySelector('.txt span'); const st=el.querySelector('.strike');
+    txt.style.color = dp>.5?'var(--onSV)':'var(--onS)';
+    st.style.width = (txt.offsetWidth*dp)+'px';
+  });
+  const doneN = Math.round(doneSum), totN=Math.round(total);
+  p.querySelector('.lbl').textContent = `${doneN} of ${totN} done`;
+  p.querySelector('.bar i').style.width = (total? doneSum/total*100:0)+'%';
+
+  // dialog (left only)
+  const dlg=p.querySelector('.dialog'), scrim=p.querySelector('.scrim');
+  if(L){
+    const o = Math.min(seg(t,T.dlgIn,T.dlgIn+.25), 1-seg(t,T.okTap+.1,T.okTap+.3));
+    dlg.style.opacity=o; scrim.style.opacity=o;
+    dlg.style.transform=`scale(${mix(.9,1,o)})`;
+    const word='Avocados'; const n=Math.floor(word.length*lin(t,T.typeFrom,T.typeTo)+1e-6);
+    dlg.querySelector('.typed').textContent=word.slice(0,n);
+    dlg.querySelector('.caret').style.opacity = (Math.floor(t*2.5)%2===0||(t>T.typeFrom&&t<T.typeTo))?1:0;
+  } else { dlg.style.opacity=0; scrim.style.opacity=0; }
+
+  // fab press
+  const fab=p.querySelector('.fab');
+  const press = L ? Math.max(0, 1-Math.abs(t-T.addTap)/.15) : 0;
+  fab.style.transform=`scale(${1-.06*press})`;
+
+  // taps: [time, x, y] in screen coords
+  const taps = L ? [[T.addTap,300,740],[T.okTap,320,402],[T.breadTapL,30,0,2],[T.avoTapL,30,0,0]]
+                 : [[T.milkTapR,30,0,1],[T.eggsTapR,30,0,3]];
+  const tapEl=p.querySelector('.tap'); let shown=false;
+  for(const tp of taps){
+    const [tt,x,yy,idx]=tp; const k=(t-tt+.25)/.7;
+    if(k>=0&&k<=1){
+      let ty=yy; if(idx!=null){ ty = 176 + parseFloat(p._items[idx].style.top) + 30; }
+      tapEl.style.left=x+12+'px'; tapEl.style.top=ty+'px';
+      tapEl.style.opacity = k<.35? lin(k,0,.15) : 1-lin(k,.45,1);
+      tapEl.style.transform=`scale(${k<.35?mix(1.3,1,lin(k,0,.35)):mix(1,1.5,lin(k,.35,1))})`;
+      shown=true;
+    }
+  }
+  if(!shown) tapEl.style.opacity=0;
+}
+
+// ---------- main render ----------
+function render(t){
+  // Background / intro
+  const introOut = seg(t,2.7,3.3);
+  $('bgCream').style.opacity = introOut;
+  $('blobs').style.opacity = introOut * (1-seg(t,17.2,17.7));
+  const intro=$('intro');
+  intro.style.opacity = 1-introOut;
+  intro.style.transform=`translateY(${-60*introOut}px)`;
+  const m=seg(t,.15,.85,back);
+  $('introMark').style.transform=`scale(${m}) rotate(${(1-m)*-20}deg)`;
+  $('introTitle').style.opacity=seg(t,.55,1.1); $('introTitle').style.transform=`translateY(${30*(1-seg(t,.55,1.1))}px)`;
+  $('introTag').style.opacity=seg(t,.9,1.5); $('introTag').style.transform=`translateY(${24*(1-seg(t,.9,1.5))}px)`;
+
+  // Phones scene
+  const pin = seg(t,3.0,3.9,eout), pout = seg(t,13.8,14.6);
+  const ph=$('phones'); ph.style.opacity = t<3?0:1-pout;
+  const cx=W/2, gapX=VERT ? 238 : 300;
+  const py = (VERT ? 600 : 220) + 900*(1-pin) - 80*pout;
+  PL.style.left=(cx-gapX-200 - 0*pout)+'px'; PL.style.top=py+'px';
+  PR.style.left=(cx+gapX-200)+'px'; PR.style.top=(py+ 60*(1-seg(t,3.15,4.05,eout)))+'px';
+  PL.style.transform=`rotate(${-3*pin}deg)`; PR.style.transform=`rotate(${3*pin}deg)`;
+  setPhone(PL,'L',t); setPhone(PR,'R',t);
+  // captions
+  [['cap1',3.6,7.9],['cap2',7.9,11.7],['cap3',11.7,14.6]].forEach(([id,a,b])=>{
+    const o=fadeWin(t,a,b,.35); const e=$(id);
+    e.style.opacity=o; e.style.transform=`translateY(${(1-o)*(t<(a+b)/2?20:-20)}px)`;
+  });
+  // hub + pulses
+  const hub=$('hub'); hub.style.left=cx+'px'; hub.style.top=(py+410)+'px';
+  hub.style.opacity = seg(t,3.6,4.1);
+  let spin=0, pulseShown=false;
+  const pulses=[[T.pulse1,1],[T.pulse2,-1],[T.pulse3,1],[T.pulse4,-1],[T.pulse5,1]];
+  const pulse=$('pulse');
+  for(const [[a,b],dir] of pulses){
+    if(t>=a&&t<=b){
+      const k=seg(t,a,b);
+      const x0=cx-gapX+120, x1=cx+gapX-120;
+      const x = dir>0? mix(x0,x1,k):mix(x1,x0,k);
+      const y = py+410 - Math.sin(k*Math.PI)*120;
+      pulse.style.left=x+'px'; pulse.style.top=y+'px';
+      pulse.style.opacity = Math.min(1, Math.sin(k*Math.PI)*3);
+      pulse.style.transform=`scale(${.8+.4*Math.sin(k*Math.PI)})`;
+      pulseShown=true;
+    }
+    spin += 360*seg(t,a,b);
+  }
+  if(!pulseShown) pulse.style.opacity=0;
+  hub.style.transform=`rotate(${-spin}deg) scale(${hub.style.opacity})`;
+
+  // Share scene
+  const sIn=seg(t,14.3,15.0,eout), sOut=seg(t,17.4,17.9);
+  const sh=$('share'); sh.style.opacity=Math.min(sIn,1-sOut);
+  $('shareCap').style.transform=`translateY(${30*(1-sIn)}px)`;
+  $('linkcard').style.transform=`translateY(${80*(1-seg(t,14.45,15.2,eout))}px) scale(${mix(.94,1,seg(t,14.45,15.2,eout))})`;
+  $('linkcard').style.opacity=seg(t,14.45,15.0);
+  PEOPLE.forEach((p,i)=>{ const k=seg(t,15.3+i*.28,15.75+i*.28,back); const e=$('pp'+i); e.style.transform=`scale(${k})`; e.style.opacity=clamp(k*2); });
+  $('ppTxt').style.opacity=seg(t,16.4,16.8);
+
+  // End card
+  const eIn=seg(t,17.5,18.1);
+  $('endBg').style.clipPath=`circle(${eIn*1300}px at ${W/2}px ${H/2}px)`;
+  const out=$('outro'); out.style.opacity = t<17.5?0:1;
+  const om=seg(t,17.8,18.5,back);
+  $('outMark').style.transform=`scale(${om})`;
+  $('outTitle').style.opacity=seg(t,18.1,18.6); $('outTitle').style.transform=`translateY(${30*(1-seg(t,18.1,18.6))}px)`;
+  $('outTag').style.opacity=seg(t,18.4,18.9);
+  $('outBadges').style.opacity=seg(t,18.8,19.3); $('outBadges').style.transform=`translateY(${24*(1-seg(t,18.8,19.3))}px)`;
+  $('outUrl').style.opacity=seg(t,19.2,19.7);
+}
+window.DURATION = 21.5;
+window.render = render;
+const q = new URLSearchParams(location.search);
+if (q.has('t')) render(parseFloat(q.get('t')));
+else { const s=performance.now(); (function loop(){ render(((performance.now()-s)/1000)%DURATION); requestAnimationFrame(loop); })(); }
+</script>
+</body>
+</html>

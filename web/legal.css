@@ -1,0 +1,87 @@
+/* Shared style for the privacy and terms pages. Colors are the app's
+   Material 3 scheme (lib/ui/theme/app_theme.dart, seed #DC5607). */
+:root {
+  --surface: #fff8f6;
+  --on-surface: #251914;
+  --on-surface-variant: #5a4138;
+  --outline: #dfc0b4;
+  --primary: #a03b00;
+  --mark: #c94c00;
+  --on-mark: #fffbff;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #1d100b;
+    --on-surface: #f9ddd3;
+    --on-surface-variant: #e4bfb2;
+    --outline: #5a4138;
+    --primary: #ffb597;
+    --mark: #f1651c;
+    --on-mark: #310d00;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--on-surface);
+  font: 16px/1.6 Roboto, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+header {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--outline);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--on-surface);
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 9.6px;
+  background: var(--mark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mark svg { width: 18px; height: 18px; fill: var(--on-mark); }
+
+nav { display: flex; gap: 16px; }
+nav a {
+  color: var(--on-surface-variant);
+  text-decoration: none;
+  font-weight: 500;
+}
+nav a[aria-current="page"] { color: var(--primary); }
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+h1 { font-size: 32px; line-height: 1.25; margin: 16px 0 4px; }
+h2 { font-size: 20px; margin: 32px 0 8px; }
+.meta { color: var(--on-surface-variant); margin-top: 0; }
+p, li { color: var(--on-surface); }
+ul { padding-left: 20px; }
+li { margin-bottom: 8px; }
+a { color: var(--primary); }

@@ -96,6 +96,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginAnonymous => 'Continue without an account';
 
   @override
+  String get getAndroidApp => 'Get the Android app';
+
+  @override
+  String get termsOfUse => 'Terms of use';
+
+  @override
+  String get privacyPolicy => 'Privacy policy';
+
+  @override
   String get themeTitle => 'Theme';
 
   @override

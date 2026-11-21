@@ -25,7 +25,7 @@ flutter gen-l10n
 
 Android builds need JDK 17+ (`JAVA_HOME`). The Gradle build is Kotlin DSL (`android/*.gradle.kts`) with built-in Kotlin (`android.builtInKotlin=true`): don't apply the Kotlin Gradle Plugin, and avoid plugins that still do (they break the build in future Flutter versions); release signing reads the gitignored `android/key.properties` (`storeFile` absolute or relative to `android/`, `storePassword`, `keyAlias`, `keyPassword`); without it or the keystore it points to, it signs with the debug key.
 
-Firebase Hosting (landing page, privacy/terms, and the `/.well-known` App Links / Universal Links files) lives in `firebase_hosting/`; deploy from that directory with `firebase deploy --only hosting`.
+Firebase Hosting (site `syncedlist`, https://syncedlist.web.app) serves the Flutter web build. `firebase.json` at the repo root publishes `build/web`, runs `flutter build web --release` as a predeploy step, and rewrites every path to `index.html`, so `/link` invites open the web app. Static files that ship with it (`terms.html`, `privacy.html`, and the `/.well-known` App Links / Universal Links files) live in `web/`, which Flutter copies into the build. `cleanUrls` serves them as `/terms` and `/privacy`; they share `web/legal.css`. Deploy from the repo root with `firebase deploy --only hosting`. `LegalLinks` (login screen and account sheet, every platform) opens those two pages; on the web, `AndroidAppLink` links to Google Play.
 
 Tests in `test/` cover only Firebase-free code (share links, translations). Testing `App` itself would need Firebase mocked.
 

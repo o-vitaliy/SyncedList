@@ -1,12 +1,16 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/ui/auth/actions/login_via_facebook.dart';
 import 'package:shopping_list/ui/auth/actions/login_via_google.dart';
+import 'package:shopping_list/ui/widgets/android_app_link.dart';
+import 'package:shopping_list/ui/widgets/legal_links.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
 import '../../localization.dart';
 import '../../state/app_state.dart';
 import 'actions/login_as_anonymous.dart';
+import 'promo_video.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -89,58 +93,96 @@ class _Page extends StatelessWidget {
     final scheme = theme.colorScheme;
     final enabled = !loggingIn;
 
-    return SafeArea(
-      child: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Center(child: AppMark()),
-                const SizedBox(height: 28),
-                Text(
-                  "SyncedList",
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  l.appTagline,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: scheme.onSurfaceVariant,
-                  ),
-                ),
-                const SizedBox(height: 48),
-                FilledButton.icon(
-                  onPressed: enabled ? loginViaGoogle : null,
-                  icon: const Icon(Icons.account_circle_outlined),
-                  label: Text(l.loginExecuteGoogle),
-                ),
-                const SizedBox(height: 12),
-                FilledButton.tonalIcon(
-                  onPressed: enabled ? loginViaFacebook : null,
-                  icon: const Icon(Icons.facebook),
-                  label: Text(l.loginExecuteFacebook),
-                ),
-                const SizedBox(height: 12),
-                TextButton(
-                  onPressed: enabled ? loginAsAnonymous : null,
-                  child: Text(l.loginAnonymous),
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  height: 4,
-                  child: loggingIn ? const LinearProgressIndicator() : null,
-                ),
-              ],
-            ),
-          ),
+    final header = [
+      Text(
+        "SyncedList",
+        textAlign: TextAlign.center,
+        style: theme.textTheme.headlineLarge?.copyWith(
+          fontWeight: FontWeight.w700,
         ),
+      ),
+      const SizedBox(height: 12),
+      Text(
+        l.appTagline,
+        textAlign: TextAlign.center,
+        style: theme.textTheme.bodyLarge?.copyWith(
+          color: scheme.onSurfaceVariant,
+        ),
+      ),
+    ];
+
+    final buttons = [
+      FilledButton.icon(
+        onPressed: enabled ? loginViaGoogle : null,
+        icon: const Icon(Icons.account_circle_outlined),
+        label: Text(l.loginExecuteGoogle),
+      ),
+      const SizedBox(height: 12),
+      FilledButton.tonalIcon(
+        onPressed: enabled ? loginViaFacebook : null,
+        icon: const Icon(Icons.facebook),
+        label: Text(l.loginExecuteFacebook),
+      ),
+      const SizedBox(height: 12),
+      TextButton(
+        onPressed: enabled ? loginAsAnonymous : null,
+        child: Text(l.loginAnonymous),
+      ),
+      const SizedBox(height: 16),
+      SizedBox(
+        height: 4,
+        child: loggingIn ? const LinearProgressIndicator() : null,
+      ),
+      if (kIsWeb) ...[const SizedBox(height: 12), const AndroidAppLink()],
+      const SizedBox(height: 8),
+      const LegalLinks(),
+    ];
+
+    return SafeArea(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Too short for the video (e.g. a phone in landscape): the compact,
+          // scrollable layout with just the app mark.
+          if (constraints.maxHeight < 640) {
+            return Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 420),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Center(child: AppMark()),
+                      const SizedBox(height: 28),
+                      ...header,
+                      const SizedBox(height: 48),
+                      ...buttons,
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+          // The promo video fills the space above the sign-in buttons.
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Expanded(child: Center(child: PromoVideo())),
+                    const SizedBox(height: 24),
+                    ...header,
+                    const SizedBox(height: 32),
+                    ...buttons,
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
