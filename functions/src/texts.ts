@@ -12,7 +12,11 @@ interface Strings {
   and: string;
 }
 
-const strings: Record<"en" | "uk", Strings> = {
+type Locale =
+  | "en" | "uk" | "ru" | "pl" | "de" | "es" | "pt"
+  | "fr" | "it" | "tr" | "cs" | "ja" | "id" | "hi";
+
+const strings: Record<Locale, Strings> = {
   en: {
     added: "Added",
     checked: "Checked off",
@@ -25,10 +29,88 @@ const strings: Record<"en" | "uk", Strings> = {
     more: (n) => `і ще ${n}`,
     and: "і",
   },
+  ru: {
+    added: "Добавлено",
+    checked: "Куплено",
+    more: (n) => `и ещё ${n}`,
+    and: "и",
+  },
+  pl: {
+    added: "Dodano",
+    checked: "Kupiono",
+    more: (n) => `i ${n} więcej`,
+    and: "i",
+  },
+  de: {
+    added: "Hinzugefügt",
+    checked: "Abgehakt",
+    more: (n) => `und ${n} weitere`,
+    and: "und",
+  },
+  es: {
+    added: "Añadido",
+    checked: "Comprado",
+    more: (n) => `y ${n} más`,
+    and: "y",
+  },
+  pt: {
+    added: "Adicionado",
+    checked: "Comprado",
+    more: (n) => `e mais ${n}`,
+    and: "e",
+  },
+  fr: {
+    added: "Ajouté",
+    checked: "Coché",
+    more: (n) => `et ${n} de plus`,
+    and: "et",
+  },
+  it: {
+    added: "Aggiunto",
+    checked: "Spuntato",
+    more: (n) => `e altri ${n}`,
+    and: "e",
+  },
+  tr: {
+    added: "Eklendi",
+    checked: "Alındı",
+    more: (n) => `ve ${n} tane daha`,
+    and: "ve",
+  },
+  cs: {
+    added: "Přidáno",
+    checked: "Koupeno",
+    more: (n) => `a ${n} další`,
+    and: "a",
+  },
+  ja: {
+    added: "追加",
+    checked: "購入済み",
+    more: (n) => `ほか${n}件`,
+    and: "と",
+  },
+  id: {
+    added: "Ditambahkan",
+    checked: "Dicentang",
+    more: (n) => `dan ${n} lainnya`,
+    and: "dan",
+  },
+  hi: {
+    added: "जोड़ा गया",
+    checked: "ख़रीदा गया",
+    more: (n) => `और ${n} अन्य`,
+    and: "और",
+  },
 };
 
-export function pickLocale(locale: string | undefined): "en" | "uk" {
-  return locale?.toLowerCase().startsWith("uk") ? "uk" : "en";
+function isLocale(lang: string): lang is Locale {
+  return Object.prototype.hasOwnProperty.call(strings, lang);
+}
+
+/** The app's language for a BCP 47 tag such as "pt-BR", or English. */
+export function pickLocale(locale: string | undefined): Locale {
+  const lang = locale?.toLowerCase().split(/[-_]/)[0] ?? "";
+  return isLocale(lang) ? lang : "en";
 }
 
 /**
