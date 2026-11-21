@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Adaptive icon foreground: the Material shopping_cart_outlined glyph, the
+    same mark as AppMark and the web loading screen. The launcher shows the
+    middle 72dp of this 108dp canvas, and the glyph's 24-unit box takes half
+    of that (36dp, scale 1.5), like the glyph in AppMark.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:translateX="36"
+        android:translateY="36">
+        <path
+            android:fillColor="#FFFBFF"
+            android:pathData="M15.55,13c0.75,0 1.41,-0.41 1.75,-1.03l3.58,-6.49A0.996,0.996 0,0 0,20.01 4H5.21l-0.94,-2H1v2h2l3.6,7.59 -1.35,2.44C4.52,15.37 5.48,17 7,17h12v-2H7l1.1,-2h7.45zM6.16,6h12.15l-2.76,5H8.53L6.16,6zM7,18c-1.1,0 -1.99,0.9 -1.99,2S5.9,22 7,22s2,-0.9 2,-2 -0.9,-2 -2,-2zM17,18c-1.1,0 -1.99,0.9 -1.99,2s0.89,2 1.99,2 2,-0.9 2,-2 -0.9,-2 -2,-2z" />
+    </group>
+</vector>
