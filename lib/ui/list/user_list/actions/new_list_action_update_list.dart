@@ -4,6 +4,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/state/user_list_state.dart';
+import 'package:shopping_list/ui/push/actions/push_action_enable.dart';
 
 class UserListActionUpdateList extends ReduxAction<AppState> {
   final List<UserList> items;
@@ -13,6 +14,8 @@ class UserListActionUpdateList extends ReduxAction<AppState> {
   @override
   Future<AppState> reduce() async {
     final list = items..sort((a, b) => (a.order).compareTo(b.order));
+    // Only shared lists get pushes, so ask for permission once there is one.
+    if (list.any((l) => l.shared)) dispatch(PushActionEnable());
     final s =
         state.userListState?.copyWith(loading: false, list: list) ??
         UserListState(loading: false, list: list);

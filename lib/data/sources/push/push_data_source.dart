@@ -1,0 +1,68 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+
+/// Firebase Cloud Messaging, plus the Firestore docs the push function
+/// (functions/src/index.ts) reads:
+/// - `users/{uid}/devices/{fid}`: `{platform, locale, updatedAt}`, one per
+///   app install the user is signed in on, keyed by its Firebase Installation
+///   ID (FID), which FCM sends to.
+/// - `notifications/{listId}.unseen.{uid}`: what others changed in the list
+///   since the user last opened it; cleared by [markSeen].
+class PushDataSource {
+  FirebaseMessaging get _messaging => FirebaseMessaging.instance;
+
+  FirebaseFirestore get _store => FirebaseFirestore.instance;
+
+  Future<bool> isSupported() => _messaging.isSupported();
+
+  /// Asks for permission to show notifications (once; later calls return the
+  /// saved answer).
+  Future<bool> requestPermission() async {
+    final settings = await _messaging.requestPermission();
+    return switch (settings.authorizationStatus) {
+      AuthorizationStatus.authorized || AuthorizationStatus.provisional => true,
+      _ => false,
+    };
+  }
+
+  /// Registers this install with FCM; its FID arrives on [onRegistered].
+  Future<void> register() => _messaging.register();
+
+  Stream<String> get onRegistered => _messaging.onRegistered;
+
+  Stream<String> get onUnregistered => _messaging.onUnregistered;
+
+  /// A push that came in while the app was in the foreground. The system
+  /// doesn't show it then.
+  Stream<RemoteMessage> get onMessage => FirebaseMessaging.onMessage;
+
+  /// A tap on a push while the app was in the background.
+  Stream<RemoteMessage> get onMessageOpenedApp =>
+      FirebaseMessaging.onMessageOpenedApp;
+
+  /// The push whose tap launched the app, if any (null on the web).
+  Future<RemoteMessage?> getInitialMessage() => _messaging.getInitialMessage();
+
+  Future<void> saveDevice(String uid, String fid) {
+    return _store.doc("users/$uid/devices/$fid").set(<String, dynamic>{
+      "platform": kIsWeb ? "web" : defaultTargetPlatform.name,
+      "locale": PlatformDispatcher.instance.locale.toLanguageTag(),
+      "updatedAt": FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> removeDevice(String uid, String fid) =>
+      _store.doc("users/$uid/devices/$fid").delete();
+
+  Future<void> markSeen(String listId, String uid) async {
+    try {
+      await _store.doc("notifications/$listId").update(<String, dynamic>{
+        "unseen.$uid": FieldValue.delete(),
+      });
+    } on FirebaseException catch (e) {
+      // No notification doc yet: nothing to clear.
+      if (e.code != "not-found") rethrow;
+    }
+  }
+}

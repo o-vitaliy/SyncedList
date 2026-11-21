@@ -23,6 +23,13 @@ class ListsRepo {
     _subscription = null;
   }
 
+  /// One list, if it still exists and the current user is a member.
+  Future<UserList?> getList(String listId) async {
+    final list = await _store.getList(listId);
+    final uid = _auth.userId();
+    return list != null && list.members.contains(uid) ? list : null;
+  }
+
   /// The current user's lists, read from Firestore (not the UI state).
   Future<List<UserList>> currentUserListsOnce() =>
       _store.getUserListsOnce(_auth.userId()!);

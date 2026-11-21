@@ -403,6 +403,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signed in to your existing account. Your lists were added to it.'**
   String get accountSwitched;
+
+  /// No description provided for @openList.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openList;
 }
 
 class _AppLocalizationsDelegate
