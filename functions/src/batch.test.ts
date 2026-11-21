@@ -94,8 +94,8 @@ test("notification text", () => {
     body: "Anna — Added: Milk, Bread, Eggs and 1 more\nChecked off: Butter",
   });
   assert.equal(
-    buildNotification("Продукты", unseen, ["Анна", "Боб"], "ru").body,
-    "Анна и Боб — Добавлено: Milk, Bread, Eggs и ещё 1\nКуплено: Butter",
+    buildNotification("Продукти", unseen, ["Анна", "Богдан"], "uk").body,
+    "Анна і Богдан — Додано: Milk, Bread, Eggs і ще 1\nКуплено: Butter",
   );
   assert.equal(buildNotification("G", { added: {}, done: unseen.done, by: [] }, [], undefined).body, "Checked off: Butter");
 });

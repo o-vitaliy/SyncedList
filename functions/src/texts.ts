@@ -12,23 +12,23 @@ interface Strings {
   and: string;
 }
 
-const strings: Record<"en" | "ru", Strings> = {
+const strings: Record<"en" | "uk", Strings> = {
   en: {
     added: "Added",
     checked: "Checked off",
     more: (n) => `and ${n} more`,
     and: "and",
   },
-  ru: {
-    added: "Добавлено",
+  uk: {
+    added: "Додано",
     checked: "Куплено",
-    more: (n) => `и ещё ${n}`,
-    and: "и",
+    more: (n) => `і ще ${n}`,
+    and: "і",
   },
 };
 
-export function pickLocale(locale: string | undefined): "en" | "ru" {
-  return locale?.toLowerCase().startsWith("ru") ? "ru" : "en";
+export function pickLocale(locale: string | undefined): "en" | "uk" {
+  return locale?.toLowerCase().startsWith("uk") ? "uk" : "en";
 }
 
 /**

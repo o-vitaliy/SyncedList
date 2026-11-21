@@ -3,13 +3,13 @@ import 'package:shopping_list/ui/legal/legal_content.dart';
 
 void main() {
   for (final type in LegalDocType.values) {
-    test('$type has matching English and Russian structure', () {
+    test('$type has matching English and Ukrainian structure', () {
       final en = legalDoc(type, 'en');
-      final ru = legalDoc(type, 'ru');
-      expect(ru.title, isNot(en.title));
-      expect(ru.sections.length, en.sections.length);
+      final uk = legalDoc(type, 'uk');
+      expect(uk.title, isNot(en.title));
+      expect(uk.sections.length, en.sections.length);
       for (var i = 0; i < en.sections.length; i++) {
-        final e = en.sections[i], r = ru.sections[i];
+        final e = en.sections[i], r = uk.sections[i];
         expect(r.paragraphs.length, e.paragraphs.length, reason: 'section $i');
         expect(r.bullets.length, e.bullets.length, reason: 'section $i');
         expect(
