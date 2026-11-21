@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { applyChange, emptyDoc, flush, NotificationDoc, STALE_WINDOW_MS, toChange, WINDOW_SECONDS } from "./batch";
-import { buildNotification } from "./texts";
+import { buildNotification, pickLocale } from "./texts";
 
 const A = "anna";
 const B = "bob";
@@ -94,8 +94,19 @@ test("notification text", () => {
     body: "Anna — Added: Milk, Bread, Eggs and 1 more\nChecked off: Butter",
   });
   assert.equal(
+    buildNotification("Продукти", unseen, ["Анна", "Богдан"], "uk").body,
+    "Анна і Богдан — Додано: Milk, Bread, Eggs і ще 1\nКуплено: Butter",
+  );
+  assert.equal(
     buildNotification("Продукты", unseen, ["Анна", "Боб"], "ru").body,
     "Анна и Боб — Добавлено: Milk, Bread, Eggs и ещё 1\nКуплено: Butter",
   );
+  assert.equal(
+    buildNotification("Einkauf", unseen, ["Anna"], "de-AT").body,
+    "Anna — Hinzugefügt: Milk, Bread, Eggs und 1 weitere\nAbgehakt: Butter",
+  );
+  assert.equal(pickLocale("pt-BR"), "pt");
+  assert.equal(pickLocale("zh-Hans-CN"), "en");
+  assert.equal(pickLocale("constructor"), "en");
   assert.equal(buildNotification("G", { added: {}, done: unseen.done, by: [] }, [], undefined).body, "Checked off: Butter");
 });
