@@ -260,6 +260,24 @@ abstract class AppLocalizations {
   /// **'Continue without an account'**
   String get loginAnonymous;
 
+  /// No description provided for @getAndroidApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Get the Android app'**
+  String get getAndroidApp;
+
+  /// No description provided for @termsOfUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get termsOfUse;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get privacyPolicy;
+
   /// No description provided for @themeTitle.
   ///
   /// In en, this message translates to:

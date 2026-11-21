@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:async_redux/async_redux.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
 import 'package:get_it/get_it.dart';
 
@@ -34,6 +36,16 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    if (kIsWeb) {
+      // Mobile keeps an offline Firestore cache by default; the web doesn't.
+      // Keep one in IndexedDB, shared by open tabs, so the installed web app
+      // shows lists offline and syncs edits made offline later. It must be
+      // set before Firestore is first used.
+      FirebaseFirestore.instance.settings = const Settings(
+        persistenceEnabled: true,
+        webPersistentTabManager: WebPersistentMultipleTabManager(),
+      );
+    }
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     setupDependencies();
     getIt.get<AuthRepo>().accountChanges().listen(

@@ -152,6 +152,23 @@
       loading.classList.add('done');
       setTimeout(function () { loading.remove(); }, 250);
     });
+
+    // Offline support: sw.js caches the app. On the first visit the page has
+    // loaded everything before the worker takes over, so once it's running,
+    // hand it the URLs that were loaded so they're cached too.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function (e) {
+        console.warn('Service worker registration failed:', e);
+      });
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.ready.then(function (registration) {
+          var urls = [location.href.split('?')[0]].concat(
+            performance.getEntriesByType('resource').map(function (entry) { return entry.name; })
+          );
+          registration.active.postMessage({ type: 'cache', urls: urls });
+        });
+      });
+    }
   </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>

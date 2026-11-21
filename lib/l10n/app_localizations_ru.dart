@@ -96,6 +96,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loginAnonymous => 'Продолжить без аккаунта';
 
   @override
+  String get getAndroidApp => 'Приложение для Android';
+
+  @override
+  String get termsOfUse => 'Условия использования';
+
+  @override
+  String get privacyPolicy => 'Политика конфиденциальности';
+
+  @override
   String get themeTitle => 'Тема';
 
   @override

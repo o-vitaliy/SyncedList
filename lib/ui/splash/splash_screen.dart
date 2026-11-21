@@ -12,7 +12,8 @@ class SplashConnector extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       vm: () => _Factory(this),
-      onInit: (store) => store.dispatch(CheckLoginAction()),
+      onInitialBuild: (context, store, vm) =>
+          store.dispatch(CheckLoginAction(ModalRoute.of(context!)!)),
       builder: (BuildContext context, _ViewModel vm) => _SplashPage(),
     );
   }

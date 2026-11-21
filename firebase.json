@@ -1,19 +1,26 @@
 {
   "hosting": {
     "site": "syncedlist",
-    "public": "public",
+    "public": "build/web",
+    "predeploy": ["flutter build web --release"],
+    "cleanUrls": true,
     "ignore": [
       "firebase.json",
+      ".last_build_id",
       "**/node_modules/**"
     ],
     "headers": [
       {
         "source": "/.well-known/apple-app-site-association",
         "headers": [{ "key": "Content-Type", "value": "application/json" }]
+      },
+      {
+        "source": "**",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
       }
     ],
     "rewrites": [
-      { "source": "/link", "destination": "/index.html" }
+      { "source": "**", "destination": "/index.html" }
     ]
   }
 }
