@@ -62,7 +62,7 @@ class _ListItemsConnector extends StatelessWidget {
       converter: _ViewModel.fromStore,
       onInit: (s) => s.dispatch(ItemListActionSubscribe(args)),
       onDispose: (s) {
-        s.dispatch(ItemListActionUnsubscribe());
+        s.dispatch(ItemListActionUnsubscribe(args));
       },
       builder: _content,
     );

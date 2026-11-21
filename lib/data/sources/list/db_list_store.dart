@@ -20,6 +20,13 @@ class DbListStore {
         .map((event) => fromQuerySnapshot(event));
   }
 
+  /// One-off read of a single list, or null if it's gone.
+  Future<UserList?> getList(String listId) async {
+    final snapshot = await _store.doc("$_lists/$listId").get();
+    final lists = fromSnapshot(snapshot);
+    return lists.isEmpty ? null : lists.first;
+  }
+
   /// One-off read of every list [userId] is a member of.
   Future<List<UserList>> getUserListsOnce(String userId) async {
     final snapshot = await _store

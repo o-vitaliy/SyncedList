@@ -173,4 +173,7 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get accountSwitched =>
       'Вы вошли в существующий аккаунт. Ваши списки добавлены в него.';
+
+  @override
+  String get openList => 'Открыть';
 }

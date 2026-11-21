@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shopping_list/data/repos/auth_repo.dart';
 import 'package:shopping_list/data/repos/lists_repo.dart';
+import 'package:shopping_list/data/repos/push_repo.dart';
 import 'package:shopping_list/data/repos/user_lists_repo.dart';
 import 'package:shopping_list/state/app_state.dart';
 
@@ -14,6 +15,8 @@ class AccountActionSignOut extends ReduxAction<AppState> {
     GetIt.I.get<ItemsListRepo>().unsubscribeItems();
 
     try {
+      // While still signed in, so this install's device doc can be removed.
+      await GetIt.I.get<PushRepo>().signOut();
       await GetIt.I.get<AuthRepo>().signOut();
     } on FirebaseException catch (e) {
       throw UserException(e.message ?? "Some thing went wrong");

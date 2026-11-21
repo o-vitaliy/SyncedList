@@ -161,6 +161,14 @@
       navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function (e) {
         console.warn('Service worker registration failed:', e);
       });
+      // A tapped push for a list while the app is open (firebase-messaging-sw.js):
+      // reload at the URL that opens that list.
+      navigator.serviceWorker.addEventListener('message', function (event) {
+        var data = event.data;
+        if (data && data.type === 'openList' && typeof data.listId === 'string') {
+          location.assign('/?openList=' + encodeURIComponent(data.listId));
+        }
+      });
       window.addEventListener('flutter-first-frame', function () {
         navigator.serviceWorker.ready.then(function (registration) {
           var urls = [location.href.split('?')[0]].concat(

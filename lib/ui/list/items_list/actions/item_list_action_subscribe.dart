@@ -4,6 +4,7 @@ import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/data/repos/user_lists_repo.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/state/item_list_state.dart';
+import 'package:shopping_list/ui/push/actions/push_action_mark_seen.dart';
 
 import '../sort/sort_action_init.dart';
 import 'item_list_action_change_list.dart';
@@ -22,6 +23,7 @@ class ItemListActionSubscribe extends ReduxAction<AppState> {
     );
 
     dispatch(SortActionInit());
+    dispatch(PushActionMarkSeen(args.id));
     return state.copyWith(itemListState: ItemListState.initial(args));
   }
 }

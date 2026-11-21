@@ -74,5 +74,6 @@
   "signOut": "Sign out",
   "signOutConfirm": "Sign out of SyncedList?",
   "accountLinked": "Signed in. Your lists are saved to your account.",
-  "accountSwitched": "Signed in to your existing account. Your lists were added to it."
+  "accountSwitched": "Signed in to your existing account. Your lists were added to it.",
+  "openList": "Open"
 }

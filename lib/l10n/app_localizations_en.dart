@@ -172,4 +172,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get accountSwitched =>
       'Signed in to your existing account. Your lists were added to it.';
+
+  @override
+  String get openList => 'Open';
 }
