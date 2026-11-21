@@ -44,6 +44,7 @@
       --track: #f7ddd4;
       --mark: #c94c00;
       --on-mark: #fffbff;
+      --on-surface-variant: #594138;
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
@@ -52,6 +53,7 @@
         --track: #41312b;
         --mark: #f1651c;
         --on-mark: #310d00;
+        --on-surface-variant: #e1bfb3;
       }
     }
     :root[data-theme="dark"] {
@@ -60,6 +62,7 @@
       --track: #41312b;
       --mark: #f1651c;
       --on-mark: #310d00;
+      --on-surface-variant: #e1bfb3;
     }
     html, body {
       margin: 0;
@@ -113,6 +116,19 @@
       background: var(--primary);
       animation: indeterminate 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
+    /* The app version, where the splash screen shows it (labelMedium). */
+    #loading .version {
+      position: absolute;
+      bottom: calc(24px + env(safe-area-inset-bottom));
+      font: 500 12px/16px Roboto, system-ui, sans-serif;
+      letter-spacing: 0.5px;
+      color: var(--on-surface-variant);
+      opacity: 0;
+      transition: opacity 200ms ease-out;
+    }
+    #loading .version.shown {
+      opacity: 1;
+    }
     @keyframes indeterminate {
       from { left: -45%; }
       to { left: 100%; }
@@ -146,8 +162,21 @@
       </svg>
     </div>
     <div class="bar"></div>
+    <div class="version" id="app-version"></div>
   </div>
   <script>
+    // Same "v1.0.2 (3)" as the splash screen (lib/ui/splash/splash_screen.dart),
+    // from the version.json Flutter writes into the build.
+    fetch('version.json', { cache: 'no-cache' })
+      .then(function (r) { return r.json(); })
+      .then(function (v) {
+        var el = document.getElementById('app-version');
+        if (!el || !v.version) return;
+        el.textContent = 'v' + v.version + (v.build_number ? ' (' + v.build_number + ')' : '');
+        el.classList.add('shown');
+      })
+      .catch(function () {});
+
     window.addEventListener('flutter-first-frame', function () {
       var loading = document.getElementById('loading');
       loading.classList.add('done');
