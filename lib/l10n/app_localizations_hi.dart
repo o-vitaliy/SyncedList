@@ -176,4 +176,35 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get openList => 'खोलें';
+
+  @override
+  String get notificationsTitle => 'सूचनाएँ';
+
+  @override
+  String get notificationsInfo =>
+      'जब दूसरे आपकी साझा सूचियों में आइटम जोड़ें या टिक करें, तो सूचना पाएँ।';
+
+  @override
+  String get notificationsTurnOn => 'सूचनाएँ चालू करें';
+
+  @override
+  String get notificationsTurnOnShort => 'चालू करें';
+
+  @override
+  String get notNow => 'अभी नहीं';
+
+  @override
+  String get notificationsOn => 'सूचनाएँ चालू हैं';
+
+  @override
+  String get notificationsBlockedWeb =>
+      'सूचनाएँ ब्लॉक हैं। ब्राउज़र सेटिंग में इस साइट के लिए इन्हें अनुमति दें।';
+
+  @override
+  String get notificationsBlockedApp =>
+      'सूचनाएँ बंद हैं। डिवाइस सेटिंग में SyncedList के लिए इन्हें चालू करें।';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'iPhone पर सूचनाएँ पाने के लिए SyncedList को होम स्क्रीन पर जोड़ें: शेयर पर टैप करें, फिर होम स्क्रीन में जोड़ें चुनें।';
 }

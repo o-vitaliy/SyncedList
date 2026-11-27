@@ -75,5 +75,14 @@
   "signOutConfirm": "Sign out of SyncedList?",
   "accountLinked": "Signed in. Your lists are saved to your account.",
   "accountSwitched": "Signed in to your existing account. Your lists were added to it.",
-  "openList": "Open"
+  "openList": "Open",
+  "notificationsTitle": "Notifications",
+  "notificationsInfo": "Get notified when others add or check off items in your shared lists.",
+  "notificationsTurnOn": "Turn on notifications",
+  "notificationsTurnOnShort": "Turn on",
+  "notNow": "Not now",
+  "notificationsOn": "Notifications are on",
+  "notificationsBlockedWeb": "Notifications are blocked. Allow them for this site in your browser settings.",
+  "notificationsBlockedApp": "Notifications are off. Turn them on for SyncedList in your device settings.",
+  "notificationsIosHomeScreen": "To get notifications on iPhone, add SyncedList to your Home Screen: tap Share, then Add to Home Screen."
 }

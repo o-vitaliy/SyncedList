@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shopping_list/data/entities/push_permission.dart';
 
 /// Firebase Cloud Messaging, plus the Firestore docs the push function
 /// (functions/src/index.ts) reads:
@@ -16,15 +17,26 @@ class PushDataSource {
 
   Future<bool> isSupported() => _messaging.isSupported();
 
-  /// Asks for permission to show notifications (once; later calls return the
-  /// saved answer).
-  Future<bool> requestPermission() async {
-    final settings = await _messaging.requestPermission();
-    return switch (settings.authorizationStatus) {
-      AuthorizationStatus.authorized || AuthorizationStatus.provisional => true,
-      _ => false,
-    };
+  /// The current permission, without asking.
+  Future<PushPermission> permission() async {
+    if (!await isSupported()) return PushPermission.unsupported;
+    return _toPermission(await _messaging.getNotificationSettings());
   }
+
+  /// Asks for permission to show notifications (once; later calls return the
+  /// saved answer). Safari and Firefox only show the prompt when this runs
+  /// from a tap.
+  Future<PushPermission> requestPermission() async =>
+      _toPermission(await _messaging.requestPermission());
+
+  static PushPermission _toPermission(NotificationSettings settings) =>
+      switch (settings.authorizationStatus) {
+        AuthorizationStatus.authorized ||
+        AuthorizationStatus.provisional => PushPermission.granted,
+        AuthorizationStatus.denied ||
+        AuthorizationStatus.deniedPermanently => PushPermission.denied,
+        AuthorizationStatus.notDetermined => PushPermission.notAsked,
+      };
 
   /// Registers this install with FCM; its FID arrives on [onRegistered].
   Future<void> register() => _messaging.register();

@@ -433,6 +433,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get openList;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified when others add or check off items in your shared lists.'**
+  String get notificationsInfo;
+
+  /// No description provided for @notificationsTurnOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on notifications'**
+  String get notificationsTurnOn;
+
+  /// No description provided for @notificationsTurnOnShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get notificationsTurnOnShort;
+
+  /// No description provided for @notNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notNow;
+
+  /// No description provided for @notificationsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are on'**
+  String get notificationsOn;
+
+  /// No description provided for @notificationsBlockedWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are blocked. Allow them for this site in your browser settings.'**
+  String get notificationsBlockedWeb;
+
+  /// No description provided for @notificationsBlockedApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off. Turn them on for SyncedList in your device settings.'**
+  String get notificationsBlockedApp;
+
+  /// No description provided for @notificationsIosHomeScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'To get notifications on iPhone, add SyncedList to your Home Screen: tap Share, then Add to Home Screen.'**
+  String get notificationsIosHomeScreen;
 }
 
 class _AppLocalizationsDelegate

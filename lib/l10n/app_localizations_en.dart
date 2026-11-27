@@ -175,4 +175,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openList => 'Open';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsInfo =>
+      'Get notified when others add or check off items in your shared lists.';
+
+  @override
+  String get notificationsTurnOn => 'Turn on notifications';
+
+  @override
+  String get notificationsTurnOnShort => 'Turn on';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
+  String get notificationsOn => 'Notifications are on';
+
+  @override
+  String get notificationsBlockedWeb =>
+      'Notifications are blocked. Allow them for this site in your browser settings.';
+
+  @override
+  String get notificationsBlockedApp =>
+      'Notifications are off. Turn them on for SyncedList in your device settings.';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'To get notifications on iPhone, add SyncedList to your Home Screen: tap Share, then Add to Home Screen.';
 }

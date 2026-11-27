@@ -51,5 +51,14 @@
   "signOutConfirm": "SyncedList से साइन आउट करें?",
   "accountLinked": "साइन इन हो गया। आपकी लिस्ट आपके अकाउंट में सेव हैं।",
   "accountSwitched": "आपके मौजूदा अकाउंट में साइन इन हो गया। आपकी लिस्ट उसमें जोड़ दी गई हैं।",
-  "openList": "खोलें"
+  "openList": "खोलें",
+  "notificationsTitle": "सूचनाएँ",
+  "notificationsInfo": "जब दूसरे आपकी साझा सूचियों में आइटम जोड़ें या टिक करें, तो सूचना पाएँ।",
+  "notificationsTurnOn": "सूचनाएँ चालू करें",
+  "notificationsTurnOnShort": "चालू करें",
+  "notNow": "अभी नहीं",
+  "notificationsOn": "सूचनाएँ चालू हैं",
+  "notificationsBlockedWeb": "सूचनाएँ ब्लॉक हैं। ब्राउज़र सेटिंग में इस साइट के लिए इन्हें अनुमति दें।",
+  "notificationsBlockedApp": "सूचनाएँ बंद हैं। डिवाइस सेटिंग में SyncedList के लिए इन्हें चालू करें।",
+  "notificationsIosHomeScreen": "iPhone पर सूचनाएँ पाने के लिए SyncedList को होम स्क्रीन पर जोड़ें: शेयर पर टैप करें, फिर होम स्क्रीन में जोड़ें चुनें।"
 }

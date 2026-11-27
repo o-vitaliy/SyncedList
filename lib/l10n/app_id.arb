@@ -51,5 +51,14 @@
   "signOutConfirm": "Keluar dari SyncedList?",
   "accountLinked": "Sudah masuk. Daftar Anda tersimpan di akun Anda.",
   "accountSwitched": "Masuk ke akun Anda yang sudah ada. Daftar Anda telah ditambahkan ke akun itu.",
-  "openList": "Buka"
+  "openList": "Buka",
+  "notificationsTitle": "Notifikasi",
+  "notificationsInfo": "Dapatkan notifikasi saat orang lain menambah atau mencentang item di daftar bersama Anda.",
+  "notificationsTurnOn": "Aktifkan notifikasi",
+  "notificationsTurnOnShort": "Aktifkan",
+  "notNow": "Nanti saja",
+  "notificationsOn": "Notifikasi aktif",
+  "notificationsBlockedWeb": "Notifikasi diblokir. Izinkan untuk situs ini di pengaturan browser.",
+  "notificationsBlockedApp": "Notifikasi nonaktif. Aktifkan untuk SyncedList di pengaturan perangkat.",
+  "notificationsIosHomeScreen": "Untuk menerima notifikasi di iPhone, tambahkan SyncedList ke Layar Utama: ketuk Bagikan, lalu Tambah ke Layar Utama."
 }

@@ -5,6 +5,7 @@ import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/ui/list/new_list/new_list_form.dart';
 import 'package:shopping_list/ui/account/account_sheet.dart';
+import 'package:shopping_list/ui/push/push_banner.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
@@ -31,18 +32,25 @@ class UserListsView extends StatelessWidget {
         actions: const [AccountButton(), SizedBox(width: 8)],
       ),
       floatingActionButton: _createListButton(context),
-      body: StoreConnector<AppState, _ViewModel>(
-        converter: _ViewModel.fromStore,
-        onInitialBuild: (_, s, vm) => _modelChanged(context, vm),
-        onDidChange: (_, s, vm) => _modelChanged(context, vm),
-        onInit: (store) {
-          store.dispatch(UserListActionInit());
-          store.dispatch(UserListActionSubscribe());
-        },
-        onDispose: (store) {
-          store.dispatch(UserListActionUnsubscribe());
-        },
-        builder: (BuildContext c, _ViewModel vm) => _content(c, vm),
+      body: Column(
+        children: [
+          const PushBanner(),
+          Expanded(
+            child: StoreConnector<AppState, _ViewModel>(
+              converter: _ViewModel.fromStore,
+              onInitialBuild: (_, s, vm) => _modelChanged(context, vm),
+              onDidChange: (_, s, vm) => _modelChanged(context, vm),
+              onInit: (store) {
+                store.dispatch(UserListActionInit());
+                store.dispatch(UserListActionSubscribe());
+              },
+              onDispose: (store) {
+                store.dispatch(UserListActionUnsubscribe());
+              },
+              builder: (BuildContext c, _ViewModel vm) => _content(c, vm),
+            ),
+          ),
+        ],
       ),
     );
   }

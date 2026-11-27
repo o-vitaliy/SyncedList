@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shopping_list/data/entities/push_permission.dart';
 import 'package:shopping_list/data/sources/prefs/prefs_data_source.dart';
 import 'package:shopping_list/data/sources/push/push_data_source.dart';
 
 const _fidKey = "pushFid";
+const _bannerKey = "pushBannerDismissed";
 
 /// Keeps `users/{uid}/devices/{fid}` pointing at the signed-in user, so
 /// pushes for their shared lists reach this install, and only them.
@@ -14,7 +16,7 @@ class PushRepo {
 
   String? _uid;
   String? _fid;
-  bool _registering = false;
+  bool _registered = false;
 
   /// A list a tapped push asked to open before the user was signed in;
   /// opened once the start screen is up (see CheckLoginAction).
@@ -28,20 +30,40 @@ class PushRepo {
     _fid = await _prefs.getString(_fidKey);
   }
 
-  /// Asks for notification permission and registers with FCM. Done once a
-  /// user has a shared list, since only those get pushes.
-  Future<void> enable() async {
-    if (_registering) return;
-    _registering = true;
+  Future<PushPermission> permission() async {
     try {
-      if (!await _source.isSupported()) return;
-      if (!await _source.requestPermission()) return;
-      await _source.register();
+      return await _source.permission();
     } catch (e) {
-      debugPrint("Push registration failed: $e");
-      _registering = false;
+      debugPrint("Couldn't read notification permission: $e");
+      return PushPermission.unsupported;
     }
   }
+
+  /// Registers with FCM, first asking for notification permission if
+  /// [ask] is set. Returns the permission it ended with.
+  Future<PushPermission> enable({required bool ask}) async {
+    var permission = await this.permission();
+    if (permission == PushPermission.notAsked && ask) {
+      try {
+        permission = await _source.requestPermission();
+      } catch (e) {
+        debugPrint("Notification permission request failed: $e");
+      }
+    }
+    if (permission == PushPermission.granted && !_registered) {
+      try {
+        await _source.register();
+        _registered = true;
+      } catch (e) {
+        debugPrint("Push registration failed: $e");
+      }
+    }
+    return permission;
+  }
+
+  Future<bool> bannerDismissed() => _prefs.getBool(_bannerKey);
+
+  Future<void> dismissBanner() => _prefs.setBool(_bannerKey, true);
 
   Future<void> onRegistered(String fid) async {
     final old = _fid;
@@ -49,7 +71,9 @@ class PushRepo {
     await _prefs.setString(_fidKey, fid);
     final uid = _uid;
     if (uid == null) return;
-    if (old != null && old != fid) await _quietly(_source.removeDevice(uid, old));
+    if (old != null && old != fid) {
+      await _quietly(_source.removeDevice(uid, old));
+    }
     await _quietly(_source.saveDevice(uid, fid));
   }
 

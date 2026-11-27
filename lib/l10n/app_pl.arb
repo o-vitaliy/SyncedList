@@ -51,5 +51,14 @@
   "signOutConfirm": "Wylogować się z SyncedList?",
   "accountLinked": "Zalogowano. Twoje listy są zapisane na koncie.",
   "accountSwitched": "Zalogowano na istniejące konto. Twoje listy zostały do niego dodane.",
-  "openList": "Otwórz"
+  "openList": "Otwórz",
+  "notificationsTitle": "Powiadomienia",
+  "notificationsInfo": "Otrzymuj powiadomienia, gdy inni dodają lub odhaczają produkty na Twoich wspólnych listach.",
+  "notificationsTurnOn": "Włącz powiadomienia",
+  "notificationsTurnOnShort": "Włącz",
+  "notNow": "Nie teraz",
+  "notificationsOn": "Powiadomienia są włączone",
+  "notificationsBlockedWeb": "Powiadomienia są zablokowane. Zezwól na nie dla tej witryny w ustawieniach przeglądarki.",
+  "notificationsBlockedApp": "Powiadomienia są wyłączone. Włącz je dla SyncedList w ustawieniach urządzenia.",
+  "notificationsIosHomeScreen": "Aby otrzymywać powiadomienia na iPhonie, dodaj SyncedList do ekranu początkowego: stuknij Udostępnij, a potem Do ekranu początkowego."
 }

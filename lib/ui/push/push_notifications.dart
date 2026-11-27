@@ -6,6 +6,7 @@ import 'package:shopping_list/data/repos/push_repo.dart';
 import 'package:shopping_list/data/sources/push/push_data_source.dart';
 import 'package:shopping_list/main.dart';
 
+import 'actions/push_action_load.dart';
 import 'actions/push_action_open_list.dart';
 import 'actions/push_action_received.dart';
 
@@ -26,6 +27,7 @@ Future<void> initPushNotifications() async {
     }
   }
 
+  mainStore.dispatch(PushActionLoad());
   if (!await repo.isSupported()) return;
   await repo.init();
 

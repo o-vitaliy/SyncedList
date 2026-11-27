@@ -176,4 +176,35 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get openList => 'Buka';
+
+  @override
+  String get notificationsTitle => 'Notifikasi';
+
+  @override
+  String get notificationsInfo =>
+      'Dapatkan notifikasi saat orang lain menambah atau mencentang item di daftar bersama Anda.';
+
+  @override
+  String get notificationsTurnOn => 'Aktifkan notifikasi';
+
+  @override
+  String get notificationsTurnOnShort => 'Aktifkan';
+
+  @override
+  String get notNow => 'Nanti saja';
+
+  @override
+  String get notificationsOn => 'Notifikasi aktif';
+
+  @override
+  String get notificationsBlockedWeb =>
+      'Notifikasi diblokir. Izinkan untuk situs ini di pengaturan browser.';
+
+  @override
+  String get notificationsBlockedApp =>
+      'Notifikasi nonaktif. Aktifkan untuk SyncedList di pengaturan perangkat.';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'Untuk menerima notifikasi di iPhone, tambahkan SyncedList ke Layar Utama: ketuk Bagikan, lalu Tambah ke Layar Utama.';
 }

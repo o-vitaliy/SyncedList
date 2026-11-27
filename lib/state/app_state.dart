@@ -2,6 +2,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shopping_list/data/entities/app_theme_mode.dart';
 import 'package:shopping_list/data/entities/item_sort.dart';
+import 'package:shopping_list/data/entities/push_permission.dart';
 
 import 'item_list_state.dart';
 import 'login_state.dart';
@@ -21,6 +22,11 @@ class AppState {
 
   final AppThemeMode themeMode;
 
+  final PushPermission pushPermission;
+
+  /// The user closed the "turn on notifications" banner on the lists screen.
+  final bool pushBannerDismissed;
+
   static AppState initialState() => AppState(
     loginState: LoginState.initialState(),
     userListState: null,
@@ -29,6 +35,8 @@ class AppState {
     loginToViewList: Event<String>.spent(),
     joinedToList: Event<List<String>>.spent(),
     themeMode: AppThemeMode.system,
+    pushPermission: PushPermission.unsupported,
+    pushBannerDismissed: false,
   );
 
   //<editor-fold desc="Data Methods">
@@ -41,6 +49,8 @@ class AppState {
     required this.joinedToList,
     this.sorts,
     required this.themeMode,
+    this.pushPermission = PushPermission.unsupported,
+    this.pushBannerDismissed = false,
   });
 
   @override
@@ -54,7 +64,9 @@ class AppState {
           loginToViewList == other.loginToViewList &&
           joinedToList == other.joinedToList &&
           sorts == other.sorts &&
-          themeMode == other.themeMode);
+          themeMode == other.themeMode &&
+          pushPermission == other.pushPermission &&
+          pushBannerDismissed == other.pushBannerDismissed);
 
   @override
   int get hashCode =>
@@ -64,7 +76,9 @@ class AppState {
       loginToViewList.hashCode ^
       joinedToList.hashCode ^
       sorts.hashCode ^
-      themeMode.hashCode;
+      themeMode.hashCode ^
+      pushPermission.hashCode ^
+      pushBannerDismissed.hashCode;
 
   @override
   String toString() {
@@ -76,6 +90,8 @@ class AppState {
         ' joinedToList: $joinedToList,'
         ' sorts: $sorts,'
         ' themeMode: $themeMode,'
+        ' pushPermission: $pushPermission,'
+        ' pushBannerDismissed: $pushBannerDismissed,'
         '}';
   }
 
@@ -87,6 +103,8 @@ class AppState {
     Event<List<String>>? joinedToList,
     List<ItemSort>? sorts,
     AppThemeMode? themeMode,
+    PushPermission? pushPermission,
+    bool? pushBannerDismissed,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -96,6 +114,8 @@ class AppState {
       joinedToList: joinedToList ?? this.joinedToList,
       sorts: sorts ?? this.sorts,
       themeMode: themeMode ?? this.themeMode,
+      pushPermission: pushPermission ?? this.pushPermission,
+      pushBannerDismissed: pushBannerDismissed ?? this.pushBannerDismissed,
     );
   }
 
@@ -108,6 +128,8 @@ class AppState {
     joinedToList: joinedToList,
     sorts: sorts,
     themeMode: themeMode,
+    pushPermission: pushPermission,
+    pushBannerDismissed: pushBannerDismissed,
   );
 
   /// State after sign-out: no user data, but keep device preferences.
@@ -117,6 +139,8 @@ class AppState {
     joinedToList: Event<List<String>>.spent(),
     sorts: sorts,
     themeMode: themeMode,
+    pushPermission: pushPermission,
+    pushBannerDismissed: pushBannerDismissed,
   );
 
   Map<String, dynamic> toMap() {
@@ -128,6 +152,8 @@ class AppState {
       'joinedToList': joinedToList,
       'sorts': sorts,
       'themeMode': themeMode,
+      'pushPermission': pushPermission,
+      'pushBannerDismissed': pushBannerDismissed,
     };
   }
 
@@ -140,6 +166,8 @@ class AppState {
       joinedToList: map['joinedToList'] as Event<List<String>>,
       sorts: map['sorts'] as List<ItemSort>,
       themeMode: map['themeMode'] as AppThemeMode,
+      pushPermission: map['pushPermission'] as PushPermission,
+      pushBannerDismissed: map['pushBannerDismissed'] as bool,
     );
   }
 

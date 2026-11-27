@@ -51,5 +51,14 @@
   "signOutConfirm": "SyncedList'ten çıkış yapılsın mı?",
   "accountLinked": "Giriş yapıldı. Listelerin hesabına kaydedildi.",
   "accountSwitched": "Mevcut hesabına giriş yapıldı. Listelerin bu hesaba eklendi.",
-  "openList": "Aç"
+  "openList": "Aç",
+  "notificationsTitle": "Bildirimler",
+  "notificationsInfo": "Ortak listelerinize başkaları ürün eklediğinde veya işaretlediğinde bildirim alın.",
+  "notificationsTurnOn": "Bildirimleri aç",
+  "notificationsTurnOnShort": "Aç",
+  "notNow": "Şimdi değil",
+  "notificationsOn": "Bildirimler açık",
+  "notificationsBlockedWeb": "Bildirimler engellendi. Tarayıcı ayarlarından bu siteye izin verin.",
+  "notificationsBlockedApp": "Bildirimler kapalı. Cihaz ayarlarından SyncedList için açın.",
+  "notificationsIosHomeScreen": "iPhone’da bildirim almak için SyncedList’i Ana Ekran’a ekleyin: Paylaş’a, ardından Ana Ekrana Ekle’ye dokunun."
 }
