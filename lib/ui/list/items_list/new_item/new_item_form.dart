@@ -7,6 +7,7 @@ import 'package:shopping_list/ui/widgets/widgets.dart';
 
 import 'new_item_action_add.dart';
 import 'new_item_action_change_name.dart';
+import 'new_item_action_load_history.dart';
 import 'new_item_state.dart';
 
 class NewItemForm extends StatelessWidget {
@@ -18,9 +19,16 @@ class NewItemForm extends StatelessWidget {
     String? name,
     String? id,
     int? order,
+    List<String> exclude = const [],
   }) => NewItemForm._(
     store: Store<NewItemState>(
-      initialState: NewItemState.initial(listId, name, id, order),
+      initialState: NewItemState.initial(
+        listId,
+        name,
+        id,
+        order,
+        exclude: exclude,
+      ),
     ),
     initialName: name,
   );
@@ -45,6 +53,7 @@ class _FormConnector extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<NewItemState, _ViewModel>(
       converter: _ViewModel.fromStore,
+      onInit: (s) => s.dispatch(NewItemActionLoadHistory()),
       builder: (c, vm) => _FormContainer(vm, initialName),
     );
   }
@@ -62,11 +71,25 @@ class _FormContainer extends StatefulWidget {
 
 class _FormContainerState extends State<_FormContainer> {
   final _formKey = GlobalKey<FormState>();
+  late final _controller = TextEditingController(text: widget.initialName);
 
   _ViewModel get vm => widget.vm;
 
   void _onSave() {
     if (_formKey.currentState?.validate() == true) vm.save();
+  }
+
+  /// A tapped suggestion is added right away.
+  void _onSuggestion(String value) {
+    _controller.text = value;
+    vm.nameChanged(value);
+    _onSave();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -84,9 +107,13 @@ class _FormContainerState extends State<_FormContainer> {
             decoration: InputDecoration(hintText: l.newItemName),
             onChanged: vm.nameChanged,
             onFieldSubmitted: (_) => _onSave(),
-            initialValue: widget.initialName,
+            controller: _controller,
             validator: (v) => requiredValidation(context, v),
           ),
+          if (vm.suggestions.isNotEmpty && !vm.loading) ...[
+            defaultSpacer8(),
+            _Suggestions(vm.suggestions, onTap: _onSuggestion),
+          ],
           defaultSpacer(),
           if (!vm.loading)
             Row(
@@ -133,8 +160,36 @@ class _FormContainerState extends State<_FormContainer> {
   }
 }
 
+/// Tappable chips with names the user added before.
+class _Suggestions extends StatelessWidget {
+  final List<String> values;
+  final ValueChanged<String> onTap;
+
+  const _Suggestions(this.values, {required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          for (final value in values)
+            ActionChip(
+              avatar: const Icon(Icons.history, size: 18),
+              label: Text(value, overflow: TextOverflow.ellipsis),
+              onPressed: () => onTap(value),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
 class _ViewModel extends Vm {
   final bool loading;
+  final List<String> suggestions;
   final Function(String) nameChanged;
   final VoidCallback save;
   final Event<UserException> error;
@@ -142,11 +197,12 @@ class _ViewModel extends Vm {
 
   _ViewModel({
     required this.loading,
+    required this.suggestions,
     required this.nameChanged,
     required this.save,
     required this.error,
     required this.savedEvent,
-  }) : super(equals: [loading, error, savedEvent]);
+  }) : super(equals: [loading, suggestions.join('\n'), error, savedEvent]);
 
   static _ViewModel fromStore(Store<NewItemState> store) {
     void nameChanged(String v) =>
@@ -154,6 +210,7 @@ class _ViewModel extends Vm {
     void save() => store.dispatch(NewItemActionAddList());
     return _ViewModel(
       loading: store.state.loading,
+      suggestions: store.state.suggestions,
       nameChanged: nameChanged,
       save: save,
       savedEvent: store.state.savedEvent,

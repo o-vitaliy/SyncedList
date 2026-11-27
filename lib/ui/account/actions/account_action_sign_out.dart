@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shopping_list/data/repos/auth_repo.dart';
 import 'package:shopping_list/data/repos/lists_repo.dart';
 import 'package:shopping_list/data/repos/push_repo.dart';
+import 'package:shopping_list/data/repos/suggestions_repo.dart';
 import 'package:shopping_list/data/repos/user_lists_repo.dart';
 import 'package:shopping_list/state/app_state.dart';
 
@@ -23,6 +24,8 @@ class AccountActionSignOut extends ReduxAction<AppState> {
     } catch (e) {
       throw UserException("Some thing went wrong", reason: "$e");
     }
+    // Item names are the signed-out user's; don't suggest them to the next.
+    await GetIt.I.get<SuggestionsRepo>().clear();
     dispatch(NavigateAction.pushNamedAndRemoveAll("/login"));
     return state.signedOut();
   }
