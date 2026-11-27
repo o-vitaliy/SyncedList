@@ -158,6 +158,11 @@ void rename(BuildContext context, String listId, ShoppingItem? item) {
         name: item?.value,
         id: item?.id,
         order: item?.order,
+        exclude: [
+          for (final e
+              in mainStore.state.itemListState?.items ?? <ShoppingItem>[])
+            if (!e.done) e.value,
+        ],
       ),
     ),
   );

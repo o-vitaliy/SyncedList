@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shopping_list/data/repos/suggestions_repo.dart';
 import 'package:shopping_list/data/repos/user_lists_repo.dart';
 import 'package:shopping_list/state/write_errors.dart';
 
@@ -24,6 +25,8 @@ class NewItemActionAddList extends ReduxAction<NewItemState> {
     } else {
       reportWriteFailure(repo.renameItem(state.listId, itemId, itemName));
     }
+
+    GetIt.I.get<SuggestionsRepo>().record(itemName);
 
     return state.copyWith(savedEvent: Event(itemName));
   }

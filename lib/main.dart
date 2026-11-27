@@ -14,6 +14,7 @@ import 'data/repos/invites_repo.dart';
 import 'data/repos/lists_repo.dart';
 import 'data/repos/push_repo.dart';
 import 'data/repos/sort_repo.dart';
+import 'data/repos/suggestions_repo.dart';
 import 'data/repos/theme_repo.dart';
 import 'data/repos/user_lists_repo.dart';
 import 'data/sources/auth/auth_datasource.dart';
@@ -85,6 +86,7 @@ void setupDependencies() {
   getIt.registerSingleton(ItemsListRepo());
   getIt.registerSingleton(InviteRepos());
   getIt.registerSingleton(SortRepo());
+  getIt.registerSingleton(SuggestionsRepo());
   getIt.registerSingleton(ThemeRepo());
   getIt.registerSingleton(PushRepo());
 }

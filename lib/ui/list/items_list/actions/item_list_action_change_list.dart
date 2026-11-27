@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shopping_list/data/entities/item_sort.dart';
 import 'package:shopping_list/data/entities/shopping_item.dart';
 import 'package:shopping_list/data/repos/sort_repo.dart';
+import 'package:shopping_list/data/repos/suggestions_repo.dart';
 import 'package:shopping_list/state/app_state.dart';
 
 class ItemListActionChangeList extends ReduxAction<AppState> {
@@ -14,6 +15,9 @@ class ItemListActionChangeList extends ReduxAction<AppState> {
 
   @override
   Future<AppState?> reduce() async {
+    // Names other members added become suggestions too.
+    GetIt.I.get<SuggestionsRepo>().remember(items.map((e) => e.value));
+
     final sortRepo = GetIt.I.get<SortRepo>();
     final sort = await sortRepo.getSort();
 
