@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shopping_list/data/repos/lists_repo.dart';
 import 'package:shopping_list/data/repos/push_repo.dart';
 import 'package:shopping_list/state/app_state.dart';
+import 'package:shopping_list/ui/list/items_list/item_list_view.dart';
 
 /// Opens the list a tapped push was about, on top of the lists screen.
 class PushActionOpenList extends ReduxAction<AppState> {
@@ -26,7 +27,7 @@ class PushActionOpenList extends ReduxAction<AppState> {
     // opened, so the new screen keeps its subscription.
     dispatch(
       NavigateAction.pushNamedAndRemoveUntil(
-        "/items",
+        ListItemsView.routeName(list),
         (route) => route.settings.name == "/main",
         arguments: list,
       ),

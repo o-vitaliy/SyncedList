@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/localization.dart';
+import 'package:shopping_list/ui/list/items_list/item_list_view.dart';
 import 'package:shopping_list/ui/widgets/reorderable.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
@@ -34,7 +35,11 @@ class UserListItemWidget extends StatelessWidget {
     return Card(
       child: ListTile(
         contentPadding: const EdgeInsets.fromLTRB(16, 8, 4, 8),
-        onTap: () => Navigator.pushNamed(context, "/items", arguments: item),
+        onTap: () => Navigator.pushNamed(
+          context,
+          ListItemsView.routeName(item),
+          arguments: item,
+        ),
         leading: CircleAvatar(
           radius: 22,
           backgroundColor: scheme.secondaryContainer,
