@@ -2,7 +2,7 @@
 //
 // 1. onItemWritten records every add / check-off in notifications/{listId}
 //    and, on the first change of a quiet list, queues sendListUpdates to run
-//    30 seconds later (a fixed window: later changes join the same batch).
+//    5 seconds later (a fixed window: later changes join the same batch).
 // 2. sendListUpdates folds the batch into each member's running total and
 //    pushes it to the members who didn't make the changes. The push uses the
 //    list id as its tag / collapse id, so it replaces the previous one for
@@ -144,8 +144,16 @@ async function pushTo(
       );
     });
   await Promise.all(stale.map(({ doc }) => doc.ref.delete()));
-  const failed = response.failureCount - stale.length;
-  if (failed > 0) logger.warn(`${failed} pushes for list ${listId} failed`);
+  const errors = response.responses
+    .map((r, i) => ({ r, doc: devices.docs[i] }))
+    .filter(({ r, doc }) => r.error && !stale.some((s) => s.doc.id === doc.id))
+    .map(({ r, doc }) => ({
+      platform: doc.get("platform"),
+      code: r.error?.code,
+      message: r.error?.message,
+    }));
+  if (errors.length) logger.warn(`Pushes for list ${listId} failed`, { errors });
+  if (stale.length) logger.info(`Removed ${stale.length} stale devices`);
 }
 
 /**
