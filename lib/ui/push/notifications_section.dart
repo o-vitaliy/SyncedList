@@ -1,6 +1,5 @@
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/foundation.dart'
-    show TargetPlatform, defaultTargetPlatform, kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/push_permission.dart';
 import 'package:shopping_list/localization.dart';
@@ -8,9 +7,7 @@ import 'package:shopping_list/state/app_state.dart';
 
 import 'actions/push_action_enable.dart';
 import 'actions/push_action_load.dart';
-
-/// A browser on iPhone, where web push only works in a Home Screen app.
-bool get _iosBrowser => kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
+import 'push_prompt_card.dart';
 
 /// The account sheet's notifications row: a button to turn them on (it must
 /// come from a tap for Safari and Firefox to show the prompt), or what to do
@@ -77,7 +74,7 @@ class NotificationsSection extends StatelessWidget {
           text: kIsWeb ? l.notificationsBlockedWeb : l.notificationsBlockedApp,
         );
       case PushPermission.unsupported:
-        return _iosBrowser
+        return isIosBrowser
             ? _Note(
                 icon: Icons.add_to_home_screen_outlined,
                 text: l.notificationsIosHomeScreen,

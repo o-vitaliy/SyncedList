@@ -9,6 +9,7 @@ import 'package:shopping_list/main.dart';
 import 'actions/push_action_load.dart';
 import 'actions/push_action_open_list.dart';
 import 'actions/push_action_received.dart';
+import 'actions/push_action_register.dart';
 
 /// Query parameter of the link a web push opens (functions/src/index.ts).
 const openListParam = "openList";
@@ -40,6 +41,8 @@ Future<void> initPushNotifications() async {
       .map((account) => account?.uid)
       .distinct()
       .listen(repo.setUser);
+  // After the listeners above, so the FID it reports is saved.
+  mainStore.dispatch(PushActionRegister());
 
   source.onMessage.listen(_onForeground);
   source.onMessageOpenedApp.listen(_onTap);

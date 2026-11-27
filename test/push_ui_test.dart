@@ -8,6 +8,7 @@ import 'package:shopping_list/data/repos/push_repo.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/state/user_list_state.dart';
+import 'package:shopping_list/ui/push/list_push_prompt.dart';
 import 'package:shopping_list/ui/push/notifications_section.dart';
 import 'package:shopping_list/ui/push/push_banner.dart';
 
@@ -16,6 +17,9 @@ class _FakePushRepo extends PushRepo {
   PushPermission current;
   bool? askedWith;
   bool dismissed = false;
+
+  /// System prompts the user closes without answering, before allowing.
+  int promptsClosed = 0;
 
   _FakePushRepo(this.current);
 
@@ -26,7 +30,11 @@ class _FakePushRepo extends PushRepo {
   Future<PushPermission> enable({required bool ask}) async {
     askedWith = ask;
     if (ask && current == PushPermission.notAsked) {
-      current = PushPermission.granted;
+      if (promptsClosed > 0) {
+        promptsClosed--;
+      } else {
+        current = PushPermission.granted;
+      }
     }
     return current;
   }
@@ -164,6 +172,80 @@ void main() {
     testWidgets('is hidden where push is unsupported', (tester) async {
       await show(tester, _FakePushRepo(PushPermission.unsupported));
       expect(find.text("Notifications"), findsNothing);
+    });
+  });
+
+  group('ListPushPrompt', () {
+    // Tests run as the mobile app, where opening the list asks right away
+    // (the web only asks from a tap).
+    Future<_FakePushRepo> open(
+      WidgetTester tester,
+      PushPermission permission, {
+      int promptsClosed = 0,
+    }) async {
+      final repo = _FakePushRepo(permission)..promptsClosed = promptsClosed;
+      GetIt.I.registerSingleton<PushRepo>(repo);
+      await _pump(
+        tester,
+        _store(permission: PushPermission.unsupported),
+        const ListPushPrompt(),
+      );
+      await tester.pumpAndSettle(); // Re-reads the permission on open.
+      return repo;
+    }
+
+    testWidgets('explains how to unblock turned-off notifications', (
+      tester,
+    ) async {
+      await open(tester, PushPermission.denied);
+      expect(find.textContaining("Notifications are"), findsOneWidget);
+
+      await tester.tap(find.text("Ok"));
+      await tester.pumpAndSettle();
+      expect(find.textContaining("Notifications are"), findsNothing);
+    });
+
+    testWidgets('asks right away on mobile when not asked yet', (tester) async {
+      final repo = await open(tester, PushPermission.notAsked);
+      expect(repo.askedWith, isTrue);
+      expect(find.byType(Card), findsNothing);
+    });
+
+    testWidgets('offers "Turn on" when the prompt was closed', (tester) async {
+      final repo = await open(
+        tester,
+        PushPermission.notAsked,
+        promptsClosed: 1,
+      );
+      await tester.tap(find.text("Turn on"));
+      await tester.pumpAndSettle();
+      expect(repo.askedWith, isTrue);
+      expect(find.text("Turn on"), findsNothing);
+    });
+
+    testWidgets('stays hidden when notifications are on', (tester) async {
+      await open(tester, PushPermission.granted);
+      expect(find.byType(Card), findsNothing);
+    });
+
+    testWidgets('hides once permission is granted in settings', (tester) async {
+      final repo = await open(tester, PushPermission.denied);
+      expect(find.byType(Card), findsOneWidget);
+
+      // The user allows notifications in settings and comes back.
+      repo.current = PushPermission.granted;
+      for (final state in [
+        AppLifecycleState.inactive,
+        AppLifecycleState.hidden,
+        AppLifecycleState.paused,
+        AppLifecycleState.hidden,
+        AppLifecycleState.inactive,
+        AppLifecycleState.resumed,
+      ]) {
+        tester.binding.handleAppLifecycleStateChanged(state);
+      }
+      await tester.pumpAndSettle();
+      expect(find.byType(Card), findsNothing);
     });
   });
 }
