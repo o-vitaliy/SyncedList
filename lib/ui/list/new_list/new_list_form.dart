@@ -2,6 +2,7 @@ import 'package:async_redux/async_redux.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/data/entities/user_list.dart';
 import 'package:shopping_list/data/validators/validator.dart';
+import 'package:shopping_list/ui/list/items_list/item_list_view.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
@@ -146,7 +147,11 @@ class _FormContainerState extends State<_FormContainer> {
     if (savedValue != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pop(context);
-        Navigator.pushNamed(context, "/items", arguments: savedValue);
+        Navigator.pushNamed(
+          context,
+          ListItemsView.routeName(savedValue),
+          arguments: savedValue,
+        );
       });
     }
 

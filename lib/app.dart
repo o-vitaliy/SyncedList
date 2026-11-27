@@ -1,5 +1,6 @@
 import 'package:async_redux/async_redux.dart';
 import 'package:app_links/app_links.dart';
+import 'package:get_it/get_it.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shopping_list/ui/auth/login_screen.dart';
 import 'package:shopping_list/ui/legal/legal_content.dart';
@@ -11,6 +12,7 @@ import 'localization.dart';
 import 'main.dart';
 import 'state/app_state.dart';
 import 'deeplinks/deeplink.dart';
+import 'data/repos/push_repo.dart';
 import 'ui/list/new_list/actions/new_list_action_from_deeplink.dart';
 import 'ui/list/user_list/user_lists_view.dart';
 import 'ui/theme/app_theme.dart';
@@ -23,7 +25,6 @@ final routes = {
   '/': (BuildContext context) => const SplashConnector(),
   "/login": (BuildContext context) => const LoginScreen(),
   "/main": (BuildContext context) => const UserListsView(),
-  "/items": (BuildContext context) => const ListItemsView(),
   "/terms": (BuildContext context) =>
       const LegalScreen(type: LegalDocType.terms),
   "/privacy": (BuildContext context) =>
@@ -53,6 +54,8 @@ class App extends StatelessWidget {
   Widget _app(ThemeMode themeMode) {
     return MaterialApp(
       routes: routes,
+      onGenerateRoute: _generateRoute,
+      onGenerateInitialRoutes: _initialRoutes,
       // Shows UserExceptions from any action, via NavigateAction.navigatorKey.
       builder: (context, child) => UserExceptionDialog<AppState>(child: child!),
       navigatorKey: navigatorKey,
@@ -64,6 +67,33 @@ class App extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
     );
   }
+}
+
+/// `/items?id=<listId>` (see [ListItemsView.routeName]), which isn't in
+/// [routes] because of its query.
+Route<dynamic>? _generateRoute(RouteSettings settings) {
+  if (ListItemsView.listIdOf(settings.name) == null) return null;
+  return MaterialPageRoute(
+    settings: settings,
+    builder: (context) => const ListItemsView(),
+  );
+}
+
+/// The routes the app starts on. On the web that is the page's URL, so a
+/// reload of `/#/items?id=…` arrives here with neither the list nor a
+/// signed-in user: start on the splash screen and let [CheckLoginAction]
+/// open the list once it has signed in. Only /terms and /privacy stay on top
+/// of it, since they need neither.
+List<Route<dynamic>> _initialRoutes(String initialRoute) {
+  Route<dynamic> page(String name) => MaterialPageRoute(
+    settings: RouteSettings(name: name),
+    builder: routes[name]!,
+  );
+
+  final name = Uri.tryParse(initialRoute)?.path;
+  final listId = ListItemsView.listIdOf(initialRoute);
+  if (listId != null) GetIt.I.get<PushRepo>().pendingListId = listId;
+  return [page("/"), if (name == "/terms" || name == "/privacy") page(name!)];
 }
 
 final _appLinks = AppLinks();

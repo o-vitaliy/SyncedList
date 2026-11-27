@@ -24,10 +24,30 @@ import 'sort/item_list_sort_widget.dart';
 class ListItemsView extends StatelessWidget {
   const ListItemsView({super.key});
 
+  /// The route that opens [list]: `/items?id=<listId>`, so the web URL says
+  /// which list a reload should reopen. Push it with the list as arguments.
+  static String routeName(UserList list) =>
+      Uri(path: "/items", queryParameters: {"id": list.id}).toString();
+
+  /// The list id in a [routeName], or null for any other route.
+  static String? listIdOf(String? routeName) {
+    final uri = Uri.tryParse(routeName ?? "");
+    if (uri == null || uri.path != "/items") return null;
+    final id = uri.queryParameters["id"];
+    return id == null || id.isEmpty ? null : id;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final UserList args =
-        ModalRoute.of(context)!.settings.arguments! as UserList;
+    final arguments = ModalRoute.of(context)!.settings.arguments;
+    if (arguments is! UserList) {
+      // Opened by name alone: the splash screen signs in and routes.
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => Navigator.of(context).pushNamedAndRemoveUntil("/", (_) => false),
+      );
+      return const Scaffold(body: LoadingIndicator());
+    }
+    final UserList args = arguments;
     final l = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
