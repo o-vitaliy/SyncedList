@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shopping_list/data/entities/push_permission.dart';
@@ -63,6 +64,19 @@ class PushDataSource {
       "updatedAt": FieldValue.serverTimestamp(),
     });
   }
+
+  /// Whether the push function found that FCM no longer knows [fid] (it
+  /// marks such devices instead of deleting them).
+  Future<bool> isMarkedUnregistered(String uid, String fid) async {
+    final doc = await _store.doc("users/$uid/devices/$fid").get();
+    return doc.exists && doc.data()?["unregisteredAt"] != null;
+  }
+
+  /// Drops this install's Firebase Installation, so the next registration
+  /// gets a new FID that FCM registers from scratch. The web SDK would
+  /// otherwise keep reusing its cached registration of the old FID for up to
+  /// 7 days, even after FCM dropped it.
+  Future<void> resetInstallation() => FirebaseInstallations.instance.delete();
 
   Future<void> removeDevice(String uid, String fid) =>
       _store.doc("users/$uid/devices/$fid").delete();

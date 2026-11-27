@@ -261,9 +261,9 @@ function addActor(u: Unseen, uid: string) {
 
 /**
  * Whether FCM says this device is gone for good (app uninstalled, site data
- * cleared, notifications revoked), so its devices doc can be deleted. Other
+ * cleared, notifications revoked), so its devices doc is marked `unregisteredAt` for the app to replace. Other
  * errors, `invalid-argument` included, are about the message or FCM itself;
- * deleting the device for those would silently stop all its future pushes.
+ * marking the device for those would silently stop all its future pushes.
  */
 export function isUnregistered(code: string | undefined): boolean {
   return (

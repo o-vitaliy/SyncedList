@@ -74,7 +74,36 @@ class PushRepo {
     if (old != null && old != fid) {
       await _quietly(_source.removeDevice(uid, old));
     }
-    await _quietly(_source.saveDevice(uid, fid));
+    await _saveOrReplace(uid, fid);
+  }
+
+  bool _replaced = false;
+
+  /// Saves this install's device doc, unless the push function marked [fid]
+  /// as unknown to FCM. Then the FID is replaced: the Firebase Installation
+  /// is reset and registration runs again, which reports the new FID through
+  /// [onRegistered]. Once per app run, so a failing reset can't loop.
+  Future<void> _saveOrReplace(String uid, String fid) async {
+    var marked = false;
+    try {
+      marked = await _source.isMarkedUnregistered(uid, fid);
+    } catch (e) {
+      debugPrint("Couldn't read device doc: $e");
+    }
+    if (!marked || _replaced) {
+      await _quietly(_source.saveDevice(uid, fid));
+      return;
+    }
+    _replaced = true;
+    try {
+      await _source.resetInstallation();
+      await _quietly(_source.removeDevice(uid, fid));
+      _registered = false;
+      await _source.register();
+      _registered = true;
+    } catch (e) {
+      debugPrint("Replacing the push registration failed: $e");
+    }
   }
 
   Future<void> onUnregistered(String fid) async {
@@ -91,7 +120,7 @@ class PushRepo {
     final fid = _fid;
     if (fid == null) return;
     if (old != null) await _quietly(_source.removeDevice(old, fid));
-    if (uid != null) await _quietly(_source.saveDevice(uid, fid));
+    if (uid != null) await _saveOrReplace(uid, fid);
   }
 
   /// Stops pushes to this install; call before signing out, while the

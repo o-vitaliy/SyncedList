@@ -12,7 +12,7 @@
 
 import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
-import { getFirestore } from "firebase-admin/firestore";
+import { FieldValue, getFirestore } from "firebase-admin/firestore";
 import { getFunctions } from "firebase-admin/functions";
 import { getMessaging, Message } from "firebase-admin/messaging";
 import { logger } from "firebase-functions";
@@ -129,11 +129,15 @@ async function pushTo(
   unseen: Unseen,
   names: Map<string, string>,
 ) {
-  const devices = await db.collection(`users/${uid}/devices`).get();
-  if (devices.empty) return;
+  // Devices FCM rejected are kept, marked, until the app replaces them (see
+  // PushRepo in the app): the web SDK caches a registration for 7 days, so
+  // the app can't tell on its own that FCM dropped it.
+  const all = await db.collection(`users/${uid}/devices`).get();
+  const devices = all.docs.filter((d) => !d.get("unregisteredAt"));
+  if (!devices.length) return;
 
   const actors = unseen.by.map((id) => names.get(id)).filter((n): n is string => !!n);
-  const messages: Message[] = devices.docs.map((d) => {
+  const messages: Message[] = devices.map((d) => {
     const { title, body } = buildNotification(listName, unseen, actors, d.get("locale"));
     return message(d.id, listId, title, body);
   });
@@ -141,13 +145,13 @@ async function pushTo(
   // One message per device: a user signed in on several phones, browsers and
   // installed web apps gets the push on each of them.
   const response = await getMessaging().sendEach(messages);
-  const stale = response.responses
-    .map((r, i) => ({ r, doc: devices.docs[i] }))
-    .filter(({ r }) => isUnregistered(r.error?.code));
-  await Promise.all(stale.map(({ doc }) => doc.ref.delete()));
-  const errors = response.responses
-    .map((r, i) => ({ r, doc: devices.docs[i] }))
-    .filter(({ r, doc }) => r.error && !stale.some((s) => s.doc.id === doc.id))
+  const results = response.responses.map((r, i) => ({ r, doc: devices[i] }));
+  const stale = results.filter(({ r }) => isUnregistered(r.error?.code));
+  await Promise.all(
+    stale.map(({ doc }) => doc.ref.update({ unregisteredAt: FieldValue.serverTimestamp() })),
+  );
+  const errors = results
+    .filter(({ r }) => r.error && !isUnregistered(r.error.code))
     .map(({ r, doc }) => ({
       platform: doc.get("platform"),
       code: r.error?.code,
@@ -155,7 +159,7 @@ async function pushTo(
     }));
   if (errors.length) logger.warn(`Pushes for list ${listId} failed`, { errors });
   if (stale.length) {
-    logger.info(`Removed ${stale.length} unregistered devices`, {
+    logger.info(`Marked ${stale.length} devices unregistered`, {
       devices: stale.map(({ r, doc }) => ({ platform: doc.get("platform"), code: r.error?.code })),
     });
   }
