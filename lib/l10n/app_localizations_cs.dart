@@ -176,4 +176,35 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get openList => 'Otevřít';
+
+  @override
+  String get notificationsTitle => 'Oznámení';
+
+  @override
+  String get notificationsInfo =>
+      'Dostávejte oznámení, když ostatní přidají nebo odškrtnou položky ve vašich sdílených seznamech.';
+
+  @override
+  String get notificationsTurnOn => 'Zapnout oznámení';
+
+  @override
+  String get notificationsTurnOnShort => 'Zapnout';
+
+  @override
+  String get notNow => 'Teď ne';
+
+  @override
+  String get notificationsOn => 'Oznámení jsou zapnutá';
+
+  @override
+  String get notificationsBlockedWeb =>
+      'Oznámení jsou zablokovaná. Povolte je pro tento web v nastavení prohlížeče.';
+
+  @override
+  String get notificationsBlockedApp =>
+      'Oznámení jsou vypnutá. Zapněte je pro SyncedList v nastavení zařízení.';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'Chcete-li dostávat oznámení na iPhonu, přidejte SyncedList na plochu: klepněte na Sdílet a pak na Přidat na plochu.';
 }

@@ -171,4 +171,34 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get openList => '開く';
+
+  @override
+  String get notificationsTitle => '通知';
+
+  @override
+  String get notificationsInfo => '共有リストに他の人がアイテムを追加したりチェックしたりしたときに通知を受け取れます。';
+
+  @override
+  String get notificationsTurnOn => '通知をオンにする';
+
+  @override
+  String get notificationsTurnOnShort => 'オンにする';
+
+  @override
+  String get notNow => '今はしない';
+
+  @override
+  String get notificationsOn => '通知はオンです';
+
+  @override
+  String get notificationsBlockedWeb =>
+      '通知がブロックされています。ブラウザの設定でこのサイトの通知を許可してください。';
+
+  @override
+  String get notificationsBlockedApp =>
+      '通知はオフです。デバイスの設定で SyncedList の通知をオンにしてください。';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'iPhone で通知を受け取るには、SyncedList をホーム画面に追加してください：共有をタップし、「ホーム画面に追加」を選びます。';
 }

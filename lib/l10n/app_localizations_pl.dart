@@ -175,4 +175,35 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get openList => 'Otwórz';
+
+  @override
+  String get notificationsTitle => 'Powiadomienia';
+
+  @override
+  String get notificationsInfo =>
+      'Otrzymuj powiadomienia, gdy inni dodają lub odhaczają produkty na Twoich wspólnych listach.';
+
+  @override
+  String get notificationsTurnOn => 'Włącz powiadomienia';
+
+  @override
+  String get notificationsTurnOnShort => 'Włącz';
+
+  @override
+  String get notNow => 'Nie teraz';
+
+  @override
+  String get notificationsOn => 'Powiadomienia są włączone';
+
+  @override
+  String get notificationsBlockedWeb =>
+      'Powiadomienia są zablokowane. Zezwól na nie dla tej witryny w ustawieniach przeglądarki.';
+
+  @override
+  String get notificationsBlockedApp =>
+      'Powiadomienia są wyłączone. Włącz je dla SyncedList w ustawieniach urządzenia.';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'Aby otrzymywać powiadomienia na iPhonie, dodaj SyncedList do ekranu początkowego: stuknij Udostępnij, a potem Do ekranu początkowego.';
 }

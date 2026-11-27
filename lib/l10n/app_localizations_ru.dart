@@ -176,4 +176,35 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get openList => 'Открыть';
+
+  @override
+  String get notificationsTitle => 'Уведомления';
+
+  @override
+  String get notificationsInfo =>
+      'Получайте уведомления, когда другие добавляют или отмечают покупки в ваших общих списках.';
+
+  @override
+  String get notificationsTurnOn => 'Включить уведомления';
+
+  @override
+  String get notificationsTurnOnShort => 'Включить';
+
+  @override
+  String get notNow => 'Не сейчас';
+
+  @override
+  String get notificationsOn => 'Уведомления включены';
+
+  @override
+  String get notificationsBlockedWeb =>
+      'Уведомления заблокированы. Разрешите их для этого сайта в настройках браузера.';
+
+  @override
+  String get notificationsBlockedApp =>
+      'Уведомления выключены. Включите их для SyncedList в настройках устройства.';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'Чтобы получать уведомления на iPhone, добавьте SyncedList на экран «Домой»: нажмите «Поделиться», затем «На экран „Домой“».';
 }

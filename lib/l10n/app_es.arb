@@ -51,5 +51,14 @@
   "signOutConfirm": "¿Cerrar sesión en SyncedList?",
   "accountLinked": "Sesión iniciada. Tus listas se han guardado en tu cuenta.",
   "accountSwitched": "Has iniciado sesión en tu cuenta existente. Tus listas se han añadido a ella.",
-  "openList": "Abrir"
+  "openList": "Abrir",
+  "notificationsTitle": "Notificaciones",
+  "notificationsInfo": "Recibe avisos cuando otros añadan o marquen productos en tus listas compartidas.",
+  "notificationsTurnOn": "Activar notificaciones",
+  "notificationsTurnOnShort": "Activar",
+  "notNow": "Ahora no",
+  "notificationsOn": "Las notificaciones están activadas",
+  "notificationsBlockedWeb": "Las notificaciones están bloqueadas. Permítelas para este sitio en los ajustes del navegador.",
+  "notificationsBlockedApp": "Las notificaciones están desactivadas. Actívalas para SyncedList en los ajustes del dispositivo.",
+  "notificationsIosHomeScreen": "Para recibir notificaciones en el iPhone, añade SyncedList a la pantalla de inicio: toca Compartir y luego Añadir a pantalla de inicio."
 }

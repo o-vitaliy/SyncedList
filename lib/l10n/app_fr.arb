@@ -51,5 +51,14 @@
   "signOutConfirm": "Se déconnecter de SyncedList ?",
   "accountLinked": "Connecté. Vos listes sont enregistrées dans votre compte.",
   "accountSwitched": "Connecté à votre compte existant. Vos listes y ont été ajoutées.",
-  "openList": "Ouvrir"
+  "openList": "Ouvrir",
+  "notificationsTitle": "Notifications",
+  "notificationsInfo": "Soyez prévenu quand d’autres ajoutent ou cochent des articles dans vos listes partagées.",
+  "notificationsTurnOn": "Activer les notifications",
+  "notificationsTurnOnShort": "Activer",
+  "notNow": "Plus tard",
+  "notificationsOn": "Les notifications sont activées",
+  "notificationsBlockedWeb": "Les notifications sont bloquées. Autorisez-les pour ce site dans les réglages du navigateur.",
+  "notificationsBlockedApp": "Les notifications sont désactivées. Activez-les pour SyncedList dans les réglages de l’appareil.",
+  "notificationsIosHomeScreen": "Pour recevoir des notifications sur iPhone, ajoutez SyncedList à l’écran d’accueil : touchez Partager, puis Sur l’écran d’accueil."
 }

@@ -51,5 +51,14 @@
   "signOutConfirm": "Вийти з SyncedList?",
   "accountLinked": "Вхід виконано. Ваші списки збережено в акаунті.",
   "accountSwitched": "Ви увійшли в наявний акаунт. Ваші списки додано до нього.",
-  "openList": "Відкрити"
+  "openList": "Відкрити",
+  "notificationsTitle": "Сповіщення",
+  "notificationsInfo": "Отримуйте сповіщення, коли інші додають або відмічають покупки у ваших спільних списках.",
+  "notificationsTurnOn": "Увімкнути сповіщення",
+  "notificationsTurnOnShort": "Увімкнути",
+  "notNow": "Не зараз",
+  "notificationsOn": "Сповіщення увімкнено",
+  "notificationsBlockedWeb": "Сповіщення заблоковано. Дозвольте їх для цього сайту в налаштуваннях браузера.",
+  "notificationsBlockedApp": "Сповіщення вимкнено. Увімкніть їх для SyncedList у налаштуваннях пристрою.",
+  "notificationsIosHomeScreen": "Щоб отримувати сповіщення на iPhone, додайте SyncedList на початковий екран: натисніть «Поділитися», потім «На початковий екран»."
 }

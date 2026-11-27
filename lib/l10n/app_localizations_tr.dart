@@ -175,4 +175,35 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get openList => 'Aç';
+
+  @override
+  String get notificationsTitle => 'Bildirimler';
+
+  @override
+  String get notificationsInfo =>
+      'Ortak listelerinize başkaları ürün eklediğinde veya işaretlediğinde bildirim alın.';
+
+  @override
+  String get notificationsTurnOn => 'Bildirimleri aç';
+
+  @override
+  String get notificationsTurnOnShort => 'Aç';
+
+  @override
+  String get notNow => 'Şimdi değil';
+
+  @override
+  String get notificationsOn => 'Bildirimler açık';
+
+  @override
+  String get notificationsBlockedWeb =>
+      'Bildirimler engellendi. Tarayıcı ayarlarından bu siteye izin verin.';
+
+  @override
+  String get notificationsBlockedApp =>
+      'Bildirimler kapalı. Cihaz ayarlarından SyncedList için açın.';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'iPhone’da bildirim almak için SyncedList’i Ana Ekran’a ekleyin: Paylaş’a, ardından Ana Ekrana Ekle’ye dokunun.';
 }

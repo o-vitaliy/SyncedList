@@ -51,5 +51,14 @@
   "signOutConfirm": "Uscire da SyncedList?",
   "accountLinked": "Accesso effettuato. Le tue liste sono salvate nel tuo account.",
   "accountSwitched": "Hai effettuato l'accesso al tuo account esistente. Le tue liste sono state aggiunte.",
-  "openList": "Apri"
+  "openList": "Apri",
+  "notificationsTitle": "Notifiche",
+  "notificationsInfo": "Ricevi una notifica quando altri aggiungono o spuntano articoli nelle tue liste condivise.",
+  "notificationsTurnOn": "Attiva le notifiche",
+  "notificationsTurnOnShort": "Attiva",
+  "notNow": "Non ora",
+  "notificationsOn": "Le notifiche sono attive",
+  "notificationsBlockedWeb": "Le notifiche sono bloccate. Consentile per questo sito nelle impostazioni del browser.",
+  "notificationsBlockedApp": "Le notifiche sono disattivate. Attivale per SyncedList nelle impostazioni del dispositivo.",
+  "notificationsIosHomeScreen": "Per ricevere notifiche su iPhone, aggiungi SyncedList alla schermata Home: tocca Condividi, poi Aggiungi alla schermata Home."
 }

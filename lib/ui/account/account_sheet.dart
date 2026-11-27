@@ -5,6 +5,7 @@ import 'package:shopping_list/data/entities/account.dart';
 import 'package:shopping_list/data/entities/app_theme_mode.dart';
 import 'package:shopping_list/localization.dart';
 import 'package:shopping_list/state/app_state.dart';
+import 'package:shopping_list/ui/push/notifications_section.dart';
 import 'package:shopping_list/ui/settings/actions/theme_action_change.dart';
 import 'package:shopping_list/ui/widgets/android_app_link.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
@@ -87,6 +88,7 @@ class AccountSheet extends StatelessWidget {
                 _signOutButton(context, vm),
               const SizedBox(height: 28),
               _ThemePicker(current: vm.themeMode, onChanged: vm.setTheme),
+              const NotificationsSection(),
               if (kIsWeb) ...[
                 const SizedBox(height: 20),
                 const AndroidAppLink(),

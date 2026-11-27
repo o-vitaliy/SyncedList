@@ -51,5 +51,14 @@
   "signOutConfirm": "SyncedListからログアウトしますか？",
   "accountLinked": "ログインしました。リストはアカウントに保存されています。",
   "accountSwitched": "既存のアカウントにログインしました。リストはそのアカウントに追加されました。",
-  "openList": "開く"
+  "openList": "開く",
+  "notificationsTitle": "通知",
+  "notificationsInfo": "共有リストに他の人がアイテムを追加したりチェックしたりしたときに通知を受け取れます。",
+  "notificationsTurnOn": "通知をオンにする",
+  "notificationsTurnOnShort": "オンにする",
+  "notNow": "今はしない",
+  "notificationsOn": "通知はオンです",
+  "notificationsBlockedWeb": "通知がブロックされています。ブラウザの設定でこのサイトの通知を許可してください。",
+  "notificationsBlockedApp": "通知はオフです。デバイスの設定で SyncedList の通知をオンにしてください。",
+  "notificationsIosHomeScreen": "iPhone で通知を受け取るには、SyncedList をホーム画面に追加してください：共有をタップし、「ホーム画面に追加」を選びます。"
 }

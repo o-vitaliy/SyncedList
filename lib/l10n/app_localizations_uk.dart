@@ -175,4 +175,35 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get openList => 'Відкрити';
+
+  @override
+  String get notificationsTitle => 'Сповіщення';
+
+  @override
+  String get notificationsInfo =>
+      'Отримуйте сповіщення, коли інші додають або відмічають покупки у ваших спільних списках.';
+
+  @override
+  String get notificationsTurnOn => 'Увімкнути сповіщення';
+
+  @override
+  String get notificationsTurnOnShort => 'Увімкнути';
+
+  @override
+  String get notNow => 'Не зараз';
+
+  @override
+  String get notificationsOn => 'Сповіщення увімкнено';
+
+  @override
+  String get notificationsBlockedWeb =>
+      'Сповіщення заблоковано. Дозвольте їх для цього сайту в налаштуваннях браузера.';
+
+  @override
+  String get notificationsBlockedApp =>
+      'Сповіщення вимкнено. Увімкніть їх для SyncedList у налаштуваннях пристрою.';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'Щоб отримувати сповіщення на iPhone, додайте SyncedList на початковий екран: натисніть «Поділитися», потім «На початковий екран».';
 }

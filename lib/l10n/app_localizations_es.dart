@@ -176,4 +176,35 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get openList => 'Abrir';
+
+  @override
+  String get notificationsTitle => 'Notificaciones';
+
+  @override
+  String get notificationsInfo =>
+      'Recibe avisos cuando otros añadan o marquen productos en tus listas compartidas.';
+
+  @override
+  String get notificationsTurnOn => 'Activar notificaciones';
+
+  @override
+  String get notificationsTurnOnShort => 'Activar';
+
+  @override
+  String get notNow => 'Ahora no';
+
+  @override
+  String get notificationsOn => 'Las notificaciones están activadas';
+
+  @override
+  String get notificationsBlockedWeb =>
+      'Las notificaciones están bloqueadas. Permítelas para este sitio en los ajustes del navegador.';
+
+  @override
+  String get notificationsBlockedApp =>
+      'Las notificaciones están desactivadas. Actívalas para SyncedList en los ajustes del dispositivo.';
+
+  @override
+  String get notificationsIosHomeScreen =>
+      'Para recibir notificaciones en el iPhone, añade SyncedList a la pantalla de inicio: toca Compartir y luego Añadir a pantalla de inicio.';
 }
