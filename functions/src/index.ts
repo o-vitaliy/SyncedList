@@ -1,6 +1,6 @@
 // Push notifications for shared lists.
 //
-// 1. onItemWritten records every add / check-off in notifications/{listId}
+// 1. onItemWritten records every add, check-off and removal in notifications/{listId}
 //    and, on the first change of a quiet list, queues sendListUpdates to run
 //    10 seconds later (a fixed window: later changes join the same batch).
 // 2. sendListUpdates folds the batch into each member's running total and
@@ -16,10 +16,10 @@ import { getFirestore } from "firebase-admin/firestore";
 import { getFunctions } from "firebase-admin/functions";
 import { getMessaging, Message } from "firebase-admin/messaging";
 import { logger } from "firebase-functions";
-import { onDocumentWritten } from "firebase-functions/v2/firestore";
+import { onDocumentWrittenWithAuthContext } from "firebase-functions/v2/firestore";
 import { onTaskDispatched } from "firebase-functions/v2/tasks";
 
-import { applyChange, flush, parseDoc, toChange, Unseen } from "./batch";
+import { applyChange, flush, isUnregistered, parseDoc, toChange, Unseen } from "./batch";
 import { buildNotification } from "./texts";
 
 initializeApp();
@@ -29,11 +29,17 @@ const REGION = "us-central1";
 const SEND_TASK = "sendListUpdates";
 const WEB_APP = "https://syncedlist.web.app";
 
-export const onItemWritten = onDocumentWritten(
+// With auth context, so a deleted item (no document left to say who removed
+// it) can still be credited to the member who deleted it.
+export const onItemWritten = onDocumentWrittenWithAuthContext(
   { document: "items/{listId}/products/{itemId}", region: REGION },
   async (event) => {
     const { listId, itemId } = event.params;
-    const change = toChange(itemId, event.data?.before.data(), event.data?.after.data());
+    // Server-side writes (Admin SDK, TTL) carry no member to credit.
+    const byMember = event.authType !== "service_account" && event.authType !== "system";
+    const authId = byMember ? event.authId : undefined;
+    const change = toChange(itemId, event.data?.before.data(), event.data?.after.data(), authId);
+    logger.debug("Item write", { authType: event.authType, kind: change?.kind, credited: !!authId });
     if (!change) return;
 
     const ref = db.doc(`notifications/${listId}`);
@@ -132,17 +138,12 @@ async function pushTo(
     return message(d.id, listId, title, body);
   });
 
+  // One message per device: a user signed in on several phones, browsers and
+  // installed web apps gets the push on each of them.
   const response = await getMessaging().sendEach(messages);
   const stale = response.responses
     .map((r, i) => ({ r, doc: devices.docs[i] }))
-    .filter(({ r }) => {
-      const code = r.error?.code;
-      return (
-        code === "messaging/installation-id-not-registered" ||
-        code === "messaging/registration-token-not-registered" ||
-        code === "messaging/invalid-argument"
-      );
-    });
+    .filter(({ r }) => isUnregistered(r.error?.code));
   await Promise.all(stale.map(({ doc }) => doc.ref.delete()));
   const errors = response.responses
     .map((r, i) => ({ r, doc: devices.docs[i] }))
@@ -153,7 +154,11 @@ async function pushTo(
       message: r.error?.message,
     }));
   if (errors.length) logger.warn(`Pushes for list ${listId} failed`, { errors });
-  if (stale.length) logger.info(`Removed ${stale.length} stale devices`);
+  if (stale.length) {
+    logger.info(`Removed ${stale.length} unregistered devices`, {
+      devices: stale.map(({ r, doc }) => ({ platform: doc.get("platform"), code: r.error?.code })),
+    });
+  }
 }
 
 /**

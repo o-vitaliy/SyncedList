@@ -8,6 +8,7 @@ const MAX_NAME_LENGTH = 30;
 interface Strings {
   added: string;
   checked: string;
+  removed: string;
   more: (n: number) => string;
   and: string;
 }
@@ -20,84 +21,98 @@ const strings: Record<Locale, Strings> = {
   en: {
     added: "Added",
     checked: "Checked off",
+    removed: "Removed",
     more: (n) => `and ${n} more`,
     and: "and",
   },
   uk: {
     added: "Додано",
     checked: "Куплено",
+    removed: "Видалено",
     more: (n) => `і ще ${n}`,
     and: "і",
   },
   ru: {
     added: "Добавлено",
     checked: "Куплено",
+    removed: "Удалено",
     more: (n) => `и ещё ${n}`,
     and: "и",
   },
   pl: {
     added: "Dodano",
     checked: "Kupiono",
+    removed: "Usunięto",
     more: (n) => `i ${n} więcej`,
     and: "i",
   },
   de: {
     added: "Hinzugefügt",
     checked: "Abgehakt",
+    removed: "Entfernt",
     more: (n) => `und ${n} weitere`,
     and: "und",
   },
   es: {
     added: "Añadido",
     checked: "Comprado",
+    removed: "Eliminado",
     more: (n) => `y ${n} más`,
     and: "y",
   },
   pt: {
     added: "Adicionado",
     checked: "Comprado",
+    removed: "Removido",
     more: (n) => `e mais ${n}`,
     and: "e",
   },
   fr: {
     added: "Ajouté",
     checked: "Coché",
+    removed: "Supprimé",
     more: (n) => `et ${n} de plus`,
     and: "et",
   },
   it: {
     added: "Aggiunto",
     checked: "Spuntato",
+    removed: "Rimosso",
     more: (n) => `e altri ${n}`,
     and: "e",
   },
   tr: {
     added: "Eklendi",
     checked: "Alındı",
+    removed: "Silindi",
     more: (n) => `ve ${n} tane daha`,
     and: "ve",
   },
   cs: {
     added: "Přidáno",
     checked: "Koupeno",
+    removed: "Odstraněno",
     more: (n) => `a ${n} další`,
     and: "a",
   },
   ja: {
     added: "追加",
     checked: "購入済み",
+    removed: "削除",
     more: (n) => `ほか${n}件`,
     and: "と",
   },
   id: {
     added: "Ditambahkan",
     checked: "Dicentang",
+    removed: "Dihapus",
     more: (n) => `dan ${n} lainnya`,
     and: "dan",
   },
   hi: {
     added: "जोड़ा गया",
     checked: "ख़रीदा गया",
+    removed: "हटाया गया",
     more: (n) => `और ${n} अन्य`,
     and: "और",
   },
@@ -116,7 +131,7 @@ export function pickLocale(locale: string | undefined): Locale {
 /**
  * The push for one member: the list name as the title, and everything the
  * others changed since the member last opened the list as the body, e.g.
- * "Anna: Added Milk, Bread and 2 more\nChecked off Eggs".
+ * "Anna — Added: Milk, Bread and 2 more\nChecked off: Eggs\nRemoved: Tea".
  */
 export function buildNotification(
   listName: string,
@@ -130,6 +145,8 @@ export function buildNotification(
   const done = Object.values(unseen.done);
   if (added.length) lines.push(`${s.added}: ${summarize(added, s)}`);
   if (done.length) lines.push(`${s.checked}: ${summarize(done, s)}`);
+  const removed = Object.values(unseen.removed ?? {});
+  if (removed.length) lines.push(`${s.removed}: ${summarize(removed, s)}`);
 
   let body = lines.join("\n");
   if (actorNames.length) body = `${joinNames(actorNames, s)} — ${body}`;
