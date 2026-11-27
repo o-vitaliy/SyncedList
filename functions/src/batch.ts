@@ -2,7 +2,7 @@
 // be unit-tested (batch.test.ts).
 //
 // notifications/{listId} holds:
-// - pending: changes made since the current 5-second window opened, one
+// - pending: changes made since the current 10-second window opened, one
 //   entry per item, so the latest state of an item wins.
 // - windowEndsAt: when the queued send task runs (millis), or null when no
 //   window is open.
@@ -10,7 +10,7 @@
 //   member last opened the list. The app clears its own entry on open.
 
 /** How long changes are collected before one notification is sent. */
-export const WINDOW_SECONDS = 5;
+export const WINDOW_SECONDS = 10;
 
 /**
  * A window whose task never ran (failed to enqueue, or retries ran out) is

@@ -2,7 +2,7 @@
 //
 // 1. onItemWritten records every add / check-off in notifications/{listId}
 //    and, on the first change of a quiet list, queues sendListUpdates to run
-//    5 seconds later (a fixed window: later changes join the same batch).
+//    10 seconds later (a fixed window: later changes join the same batch).
 // 2. sendListUpdates folds the batch into each member's running total and
 //    pushes it to the members who didn't make the changes. The push uses the
 //    list id as its tag / collapse id, so it replaces the previous one for
