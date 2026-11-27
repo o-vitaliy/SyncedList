@@ -41,12 +41,19 @@ void main() async {
     );
     if (kIsWeb) {
       // Mobile keeps an offline Firestore cache by default; the web doesn't.
-      // Keep one in IndexedDB, shared by open tabs, so the installed web app
-      // shows lists offline and syncs edits made offline later. It must be
-      // set before Firestore is first used.
+      // Keep one in IndexedDB, so the installed web app shows lists offline
+      // and syncs edits made offline later. It must be set before Firestore
+      // is first used.
+      //
+      // Single-tab, not multi-tab: with multi-tab sync only one "primary" tab
+      // listens to Firestore and the others hear about changes through it.
+      // Android Chrome freezes background tabs and installed apps, so a
+      // frozen primary held back the visible tab's updates for ~30 s. Now
+      // the first tab owns the offline cache and any other tab falls back to
+      // a memory cache with its own live listener.
       FirebaseFirestore.instance.settings = const Settings(
         persistenceEnabled: true,
-        webPersistentTabManager: WebPersistentMultipleTabManager(),
+        webPersistentTabManager: WebPersistentSingleTabManager(),
       );
     }
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;

@@ -30,7 +30,7 @@ test("toChange: create, check, rename, reorder, delete", () => {
   assert.equal(toChange("i", undefined, { value: "Milk", done: false }), null);
 });
 
-test("the first change opens a 30 s window, later ones join it", () => {
+test("the first change opens a 5 s window, later ones join it", () => {
   const first = apply(emptyDoc(), { kind: "added", itemId: "1", value: "Milk", by: A }, 1000);
   assert.equal(first.scheduleAt, 1000 + WINDOW_SECONDS * 1000);
   const second = apply(first.doc, { kind: "done", itemId: "2", value: "Eggs", done: true, by: A }, 5000);
