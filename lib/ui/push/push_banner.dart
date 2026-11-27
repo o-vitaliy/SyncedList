@@ -6,6 +6,7 @@ import 'package:shopping_list/state/app_state.dart';
 
 import 'actions/push_action_dismiss_banner.dart';
 import 'actions/push_action_enable.dart';
+import 'push_prompt_card.dart';
 
 /// Offers to turn notifications on above the lists, once the user has a
 /// shared list and hasn't been asked yet. On the web this is how most people
@@ -23,79 +24,35 @@ class PushBanner extends StatelessWidget {
             s.pushPermission == PushPermission.notAsked &&
             !s.pushBannerDismissed;
       },
-      builder: (context, show) => AnimatedSize(
-        duration: const Duration(milliseconds: 200),
-        alignment: Alignment.topCenter,
-        child: show ? const _Banner() : const SizedBox(width: double.infinity),
-      ),
-    );
-  }
-}
-
-class _Banner extends StatelessWidget {
-  const _Banner();
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-      child: Card.filled(
-        color: scheme.secondaryContainer,
-        margin: EdgeInsets.zero,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.notifications_outlined,
-                    color: scheme.onSecondaryContainer,
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Text(
-                        l.notificationsInfo,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: scheme.onSecondaryContainer,
-                        ),
+      builder: (context, show) {
+        final l = AppLocalizations.of(context);
+        return AnimatedSize(
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.topCenter,
+          child: show
+              ? PushPromptCard(
+                  icon: Icons.notifications_outlined,
+                  text: l.notificationsInfo,
+                  actions: [
+                    TextButton(
+                      onPressed: () => StoreProvider.dispatch<AppState>(
+                        context,
+                        PushActionDismissBanner(),
                       ),
+                      child: Text(l.notNow),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              OverflowBar(
-                alignment: MainAxisAlignment.end,
-                spacing: 8,
-                children: [
-                  TextButton(
-                    onPressed: () => StoreProvider.dispatch<AppState>(
-                      context,
-                      PushActionDismissBanner(),
+                    FilledButton(
+                      onPressed: () => StoreProvider.dispatch<AppState>(
+                        context,
+                        PushActionEnable(fromTap: true),
+                      ),
+                      child: Text(l.notificationsTurnOnShort),
                     ),
-                    child: Text(l.notNow),
-                  ),
-                  FilledButton(
-                    onPressed: () => StoreProvider.dispatch<AppState>(
-                      context,
-                      PushActionEnable(fromTap: true),
-                    ),
-                    child: Text(l.notificationsTurnOnShort),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+                  ],
+                )
+              : const SizedBox(width: double.infinity),
+        );
+      },
     );
   }
 }

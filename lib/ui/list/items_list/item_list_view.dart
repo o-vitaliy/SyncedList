@@ -7,6 +7,7 @@ import 'package:shopping_list/main.dart';
 import 'package:shopping_list/state/app_state.dart';
 import 'package:shopping_list/ui/list/user_list/actions/new_list_action_share.dart';
 import 'package:shopping_list/ui/list/user_list/user_lists_view.dart';
+import 'package:shopping_list/ui/push/list_push_prompt.dart';
 import 'package:shopping_list/ui/widgets/dialogs.dart';
 import 'package:shopping_list/ui/widgets/widgets.dart';
 
@@ -46,7 +47,13 @@ class ListItemsView extends StatelessWidget {
         label: Text(l.addItem),
         onPressed: () => rename(context, args.id, null),
       ),
-      body: _ListItemsConnector(args: args),
+      body: Column(
+        children: [
+          // Only shared lists send notifications.
+          if (args.shared) const ListPushPrompt(),
+          Expanded(child: _ListItemsConnector(args: args)),
+        ],
+      ),
     );
   }
 }
